@@ -29,16 +29,10 @@ public class ConnectionManager {
 	}
 	
 	public  List<?> runSelectQuery(String querystr){
-		System.out.println("Get session");
 		Session session = this.getSession();
-		System.out.println("create query:" + querystr);
 		Query query  = session.createQuery(querystr);
-		System.out.println("Get Data");
 		List<?> result = query.list();
-		System.out.println(query.toString());
-		System.out.println("Close session");
 		closeSession(session);
-		System.out.println("return");
 		return result;
 	}
 	
@@ -81,23 +75,17 @@ public class ConnectionManager {
 	private Session getSession(){
 		System.out.println("factory null?");
 		if (factory ==null){
-			System.out.println("new config");
 			Configuration conf = new Configuration();
-			System.out.println("configure");
 			conf.configure(((DBConfname == null || DBConfname == "" ) ? "/systemHibernateEntities/hibernate.cfg.xml" : "/charityHibernateEntities/"+DBConfname));
-			System.out.println("build factory");
 			factory = conf.buildSessionFactory();
 			return factory.openSession();
 		}
 		Session result;
 		try{
-			System.out.println("Get current session");
 			result = factory.getCurrentSession();
 		}catch(org.hibernate.HibernateException e){
-			System.out.println("new session");
 			result = factory.openSession();
 		}
-		System.out.println("return");
 		return result;
 	}
 	
