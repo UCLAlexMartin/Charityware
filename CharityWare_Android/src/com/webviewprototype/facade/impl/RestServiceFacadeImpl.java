@@ -14,6 +14,7 @@ import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import env.Entities.Form;
+import env.Entities.User;
 
 public class RestServiceFacadeImpl implements RestServiceFacade {
 
@@ -39,6 +40,12 @@ public class RestServiceFacadeImpl implements RestServiceFacade {
 				path(username).accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(new GenericType<Map<Integer,Map<Integer,List<String>>>>(){});
+	}
+
+	@Override
+	public User validateUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
