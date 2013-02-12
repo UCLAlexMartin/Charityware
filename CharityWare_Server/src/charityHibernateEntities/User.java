@@ -1,8 +1,6 @@
 package charityHibernateEntities;
 
 import java.sql.Date; 
-import java.sql.Timestamp;
-
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
