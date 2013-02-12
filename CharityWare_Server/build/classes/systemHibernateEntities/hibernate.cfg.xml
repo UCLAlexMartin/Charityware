@@ -63,6 +63,7 @@ org.hibernate.envers.event.AuditEventListener
    	  
    <mapping resource="systemHibernateEntities/User.hbm.xml"/>      
    <mapping resource="systemHibernateEntities/UserType.hbm.xml"/>
+   <mapping resource="systemHibernateEntities/Charity.hbm.xml"/>
  
 </session-factory>
 

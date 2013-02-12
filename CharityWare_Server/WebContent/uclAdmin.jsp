@@ -121,8 +121,8 @@
 				    </div> 
 				    <div class="tabbed_area">       
 				       <div id="content_1" class="tabContent">
-				       <%-- <%
-				       	List<Charity> fields = ApproveCharityRequests.httpGet("http://localhost:8080/CharityWare/REST/charity/charities");
+				     	<%-- <%
+				       	List<Charity> fields =
 				       %> --%>
 				          <form name="frmRequests" method="POST" action="">
 	      					Manage Charity Requests
@@ -137,6 +137,11 @@
 							    <td>Purpose </td>
 						        <td>Action </td>      
 							 </tr>
+							
+							 
+							 
+							 
+							 
 						<%-- 	<%			 for(int i=0; i<fields.size();i++){
 					    					 out.println("<tr id=row" +i+ ">");
 					    					 out.println("<td>" + (i+1));
