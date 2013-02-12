@@ -1,4 +1,4 @@
-package RESTClient;
+package RESTCharityClient;
 
 import java.util.ArrayList;
 import java.util.List;

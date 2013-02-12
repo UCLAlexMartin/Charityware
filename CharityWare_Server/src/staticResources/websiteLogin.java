@@ -17,7 +17,7 @@ public class websiteLogin {
 	
 	public static boolean login(String userName, String password)
 	{
-		String salt
+		String salt;
 		return true;
 	}
 	
