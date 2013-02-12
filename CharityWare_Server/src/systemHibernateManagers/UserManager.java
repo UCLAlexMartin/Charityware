@@ -25,7 +25,7 @@ public class UserManager {
 	}
 	
 	public  ArrayList<User> getUsers(String name){
-		ArrayList<User> user = (ArrayList<User>)conn.getTable("User where userName = '"+ name+"'");
+		ArrayList<User> user = (ArrayList<User>)conn.getTable("User where userName = '"+ name+"'",1);
 		return user;
 	}
 
