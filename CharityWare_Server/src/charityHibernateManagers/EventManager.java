@@ -1,7 +1,6 @@
-package systemHibernateManagers;
+package charityHibernateManagers;
 
 import sharedHibernateResources.ConnectionManager;
-import systemHibernateEntities.Event;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -10,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import charityHibernateEntities.Event;
 
 public class EventManager{
 	private ConnectionManager conn;

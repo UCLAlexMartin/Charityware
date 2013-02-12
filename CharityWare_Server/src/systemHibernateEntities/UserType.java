@@ -15,15 +15,6 @@ public class UserType {
 	private String userType;
 	private String description;
 	private Boolean isActive;
-//	private Timestamp timestamp;
-//	private User user;
-	
-/*	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}*/
 	@XmlElement
 	public Integer getUserTypeId() {
 		return userTypeId;

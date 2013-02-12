@@ -1,14 +1,12 @@
-package systemHibernateEntities;
+package charityHibernateEntities;
 
 import java.sql.Date;
 import java.sql.Time;
-//import java.sql.Timestamp;
-
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.envers.Audited;
+
 
 @Entity
 @Audited
@@ -22,7 +20,6 @@ public class Event {
 	private Date event_date;
 	private Time event_time;
 	private User user;
-	//private Timestamp timestamp;
 	
 	@XmlElement
 	public Integer getEvent_id() {
@@ -74,13 +71,5 @@ public class Event {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	/*@XmlElement
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}*/
-	
 
 }

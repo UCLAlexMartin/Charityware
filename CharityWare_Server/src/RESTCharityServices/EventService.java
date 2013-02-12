@@ -1,24 +1,21 @@
-package RESTSystemServices;
+package RESTCharityServices;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
-import systemHibernateEntities.Event;
-import systemHibernateManagers.EventManager;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import charityHibernateManagers.EventManager;
+
 @Path("/eventService")
 public class EventService {
 	 @GET
-	 @Path("/json/events")
+	 @Path("/charityConfig/{DBConfigPath}/events")
 	 @Produces("application/json")
-	 public Map<Integer,ArrayList<String>> geEventsJSON(){
-		 	EventManager eventManager = new EventManager("");
+	 public Map<Integer,ArrayList<String>> geEventsJSON(@PathParam("DBConfigPath")String DBConfigPath){
+		 	EventManager eventManager = new EventManager(DBConfigPath);
 	    	return eventManager.getEvents();       
 	    }
 }
