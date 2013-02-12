@@ -36,7 +36,7 @@ public class User {
 		this.userType.setUserType("Charity_Administrator");
 		this.userType.setUserTypeId(1);
 		this.userType.setIsActive(true);
-		this.userType.setTimestamp(new Timestamp(1));
+		//this.userType.setTimestamp(new Timestamp(1));
 	}
 		
 	@XmlElement

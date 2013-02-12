@@ -3,7 +3,7 @@
  "-//Hibernate/Hibernate Mapping DTD//EN"
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
  <hibernate-mapping>
-   <class name="systemDBHibernateEntities.UserType" table="user_type">
+   <class name="systemHibernateEntities.UserType" table="user_type">
  	<id name="userTypeId" type="int" column="user_type_id">
          <generator class="native"/>
       </id>

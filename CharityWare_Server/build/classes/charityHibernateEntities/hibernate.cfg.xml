@@ -58,7 +58,6 @@ org.hibernate.envers.event.AuditEventListener
    <!-- List of XML mapping files -->
    		<mapping resource="charityHibernateEntities/UserType.hbm.xml"/>
    		  <mapping resource="charityHibernateEntities/User.hbm.xml"/>
-   		  <mapping resource="systemHibernateEntities/User.hbm.xml"/>
           <mapping resource="charityHibernateEntities/FormFields.hbm.xml"/>
           <mapping resource="charityHibernateEntities/Form.hbm.xml"/>
           <mapping resource="charityHibernateEntities/FormPermissions.hbm.xml"/>

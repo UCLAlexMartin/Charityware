@@ -17,7 +17,7 @@ public class UserType {
 	private String userType;
 	private String description;
 	private Boolean isActive;
-	private Timestamp timestamp;
+	//private Timestamp timestamp;
 //	private User user;
 	
 /*	public User getUser() {
@@ -54,12 +54,12 @@ public class UserType {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-	@XmlElement
+	/*@XmlElement
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
-	}
+	}*/
 	
 }
