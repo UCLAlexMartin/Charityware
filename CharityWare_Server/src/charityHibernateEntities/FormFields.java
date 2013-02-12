@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashSet;
-import systemHibernateEntities.User;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.envers.Audited;
@@ -27,7 +26,7 @@ public class FormFields {
 	private Boolean default_value;
 	private Float minValue;
 	private Float maxValue;
-	private User user;
+	private String creator_name;
 	private Boolean isActive;
 	private Date date_created;
 	private Form form;
@@ -55,6 +54,10 @@ public class FormFields {
 	public String getField_label() {
 		return field_label;
 	}
+	public void setField_label(String field_label) {
+		this.field_label = field_label;
+	}
+			
 	@XmlElement
 	public Integer getF_id() {
 		return f_id;
@@ -62,9 +65,7 @@ public class FormFields {
 	public void setF_id(Integer f_id) {
 		this.f_id = f_id;
 	}
-	public void setField_label(String field_label) {
-		this.field_label = field_label;
-	}
+	
 	@XmlElement(name = "fieldType")
 	public FieldType getField_type() {
 		return field_type;
@@ -126,11 +127,11 @@ public class FormFields {
 	}
 	
 	@XmlElement
-	public User getUser() {
-		return user;
+	public String getCreator_name() {
+		return creator_name;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setCreator_name(String creator_name) {
+		this.creator_name = creator_name;
 	}
 	@XmlElement
 	public Boolean getIsActive() {
