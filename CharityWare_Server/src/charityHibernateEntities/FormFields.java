@@ -30,17 +30,17 @@ public class FormFields {
 	private Boolean isActive;
 	private Date date_created;
 	private Form form;
-	private Timestamp timestamp;
+	//private Timestamp timestamp;
 	
 	private Set<FilledForm> filledForms = new HashSet<FilledForm>();
 	
-	@XmlElement
+	/*@XmlElement
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 	public void setTimestamp(Timestamp timeStamp) {
 		this.timestamp = timeStamp;
-	}
+	}*/
 	
 	@JsonIgnore
 	public Form getForm() {

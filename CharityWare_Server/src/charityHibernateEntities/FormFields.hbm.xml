@@ -34,8 +34,9 @@
         <property name="creator_name" column="creator_name" type="string"/>
         <property name="isActive" column="isActive" type="boolean"/>
         <property name="date_created" column="date_created" type="java.sql.Date"/>
+        <!--   
         <property name="timestamp" not-null="true" column="Timestamp" type="java.sql.Timestamp"/>
-        
+        -->
         <set name="filledForms" table="filled_form" inverse="true" lazy="true" cascade="all-delete-orphan">
         	<key column="field_id" not-null="true" /> 
         	<one-to-many class="charityHibernateEntities.FilledForm" />
