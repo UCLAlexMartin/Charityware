@@ -1,7 +1,6 @@
 package charityHibernateManagers;
 
 import charityHibernateEntities.Form;
-import charityHibernateEntities.FormFields;
 import charityHibernateEntities.FormPermissions;
 import charityHibernateEntities.User;
 
@@ -11,46 +10,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.hibernate.Session;
+
 import sharedHibernateResources.ConnectionManager;
-
-
-
 
 public class UserManager {
 	
-	private String DBConfname;
+	//private String DBConfname;
+	private ConnectionManager conn;
 	
 	public UserManager(String DBConfname){
-		this.DBConfname = DBConfname;
+		//this.DBConfname = DBConfname;
+		System.out.println("HELLLOOO!");
+		conn = new ConnectionManager(DBConfname);
+		//conn.setDBConfname(DBConfname);
 	}
 	
-	public ArrayList<User> retrieve(){
-		ConnectionManager conn = new ConnectionManager();
-		conn.setDBConfname(this.DBConfname);
+	public ArrayList<User> retrieve(){		
 		ArrayList<User> users = (ArrayList<User>) conn.getTable("User");
 		return users;
 	}
 	
 	public  ArrayList<User> getUsers(String name){
-		ConnectionManager conn = new ConnectionManager();
-		conn.setDBConfname(this.DBConfname);
-		ArrayList<User> user = (ArrayList<User>)conn.getTable("User where userName = '" + name+"'");
+		ArrayList<User> user = (ArrayList<User>)conn.getTable("User where userName = '"+ name+"'");
 		return user;
 	}
 	
 	
 	
 	public Integer addUserSample (String name,String pass) {
-		ConnectionManager conn = new ConnectionManager();
-		conn.setDBConfname(this.DBConfname);
 		User user = new User (name,pass);
 		return (Integer) conn.transaction("save",user);
 		
 	}
 	
 	public User getUser(Integer id){
-		ConnectionManager conn = new ConnectionManager();
-		conn.setDBConfname(this.DBConfname);
 		User user = (User)conn.get(User.class,id);
 		return user;
 	}
@@ -61,16 +55,12 @@ public class UserManager {
 	}*/
 	
 	public  void updateUserPassword (Integer userId,String userPassword ) {
-		ConnectionManager conn = new ConnectionManager();
-		conn.setDBConfname(this.DBConfname);
 		User user = (User) conn.get(User.class, userId);
 		user.setUserPassword(userPassword);
 		conn.transaction("update",user);
 	}
 	
 	public Map<Integer,List<String>> getForms(){
-		ConnectionManager conn = new ConnectionManager();
-		conn.setDBConfname(this.DBConfname);
 		Map<Integer,List<String>> results = new TreeMap<Integer,List<String>>();
 		ArrayList<User> users = (ArrayList<User>) conn.getTable("User");
 		
@@ -92,14 +82,35 @@ public class UserManager {
 				}
 			}
 			userdata.add(user_cur.getUserName());
-			userdata.add(user_cur.getUserTypeId().getUserType());
+			userdata.add(user_cur.getUserType().getUserType());
 			userdata.add(user_cur.getUserEmail());
 			userdata.add(value);			
 			results.put(user_cur.getUser_id(),userdata);
 		}
 		return results;
 	}
-	public Map<Integer,Map<Integer,List<String>>> getFormEntities(String username){
+	
+	public List<Form> getFormEntities(String username){
+		
+		ArrayList<User> users = (ArrayList<User>)conn.getTable("User where userName = '" + username+"'");
+		User user = users.get(0);
+		List<Form> results = new ArrayList<Form>();
+		ArrayList<FormPermissions> formPermissionsList = (ArrayList<FormPermissions>) conn.getTable("FormPermissions");
+		Iterator<FormPermissions> formPermissions_iter = formPermissionsList.iterator();
+		//Session session = conn.getSession();
+		while(formPermissions_iter.hasNext()){
+			FormPermissions formPermissions = formPermissions_iter.next();
+			
+			if(user.getUserType().getUserTypeId().equals(formPermissions.getPk().getUser_type().getUserTypeId())){
+				
+				results.add(formPermissions.getPk().getForm());
+			}
+			
+		}
+		//conn.closeSession(session);
+		return results;
+	}
+	/*public Map<Integer,Map<Integer,List<String>>> getFormEntities(String username){
 		ConnectionManager conn = new ConnectionManager();
 		conn.setDBConfname(this.DBConfname);
 		ArrayList<User> users = (ArrayList<User>)conn.getTable("User where userName = '" + username+"'");
@@ -115,9 +126,11 @@ public class UserManager {
 			Map<Integer,List<String>> formfields_map = new TreeMap<Integer,List<String>>();
 			Form current_form = formpermisions.getPk().getForm();
 			if(formpermisions.getPk().getUser_type().getUserTypeId().equals(user.getUserTypeId().getUserTypeId())&&current_form.getIsActive()){
+				
 				Iterator<FormFields> formfields_iterator = formfieldsData.iterator();
 				while(formfields_iterator.hasNext()){
 					FormFields formfields = formfields_iterator.next();
+					
 					if(formfields.getIsActive()){
 						ArrayList<String> formFields_results = new ArrayList<String>();
 						formFields_results.add(current_form.getFormName());
@@ -130,19 +143,45 @@ public class UserManager {
 						if(formfields.getField_type_id()!=null)formFields_results.add(formfields.getField_type_id().getField_type_id().toString());
 						if(formfields.getX_coordinate()!=null)formFields_results.add(formfields.getX_coordinate().toString());
 						if(formfields.getY_coordinate()!=null)formFields_results.add(formfields.getY_coordinate().toString());
-						formfields_map.put(formfields.getF_id(),formFields_results);
+						formfields_map.put(formfields.getF_id(),formFields_results);						
 					}
 					
 				}
 				if(formfields_map.size()!=0){
 					results.put(current_form.getFormId(), formfields_map);
 				}
-			
 			}
 				
 		}		
 		return results;
-	}
+	}*/
+	
+	/*public Map<FormKey,List<FormFields>> getFormEntities2(String username){
+		ArrayList<User> users = (ArrayList<User>)conn.getTable("User where userName = '" + username+"'");
+		User user = users.get(0);
+		Map<FormKey,List<FormFields>> results = new TreeMap<FormKey,List<FormFields>>();
+		ArrayList<FormPermissions> formpermissions = (ArrayList<FormPermissions>) conn.getTable("FormPermissions");
+		ArrayList<FormFields> formfieldsData = (ArrayList<FormFields>) conn.getTable("FormFields");
+		Iterator<FormPermissions> formperm_iterator = formpermissions.iterator();
+		while(formperm_iterator.hasNext()){
+			FormPermissions formpermisions = formperm_iterator.next();
+			Form current_form = formpermisions.getPk().getForm();
+			
+			if(formpermisions.getPk().getUser_type().getUserTypeId().equals(user.getUserType().getUserTypeId())&&current_form.getIsActive()){
+				FormKey fk = new FormKey(current_form.getFormId(),current_form.getFormName());
+				Iterator<FormFields> formfields_iterator = formfieldsData.iterator();
+				List<FormFields> formfields_list = new ArrayList<FormFields>();
+				while(formfields_iterator.hasNext()){
+					FormFields formfields = formfields_iterator.next();
+					//if (formfields.getForm().getFormId().equals(current_form.getFormId())){
+						formfields_list.add(formfields);
+					//}
+				}
+				results.put(fk, formfields_list);
+			}
+		}
+		return results;
+	}*/
 	
 	
 	

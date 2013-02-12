@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import charityHibernateEntities.Form;
 import charityHibernateEntities.User;
 import charityHibernateManagers.UserManager;
 
@@ -83,10 +84,12 @@ public class UserService {
     @GET
 	@Path("/charityConfig/{DBConfigPath}/users/formEntities/{username}")
     @Produces("application/json")
-    public GenericEntity<Map<Integer,Map<Integer,List<String>>>> getFormEntities(@PathParam("DBConfigPath")String DBConfigPath,@PathParam("username")String username){
+    public GenericEntity<List<Form>> getFormEntities(@PathParam("DBConfigPath")String DBConfigPath,@PathParam("username")String username){
     	UserManager userManager = new UserManager(DBConfigPath);
-    	Map<Integer,Map<Integer,List<String>>> map = userManager.getFormEntities(username);
-    	GenericEntity<Map<Integer,Map<Integer,List<String>>>> entity = new GenericEntity<Map<Integer,Map<Integer,List<String>>>>(map){};
+    	List<Form> list = userManager.getFormEntities(username);
+    	GenericEntity<List<Form>> entity = new GenericEntity<List<Form>>(list){};
+    	//Map<FormKey,List<FormFields>> map = userManager.getFormEntities2(username);
+    	//GenericEntity<Map<FormKey,List<FormFields>>> entity = new GenericEntity<Map<FormKey,List<FormFields>>>(map){};
     	return entity;
     }
     

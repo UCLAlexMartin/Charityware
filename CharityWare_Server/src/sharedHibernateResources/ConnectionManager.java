@@ -13,15 +13,22 @@ import org.hibernate.cfg.Configuration;
 
 public class ConnectionManager {
 	private  SessionFactory factory;
-	private String DBConfname;
+	//private String DBConfname;
 	
-	public String getDBConfname() {
+	public ConnectionManager(String DBConfname){
+		//this.DBConfname = DBConfname;
+		Configuration conf = new Configuration();
+		conf.configure(((DBConfname == null || DBConfname == "" ) ? "/systemHibernateEntities/hibernate.cfg.xml" : "/charityHibernateEntities/"+DBConfname));
+		factory = conf.buildSessionFactory();
+	}
+	
+	/*public String getDBConfname() {
 		return DBConfname;
 	}
 
 	public void setDBConfname(String DBConfname) {
 		this.DBConfname = DBConfname;
-	}
+	}*/
 
 	//Stub to remove old function
 	public  List<?> getTable(String table){
@@ -72,27 +79,31 @@ public class ConnectionManager {
 		return serial;
 	}
 	
-	private Session getSession(){
-		System.out.println("factory null?");
-		if (factory ==null){
-			Configuration conf = new Configuration();
-			conf.configure(((DBConfname == null || DBConfname == "" ) ? "/systemHibernateEntities/hibernate.cfg.xml" : "/charityHibernateEntities/"+DBConfname));
-			factory = conf.buildSessionFactory();
-			return factory.openSession();
-		}
+	public Session getSession(){
+		//System.out.println("factory null?");		
+		
 		Session result;
-		try{
-			result = factory.getCurrentSession();
+		try{			
+			if (factory ==null){
+				/*Configuration conf = new Configuration();
+				conf.configure(((DBConfname == null || DBConfname == "" ) ? "/systemHibernateEntities/hibernate.cfg.xml" : "/charityHibernateEntities/"+DBConfname));
+				factory = conf.buildSessionFactory();*/
+				result = factory.openSession();
+				System.out.println("First openSession invoked");
+			}else{
+				result = factory.getCurrentSession();
+				System.out.println("getCurrentSession invoked");
+			}
 		}catch(org.hibernate.HibernateException e){
+			
 			result = factory.openSession();
+			System.out.println("Second openSession invoked");
 		}
 		return result;
-	}
+	}	
 	
-	
-	
-	private void closeSession(Session session){
-		session.close();
+	public void closeSession(Session session){
+		//session.close();
 	}
 
 }

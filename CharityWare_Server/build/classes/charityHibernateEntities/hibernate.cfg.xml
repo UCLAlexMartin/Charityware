@@ -11,7 +11,7 @@
    <property name="log4j.logger.org.hibernate.type">
  	TRACE
    </property>
-   <property name="hibernate.max_fetch_depth">4</property>
+   <property name="hibernate.max_fetch_depth">8</property>
    <property name="hibernate.connection.driver_class">
       com.mysql.jdbc.Driver
    </property>
@@ -58,7 +58,7 @@ org.hibernate.envers.event.AuditEventListener
    <!-- List of XML mapping files -->
    		<mapping resource="charityHibernateEntities/UserType.hbm.xml"/>
    		  <mapping resource="charityHibernateEntities/User.hbm.xml"/>
-   		  
+   		  <mapping resource="systemHibernateEntities/User.hbm.xml"/>
           <mapping resource="charityHibernateEntities/FormFields.hbm.xml"/>
           <mapping resource="charityHibernateEntities/Form.hbm.xml"/>
           <mapping resource="charityHibernateEntities/FormPermissions.hbm.xml"/>

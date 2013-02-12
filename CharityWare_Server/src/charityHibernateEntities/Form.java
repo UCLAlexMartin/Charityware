@@ -8,11 +8,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.envers.Audited;
-
-import java.util.Set;
 import java.util.HashSet;
 
 @Entity
@@ -20,7 +16,7 @@ import java.util.HashSet;
 @XmlRootElement(name = "form")
 public class Form {
 	private Integer formId;
-	private FormType formTypeId;
+	private FormType formType;
 	private String formName;
 	private Date dateCreated;
 	private String url;
@@ -31,7 +27,7 @@ public class Form {
 	
 	public Form(){}
 	public Form(FormType ft) {
-		this.formTypeId = ft;
+		this.formType = ft;
 		this.dateCreated = new Date(Calendar.DATE);
 		this.setIsActive(true);
 		this.setTimestamp(new Timestamp(Calendar.DATE));
@@ -46,11 +42,11 @@ public class Form {
 		this.formId = formId;
 	}
 	@XmlElement(name = "formType")
-	public FormType getFormTypeId() {
-		return formTypeId;
+	public FormType getFormType() {
+		return formType;
 	}
-	public void setFormTypeId(FormType formTypeId) {
-		this.formTypeId = formTypeId;
+	public void setFormType(FormType formType) {
+		this.formType = formType;
 	}
 	@XmlElement
 	public String getFormName() {
@@ -88,7 +84,6 @@ public class Form {
 		this.timestamp = timestamp;
 	}
 	@XmlElement
-	@JsonIgnore
 	public Set<FormFields> getFields() {
 		return fields;
 	}

@@ -8,7 +8,7 @@
          <generator class="native"/>
       </id>
       	<property name="field_label" column="field_label" type="string"/>
-       <many-to-one lazy="false" cascade="save-update" unique="true" name="field_type_id" class="charityHibernateEntities.FieldType">
+       <many-to-one lazy="false" cascade="save-update" unique="true" name="field_type" class="charityHibernateEntities.FieldType">
 			<column name="field_type_id" not-null="true"/>       	
        </many-to-one>
        <!--  
@@ -16,19 +16,22 @@
         		<key column="field_selection_id" />
         	<one-to-many  class="charityHibernateEntities.FieldSelection"/>
         </set>
-        -->  
-        <many-to-one  lazy="false" name="form_id" class="charityHibernateEntities.Form">
+       -->
+        <many-to-one  lazy="false" name="form" class="charityHibernateEntities.Form">
         	<column name="form_id" not-null="true"/>
         </many-to-one>
+        
+        <many-to-one lazy="false" unique="true" name="user" class="systemHibernateEntities.User">
+        	<column  name="user_id" not-null="true"/>
+        </many-to-one>
+        
         <property name="x_coordinate" column="x_coordinate" type="float"/>
         <property name="y_coordinate" column="y_coordinate" type="float"/>
         <property name="isRequired" column="isRequired" type="boolean"/>
         <property name="default_value" column="default_value" type="boolean"/>
         <property name="minValue" column="min_value" type="float"/>
         <property name="maxValue" column="max_value" type="float"/>
-        <many-to-one lazy="false" unique="true" name="user_id" class="charityHibernateEntities.User">
-        	<column  name="user_id" not-null="true"/>
-        </many-to-one>
+        
         <property name="isActive" column="isActive" type="boolean"/>
         <property name="date_created" column="date_created" type="java.sql.Date"/>
         <property name="timestamp" not-null="true" column="Timestamp" type="java.sql.Timestamp"/>

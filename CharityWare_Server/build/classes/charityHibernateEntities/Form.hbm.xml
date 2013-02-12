@@ -4,10 +4,10 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
  <hibernate-mapping >
    <class  name="charityHibernateEntities.Form" table="form">
- 	<id name="formId" type="int" column="Form_id">
+ 	<id name="formId" type="int" column="form_id">
          <generator class="native"/>
       </id>
-      	<many-to-one lazy="false" unique="true" name="formTypeId"  class="charityHibernateEntities.FormType" >
+      	<many-to-one lazy="false" unique="true" name="formType"  class="charityHibernateEntities.FormType">
       		<column name="form_type_id" not-null="true"/>
       	</many-to-one>
         <property name="formName" type="string" column="form_name" />

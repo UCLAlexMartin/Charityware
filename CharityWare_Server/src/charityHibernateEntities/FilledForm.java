@@ -2,15 +2,10 @@ package charityHibernateEntities;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.envers.Audited;
-
-import javax.persistence.Entity;
 
 @Entity
 @Audited
