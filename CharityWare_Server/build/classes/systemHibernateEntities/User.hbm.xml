@@ -13,7 +13,7 @@
       <property name="dateCreated" column="date_created" type="java.sql.Date"/>
       <property name="isActive" column="isActive" type="boolean"/>
       <property name="salt" column="salt" type="string"/>
-     <many-to-one lazy="false" unique="true" name="userTypeId" class="systemHibernateEntities.UserType" >
+     <many-to-one lazy="false" unique="true" name="userType" class="systemHibernateEntities.UserType" >
             <column name="user_type_id" not-null="true" />
      </many-to-one>
 

@@ -32,7 +32,7 @@ public class User {
 		this.dateCreated = new Date(1);
 		this.userType = new UserType();
 		this.userType.setUserType("Charity_Administrator");
-		this.userType.setUserTypeId(1);
+		this.userType.setUserTypeId(2);
 		this.userType.setIsActive(true);
 		//this.userType.setTimestamp(new Timestamp(1));
 	}

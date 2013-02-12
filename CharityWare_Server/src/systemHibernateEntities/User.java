@@ -4,15 +4,21 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.envers.Audited;
+
+//import charityHibernateEntities.UserType;
 
 @Entity
 @Audited
+@XmlRootElement(name = "user")
 public class User {
 
 	private Integer user_id;
 	private String userName;
-	private UserType userTypeId;
+	private UserType userType;
 	private String userPassword;
 	private String salt;
 
@@ -28,16 +34,16 @@ public class User {
 		this.isActive=true;
 		this.salt="456";
 		this.dateCreated = new Date(1);
-		this.userTypeId = new UserType();
-		this.userTypeId.setUserType("Charity_Administrator");
-		this.userTypeId.setUserTypeId(1);
-		this.userTypeId.setIsActive(true);
-		this.userTypeId.setTimestamp(new Timestamp(1));
+		this.userType = new UserType();
+		this.userType.setUserType("Charity_Administrator");
+		this.userType.setUserTypeId(1);
+		this.userType.setIsActive(true);
+		//this.userTypeId.setTimestamp(new Timestamp(1));
 	}
 	
 	
 	
-	
+	@XmlElement
 	public String getSalt() {
 		return salt;
 	}
@@ -45,42 +51,55 @@ public class User {
 		this.salt = salt;
 	}
 	
+	@XmlElement
 	public Integer getUser_id() {
 		return user_id;
 	}
 	public void setUser_id(Integer user_id) {
 		this.user_id = user_id;
 	}
+	
+	@XmlElement
 	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public UserType getUserTypeId() {
-		return userTypeId;
+	
+	@XmlElement(name = "userType")
+	public UserType getUserType() {
+		return userType;
 	}
-	public void setUserTypeId(UserType userTypeId) {
-		this.userTypeId = userTypeId;
+	public void setUserType(UserType userType) {
+		this.userType = userType;
 	}
+	
+	@XmlElement
 	public String getUserPassword() {
 		return userPassword;
 	}
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
+	
+	@XmlElement
 	public String getUserEmail() {
 		return userEmail;
 	}
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
+	
+	@XmlElement
 	public Date getDateCreated() {
 		return dateCreated;
 	}
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
+	
+	@XmlElement
 	public Boolean getIsActive() {
 		return isActive;
 	}
