@@ -31,7 +31,7 @@ public class UserClient {
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client Myclient = Client.create(clientConfig);
 		ClientResponse clientresponse = Myclient.resource(Configuration.getSiteUrl())
-				.path("userService").path("userName").path(parameter)
+				.path("RESTSystem").path("userService").path("userName").path(parameter)
 				.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(User.class);

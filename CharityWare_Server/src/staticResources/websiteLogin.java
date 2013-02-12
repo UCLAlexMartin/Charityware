@@ -1,10 +1,14 @@
 package staticResources;
 
+import systemHibernateEntities.User;
+import RESTSystemClient.UserClient;
+
 public class websiteLogin {
 	
 	public static void main(String[] arg)
 	{
-		if(websiteLogin.login("ucladmin","open"))
+		User usr = websiteLogin.login("ucladmin","open");
+		if(usr != null)
 		{
 			System.out.println("Login succesful");
 		}
@@ -15,13 +19,25 @@ public class websiteLogin {
 		
 	}
 	
-	public static boolean login(String userName, String password)
+	public static User login(String userName, String password)
 	{
-		String salt;
-		return true;
+		try{
+			User MyUser = UserClient.get(userName);
+			if(PasswordEncryption.encryptPassword(password, MyUser.getSalt()).equals(MyUser.getUserPassword()))
+			{
+				return MyUser;
+			}else
+			{
+				return null;
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
-	public static boolean isAuthenticated(String userName, String URL)
+	public static boolean isAuthenticated(User user, String URL)
 	{
 		return true;
 	}
