@@ -5,9 +5,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
-
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-
 import staticResources.Configuration;
 
 import com.sun.jersey.api.client.Client;

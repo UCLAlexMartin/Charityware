@@ -60,7 +60,7 @@ org.hibernate.envers.event.AuditEventListener
    <mapping resource="systemHibernateEntities/Feedback.hbm.xml"/>
    <mapping resource="systemHibernateEntities/Charity.hbm.xml"/>	
     -->
-   	  
+   <mapping resource="systemHibernateEntities/Event.hbm.xml"/>	  
    <mapping resource="systemHibernateEntities/User.hbm.xml"/>      
    <mapping resource="systemHibernateEntities/UserType.hbm.xml"/>
    <mapping resource="systemHibernateEntities/Charity.hbm.xml"/>

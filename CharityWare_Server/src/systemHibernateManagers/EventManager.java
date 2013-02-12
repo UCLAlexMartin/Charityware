@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class EventManager {
+public class EventManager{
 	private ConnectionManager conn;
-	EventManager(String DBConfname){
+	public EventManager(String DBConfname){
 		conn = new ConnectionManager(DBConfname);
 	}
 	public Map<Integer,ArrayList<String>> getEvents(){
