@@ -33,7 +33,7 @@ public class UserService {
 	public User getUser(@PathParam("userid")Integer userid){
 		return UserManager.getUser(userid);       
 	}*/
-	// http://localhost:8080/CharityWare_Lite/REST/userService/charityConfig/hibernate.cfg.xml/userName/amartin	
+	// http://localhost:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/amartin	
 	@GET
 	@Path("/charityConfig/{DBConfigPath}/userName/{username}")
 	@Produces("application/json")

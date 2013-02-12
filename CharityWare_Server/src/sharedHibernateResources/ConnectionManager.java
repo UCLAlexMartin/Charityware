@@ -12,24 +12,14 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class ConnectionManager {
-	private  SessionFactory charityFactory;
-	private  SessionFactory systemFactory;
+	private  SessionFactory factory;
 	//private String DBConfname;
 	
 	public ConnectionManager(String DBConfname){
 		//this.DBConfname = DBConfname;
 		Configuration conf = new Configuration();
-		
-		//conf.configure(((DBConfname == null || DBConfname == "" ) ? "/systemHibernateEntities/hibernate.cfg.xml" : "/charityHibernateEntities/"+DBConfname));
-		if((DBConfname!=null)&&(DBConfname != ""))
-		{
-			conf = new Configuration();
-			conf.configure("/charityHibernateEntities/"+DBConfname);
-			charityFactory = conf.buildSessionFactory();
-		}
-		conf = new Configuration();
-		conf.configure("/systemHibernateEntities/hibernate.cfg.xml");
-		systemFactory = conf.buildSessionFactory();
+		conf.configure(((DBConfname == null || DBConfname == "" ) ? "/systemHibernateEntities/hibernate.cfg.xml" : "/charityHibernateEntities/"+DBConfname));
+		factory = conf.buildSessionFactory();
 	}
 	
 	/*public String getDBConfname() {
@@ -41,27 +31,27 @@ public class ConnectionManager {
 	}*/
 
 	//Stub to remove old function
-	public  List<?> getTable(String table,Integer type){
-		return runSelectQuery("from "+table,type);
+	public  List<?> getTable(String table){
+		return runSelectQuery("from "+table);
 	}
 	
-	public  List<?> runSelectQuery(String querystr,Integer type){
-		Session session = this.getSession(type);
+	public  List<?> runSelectQuery(String querystr){
+		Session session = this.getSession();
 		Query query  = session.createQuery(querystr);
 		List<?> result = query.list();
 		closeSession(session);
 		return result;
 	}
 	
-	public  Object get(Class arg0,Serializable serial,Integer type){
-		Session session = this.getSession(type);
+	public  Object get(Class arg0,Serializable serial){
+		Session session = this.getSession();
 		Object result = session.get(arg0, serial);
 		this.closeSession(session);
 	    return result;
 	}
 	
-	public  Serializable transaction(String method,Object obj,Integer type){
-		Session session = this.getSession(type);
+	public  Serializable transaction(String method,Object obj){
+		Session session = this.getSession();
 		Transaction tx = null;
 		Serializable serial = null;
 		try{
@@ -89,27 +79,21 @@ public class ConnectionManager {
 		return serial;
 	}
 	
-	private Session getSession(Integer type){
+	public Session getSession(){
 		//System.out.println("factory null?");		
 		
 		Session result;
-		SessionFactory factory;
-		if(type==0)
-			factory = charityFactory;
-		else
-			factory = systemFactory;
-		try{
-			
-			/*if (factory ==null){
-				Configuration conf = new Configuration();
+		try{			
+			if (factory ==null){
+				/*Configuration conf = new Configuration();
 				conf.configure(((DBConfname == null || DBConfname == "" ) ? "/systemHibernateEntities/hibernate.cfg.xml" : "/charityHibernateEntities/"+DBConfname));
-				factory = conf.buildSessionFactory();
+				factory = conf.buildSessionFactory();*/
 				result = factory.openSession();
 				System.out.println("First openSession invoked");
-			}else{*/
+			}else{
 				result = factory.getCurrentSession();
 				System.out.println("getCurrentSession invoked");
-			/*}*/
+			}
 		}catch(org.hibernate.HibernateException e){
 			
 			result = factory.openSession();
@@ -118,7 +102,7 @@ public class ConnectionManager {
 		return result;
 	}	
 	
-	private void closeSession(Session session){
+	public void closeSession(Session session){
 		//session.close();
 	}
 
