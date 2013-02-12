@@ -27,12 +27,12 @@ public class UserManager {
 	}
 	
 	public ArrayList<User> retrieve(){		
-		ArrayList<User> users = (ArrayList<User>) conn.getTable("User",0);
+		ArrayList<User> users = (ArrayList<User>) conn.getTable("User");
 		return users;
 	}
 	
 	public  ArrayList<User> getUsers(String name){
-		ArrayList<User> user = (ArrayList<User>)conn.getTable("User where userName = '"+ name+"'",0);
+		ArrayList<User> user = (ArrayList<User>)conn.getTable("User where userName = '"+ name+"'");
 		return user;
 	}
 	
@@ -40,12 +40,12 @@ public class UserManager {
 	
 	public Integer addUserSample (String name,String pass) {
 		User user = new User (name,pass);
-		return (Integer) conn.transaction("save",user,0);
+		return (Integer) conn.transaction("save",user);
 		
 	}
 	
 	public User getUser(Integer id){
-		User user = (User)conn.get(User.class,id,0);
+		User user = (User)conn.get(User.class,id);
 		return user;
 	}
 	
@@ -55,16 +55,16 @@ public class UserManager {
 	}*/
 	
 	public  void updateUserPassword (Integer userId,String userPassword ) {
-		User user = (User) conn.get(User.class, userId,0);
+		User user = (User) conn.get(User.class, userId);
 		user.setUserPassword(userPassword);
-		conn.transaction("update",user,0);
+		conn.transaction("update",user);
 	}
 	
 	public Map<Integer,List<String>> getForms(){
 		Map<Integer,List<String>> results = new TreeMap<Integer,List<String>>();
-		ArrayList<User> users = (ArrayList<User>) conn.getTable("User",0);
+		ArrayList<User> users = (ArrayList<User>) conn.getTable("User");
 		
-		ArrayList<FormPermissions> formpermissions = (ArrayList<FormPermissions>) conn.getTable("FormPermissions",0);
+		ArrayList<FormPermissions> formpermissions = (ArrayList<FormPermissions>) conn.getTable("FormPermissions");
 		
 		Iterator<User> iter = users.iterator();			
 		while(iter.hasNext()){
@@ -92,10 +92,10 @@ public class UserManager {
 	
 	public List<Form> getFormEntities(String username){
 		
-		ArrayList<User> users = (ArrayList<User>)conn.getTable("User where userName = '" + username+"'",0);
+		ArrayList<User> users = (ArrayList<User>)conn.getTable("User where userName = '" + username+"'");
 		User user = users.get(0);
 		List<Form> results = new ArrayList<Form>();
-		ArrayList<FormPermissions> formPermissionsList = (ArrayList<FormPermissions>) conn.getTable("FormPermissions",0);
+		ArrayList<FormPermissions> formPermissionsList = (ArrayList<FormPermissions>) conn.getTable("FormPermissions");
 		Iterator<FormPermissions> formPermissions_iter = formPermissionsList.iterator();
 		//Session session = conn.getSession();
 		while(formPermissions_iter.hasNext()){
