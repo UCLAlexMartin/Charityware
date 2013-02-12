@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashSet;
-import org.hibernate.envers.Audited;
+import systemHibernateEntities.User;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.envers.Audited;
 
 @Entity
 @Audited
@@ -17,7 +19,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public class FormFields {
 	private Integer f_id;
 	private String field_label;
-	private FieldType field_type_id;
+	private FieldType field_type;
 	private Set<FieldSelection> field_selections = new HashSet<FieldSelection>();
 	private Float X_coordinate;
 	private Float Y_coordinate;
@@ -25,10 +27,10 @@ public class FormFields {
 	private Boolean default_value;
 	private Float minValue;
 	private Float maxValue;
-	private User user_id;
+	private User user;
 	private Boolean isActive;
 	private Date date_created;
-	private Form form_id;
+	private Form form;
 	private Timestamp timestamp;
 	
 	private Set<FilledForm> filledForms = new HashSet<FilledForm>();
@@ -40,13 +42,15 @@ public class FormFields {
 	public void setTimestamp(Timestamp timeStamp) {
 		this.timestamp = timeStamp;
 	}
-	@XmlElement(name = "form")
-	public Form getForm_id() {
-		return form_id;
+	
+	@JsonIgnore
+	public Form getForm() {
+		return form;
 	}
-	public void setForm_id(Form form_id) {
-		this.form_id = form_id;
+	public void setForm(Form form) {
+		this.form = form;
 	}
+	
 	@XmlElement
 	public String getField_label() {
 		return field_label;
@@ -62,23 +66,22 @@ public class FormFields {
 		this.field_label = field_label;
 	}
 	@XmlElement(name = "fieldType")
-	public FieldType getField_type_id() {
-		return field_type_id;
+	public FieldType getField_type() {
+		return field_type;
 	}
-	public void setField_type_id(FieldType field_type_id) {
-		this.field_type_id = field_type_id;
+	public void setField_type(FieldType field_type) {
+		this.field_type = field_type;
 	}
 	@XmlElement
-	@JsonIgnore
 	public Set<FieldSelection> getField_selections() {
 		return field_selections;
 	}
 	public void setField_selections(Set<FieldSelection> s) {
-		field_selections = s;
+		this.field_selections = s;
 	}
-	public void setField_selection_Id(Set<FieldSelection> field_selections) {
+	/*public void setField_selection_Id(Set<FieldSelection> field_selections) {
 		this.field_selections = field_selections;
-	}
+	}*/
 	@XmlElement
 	public Float getX_coordinate() {
 		return X_coordinate;
@@ -121,12 +124,13 @@ public class FormFields {
 	public void setMaxValue(Float maxValue) {
 		this.maxValue = maxValue;
 	}
-	@XmlElement(name = "user")
-	public User getUser_id() {
-		return user_id;
+	
+	@XmlElement
+	public User getUser() {
+		return user;
 	}
-	public void setUser_id(User user_id) {
-		this.user_id = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	@XmlElement
 	public Boolean getIsActive() {
@@ -143,7 +147,7 @@ public class FormFields {
 		this.date_created = date_created;
 	}
 	
-	@JsonIgnore
+	@XmlElement
 	public Set<FilledForm> getFilledForms() {
 		return this.filledForms;
 	}

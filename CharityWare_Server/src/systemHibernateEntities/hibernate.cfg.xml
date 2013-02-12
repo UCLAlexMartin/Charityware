@@ -11,7 +11,7 @@
    <property name="log4j.logger.org.hibernate.type">
  	TRACE
    </property>
-   <property name="hibernate.max_fetch_depth">8</property>
+   <property name="hibernate.max_fetch_depth">3</property>
    <property name="hibernate.connection.driver_class">
       com.mysql.jdbc.Driver
    </property>
@@ -37,45 +37,32 @@ org.hibernate.envers.event.AuditEventListener
     <property name="org.hibernate.envers.audit_table_suffix" >_VER</property>
       <property name="org.hibernate.envers.revision_field_name">REV</property>
       <property name="org.hibernate.envers.revision_type_field_name">REVTYPE</property>  
-      <property name="org.hibernate.envers.default_schema">charity_db_test_model</property>   
+      <property name="org.hibernate.envers.default_schema">System_DB_Test_Model</property>   
       <property name="org.hibernate.envers.revision_on_collection_change">false</property>              
 
    <!-- Assume test is the database name -->
    <property name="hibernate.connection.url">
-      jdbc:mysql://localhost/charity_db_test_model
+      jdbc:mysql://localhost/System_DB_Test_Model
    </property>
    <property name="hibernate.connection.username">
       root
    </property>
-	<property name="hibernate.connection.password">
+<property name="hibernate.connection.password">
       root
    </property>
-	    
-	    <!-- Test property -->
+    <!-- Test property -->
 	     <property name="javax.persistence.validation.mode">none</property>
 	     <!-- Test property -->
 	     
    <!-- List of XML mapping files -->
-   		<mapping resource="charityHibernateEntities/UserType.hbm.xml"/>
-   		  <mapping resource="charityHibernateEntities/User.hbm.xml"/>
-   		  <mapping resource="systemHibernateEntities/User.hbm.xml"/>
-          <mapping resource="charityHibernateEntities/FormFields.hbm.xml"/>
-          <mapping resource="charityHibernateEntities/Form.hbm.xml"/>
-          <mapping resource="charityHibernateEntities/FormPermissions.hbm.xml"/>
-          <mapping resource="charityHibernateEntities/FieldType.hbm.xml"/>
-          <mapping resource="charityHibernateEntities/FieldSelection.hbm.xml"/>
-          <mapping resource="charityHibernateEntities/FilledForm.hbm.xml"/>
-          <mapping resource="charityHibernateEntities/FormType.hbm.xml"/>
-          <!--
-          <mapping resource="hibernateEntities/MailingGroup.hbm.xml"/>
-          <mapping resource="hibernateEntities/MailingList.hbm.xml"/>
-          <mapping resource="hibernateEntities/Event.hbm.xml"/>
-   		  	
-  		  
- 	        
-    	  -->
-   		  
-   		  
+   <!-- 
+   <mapping resource="systemHibernateEntities/AccessLog.hbm.xml"/>
+   <mapping resource="systemHibernateEntities/Feedback.hbm.xml"/>
+   <mapping resource="systemHibernateEntities/Charity.hbm.xml"/>	
+    -->
+   	  
+   <mapping resource="systemHibernateEntities/User.hbm.xml"/>      
+   <mapping resource="systemHibernateEntities/UserType.hbm.xml"/>
  
 </session-factory>
 
