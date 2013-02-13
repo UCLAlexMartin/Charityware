@@ -23,6 +23,7 @@ public class UserClient {
 		Client Myclient = Client.create(clientConfig);
 		ClientResponse clientresponse = Myclient.resource(RestServiceURLPath)
 				.path("userName").path(parameter)
+
 				.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(User.class);
