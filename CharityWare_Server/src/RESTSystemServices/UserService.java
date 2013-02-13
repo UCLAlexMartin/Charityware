@@ -1,18 +1,14 @@
 package RESTSystemServices;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import systemHibernateEntities.User;
 import systemHibernateManagers.UserManager;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.core.GenericEntity;
 
 
 

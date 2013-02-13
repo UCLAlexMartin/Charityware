@@ -31,7 +31,7 @@ public class Charity {
 	private String connection_string;
 	private Boolean isVerified;	
 	private Boolean isActive;
-	private Timestamp timestamp;
+
 	
 	public Charity(){}
 	
@@ -45,7 +45,6 @@ public class Charity {
 		this.email = Email;
 		this.phone = Phone;
 		this.registration_no = Registration_No;		
-		this.timestamp = new Timestamp(Calendar.DATE);
 	}
 	
 	@XmlElement
@@ -168,13 +167,13 @@ public class Charity {
 		this.isActive = isActive;
 	}
 	
-	@XmlElement
+	/*@XmlElement
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
-	}
+	}*/
 		
 }
 

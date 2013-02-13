@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 public class ConnectionManager {
 	private  SessionFactory factory;
@@ -101,6 +102,30 @@ public class ConnectionManager {
 		}
 		return result;
 	}	
+	public List<?> searchCriteria(Class arg0,String column,Object obj){
+		Session session = getSession();
+		List<?> results =  session.createCriteria(arg0)
+				.add(Restrictions.eq(column, obj)).list();
+		closeSession(session);
+	    return results;
+	}
+	
+	public List<?> searchCriteria (Class arg0,String column,List<?> objects ){
+		Session session = getSession();
+		List<?> results =  session.createCriteria(arg0)
+				.add(Restrictions.in( column,objects)).list();
+		closeSession(session);
+	    return results;
+	}
+	
+	public Object searchCriteria (Class arg0,Integer objectid ){
+		Session session = getSession();
+		Object result = session.createCriteria(arg0)
+				.add(Restrictions.idEq( new Integer(objectid)))
+				.uniqueResult();
+		closeSession(session);
+	    return result;
+	}
 	
 	public void closeSession(Session session){
 		//session.close();

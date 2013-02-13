@@ -1,7 +1,6 @@
 package charityHibernateEntities;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.Entity;

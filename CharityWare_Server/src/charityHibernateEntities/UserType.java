@@ -1,6 +1,5 @@
 package charityHibernateEntities;
 
-import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,15 +16,7 @@ public class UserType {
 	private String userType;
 	private String description;
 	private Boolean isActive;
-	//private Timestamp timestamp;
-//	private User user;
 	
-/*	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}*/
 	@XmlElement
 	public Integer getUserTypeId() {
 		return userTypeId;
@@ -54,12 +45,5 @@ public class UserType {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-	/*@XmlElement
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}*/
 	
 }

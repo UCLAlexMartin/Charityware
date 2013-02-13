@@ -65,17 +65,11 @@ org.hibernate.envers.event.AuditEventListener
           <mapping resource="charityHibernateEntities/FieldSelection.hbm.xml"/>
           <mapping resource="charityHibernateEntities/FilledForm.hbm.xml"/>
           <mapping resource="charityHibernateEntities/FormType.hbm.xml"/>
+          <mapping resource="charityHibernateEntities/Event.hbm.xml"/>
           <!--
           <mapping resource="hibernateEntities/MailingGroup.hbm.xml"/>
-          <mapping resource="hibernateEntities/MailingList.hbm.xml"/>
-          <mapping resource="hibernateEntities/Event.hbm.xml"/>
-   		  	
-  		  
- 	        
+          <mapping resource="hibernateEntities/MailingList.hbm.xml"/>  
     	  -->
-   		  
-   		  
- 
 </session-factory>
 
 </hibernate-configuration>
