@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,8 +32,8 @@ public class FormManager {
 		//conn.setDBConfname(DBConfname);
 	}
 	
-	public ArrayList<Form> retrieve(){
-		ArrayList<Form> forms = (ArrayList<Form>) conn.getTable("Form");
+	public List<Form> retrieve(){
+		List<Form> forms = (List<Form>) conn.getTable("Form");
 		return forms;
 	}
 	

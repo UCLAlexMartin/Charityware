@@ -56,7 +56,8 @@ org.hibernate.envers.event.AuditEventListener
 	     <!-- Test property -->
 	     
    <!-- List of XML mapping files -->
-   		<mapping resource="charityHibernateEntities/UserType.hbm.xml"/>
+   		  <mapping resource="charityHibernateEntities/AccessLog.hbm.xml"/>
+   		  <mapping resource="charityHibernateEntities/UserType.hbm.xml"/>
    		  <mapping resource="charityHibernateEntities/User.hbm.xml"/>
           <mapping resource="charityHibernateEntities/FormFields.hbm.xml"/>
           <mapping resource="charityHibernateEntities/Form.hbm.xml"/>
@@ -66,10 +67,8 @@ org.hibernate.envers.event.AuditEventListener
           <mapping resource="charityHibernateEntities/FilledForm.hbm.xml"/>
           <mapping resource="charityHibernateEntities/FormType.hbm.xml"/>
           <mapping resource="charityHibernateEntities/Event.hbm.xml"/>
-          <!--
-          <mapping resource="hibernateEntities/MailingGroup.hbm.xml"/>
-          <mapping resource="hibernateEntities/MailingList.hbm.xml"/>  
-    	  -->
-</session-factory>
+          <mapping resource="charityHibernateEntities/MailingGroup.hbm.xml"/>
+          <mapping resource="charityHibernateEntities/MailingList.hbm.xml"/>  
+	</session-factory>
 
 </hibernate-configuration>

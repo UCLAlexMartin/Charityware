@@ -28,8 +28,6 @@
       
 	  <property name="isVerified" column="isVerified" type="boolean"/>
       <property name="isActive" column="isActive" type="boolean"/>
-      <!--  
-      <property name="timestamp" column="timestamp" type="java.sql.Timestamp"/>
-		-->
+
    </class>
 </hibernate-mapping>
