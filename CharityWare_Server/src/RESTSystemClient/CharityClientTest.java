@@ -1,6 +1,10 @@
 package RESTSystemClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import systemHibernateEntities.Charity;
+import systemHibernateEntities.User;
 
 public class CharityClientTest {
 
@@ -19,8 +23,18 @@ public class CharityClientTest {
 		String Email ="charityfornothing.com";
 		String Phone = "43124141241";
 		String Registration_No ="3251324";
-		Charity charity = new Charity(Charity_Name,Charity_Description,Address_Line1,Address_Line2,Location,Postcode,Email,Phone,Registration_No);
-		CharityClient.addCharity(charity);
+		Charity charity1 = new Charity(Charity_Name,Charity_Description,Address_Line1,Address_Line2,Location,Postcode,Email,Phone,Registration_No);
+		Charity charity2 = new Charity(Charity_Name,Charity_Description,Address_Line1,Address_Line2,Location,Postcode,Email,Phone,Registration_No);
+		charity1.setConnection_string("mpla_mpla1");
+		charity1.setIsActive(true);
+		charity1.setIsVerified(true);
+		charity2.setConnection_string("mpla_mpla2");
+		charity2.setIsActive(true);
+		charity2.setIsVerified(true);
+		List<Charity> charities = new ArrayList<Charity>();
+		charities.add(charity1);
+		charities.add(charity2);
+		CharityClient.addCharities(charities);
 	}
 
 }

@@ -25,7 +25,8 @@ public class User {
 	private Date dateCreated;
 	private Boolean isActive;
 	private Set<FilledForm> filledForms = new HashSet<FilledForm>();
-
+	private Set<Event> events = new HashSet<Event>();
+	private Set<AccessLog> accesslogs = new HashSet<AccessLog>();
 	
 	public User(){}
 	public User(String name, String pass) {
@@ -102,6 +103,19 @@ public class User {
 	}
 	public void setFilledForms(Set<FilledForm> filledForms) {
 		this.filledForms = filledForms;
+	}
+	@XmlElement(name = "events")
+	public Set<Event> getEvents() {
+		return events;
+	}
+	public void setEvents(Set<Event> events) {
+		this.events = events;
+	}
+	public Set<AccessLog> getAccesslogs() {
+		return accesslogs;
+	}
+	public void setAccesslogs(Set<AccessLog> accesslogs) {
+		this.accesslogs = accesslogs;
 	}
 
 }

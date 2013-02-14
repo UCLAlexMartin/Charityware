@@ -72,6 +72,16 @@ public class FilledFormManager {
 		return (Integer) conn.transaction("save",filledForm);
 	}
 	
+	public Integer addFilledForms(List<FilledForm> filledforms){
+		Iterator<FilledForm> filledform_iter = filledforms.iterator();
+		while(filledform_iter.hasNext()){
+			FilledForm filledform = filledform_iter.next();
+			if(conn.transaction("save",filledform)==null)
+				return null;
+		}
+		return 1;
+	}
+	
 	public ArrayList<FilledForm> getFilledForms(){
 		ArrayList<FilledForm> filledForms = (ArrayList<FilledForm>)conn.getTable("FilledForm");
 		return filledForms;
