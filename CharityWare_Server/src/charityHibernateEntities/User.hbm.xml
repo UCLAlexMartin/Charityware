@@ -16,6 +16,11 @@
      <many-to-one lazy="false" unique="true" name="userType" class="charityHibernateEntities.UserType" >
             <column name="user_type_id" not-null="true" />
         </many-to-one>
+        
+     <set name="filledForms" table="filled_form" inverse="true" lazy="true" cascade="all-delete-orphan">
+        	<key column="user_id" not-null="true" /> 
+        	<one-to-many class="charityHibernateEntities.FilledForm" />
+        </set>   
 
    </class>
 </hibernate-mapping>

@@ -1,10 +1,7 @@
 package charityHibernateEntities;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 import javax.persistence.Entity;
-
 import org.hibernate.envers.Audited;
 
 @Entity

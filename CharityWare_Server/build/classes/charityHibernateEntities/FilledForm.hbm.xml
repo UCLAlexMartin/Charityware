@@ -22,7 +22,7 @@
 		<column name="field_id" not-null="true"/>	
 	</many-to-one>
 	
-	<many-to-one  lazy="false"  name="user_id" unique="true" class="charityHibernateEntities.User">
+	<many-to-one  lazy="false"  name="user" unique="true" class="charityHibernateEntities.User">
 		<column name="user_id" not-null="true"/>
 	</many-to-one>
 	<property name="value" column="value" type="string"/>

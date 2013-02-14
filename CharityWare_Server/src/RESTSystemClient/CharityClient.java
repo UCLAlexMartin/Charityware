@@ -40,7 +40,8 @@ public class CharityClient {
 		Client client = Client.create(clientConfig);
 		//ClientResponse clientresponse = 
 		client.resource(RestServiceURLPath)
-				.path("/addCharity/").post(Charity.class,charity);
+				.path("/addCharity/").type(MediaType.APPLICATION_JSON)
+				.post(Charity.class,charity);
 				
 				//new GenericType<Charity>(charity){}
 	}

@@ -23,13 +23,13 @@ public class UserManager {
 		conn = new ConnectionManager(DBConfname);
 	}
 	
-	public ArrayList<User> retrieve(){		
-		ArrayList<User> users = (ArrayList<User>) conn.getTable("User");
+	public List<User> retrieve(){		
+		List<User> users = (List<User>) conn.getTable("User");
 		return users;
 	}
 	
-	public  ArrayList<User> getUsers(String name){
-		ArrayList<User> user = (ArrayList<User>)conn.getTable("User where userName = '"+ name+"'");
+	public  List<User> getUsers(String name){
+		List<User> user = (List<User>)conn.getTable("User where userName = '"+ name+"'");
 		return user;
 	}
 	

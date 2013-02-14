@@ -1,6 +1,9 @@
 package charityHibernateEntities;
 
 import java.sql.Date; 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,8 +24,9 @@ public class User {
 	private String userEmail;
 	private Date dateCreated;
 	private Boolean isActive;
-	
+	private Set<FilledForm> filledForms = new HashSet<FilledForm>();
 
+	
 	public User(){}
 	public User(String name, String pass) {
 		this.userName=name;
@@ -34,7 +38,6 @@ public class User {
 		this.userType.setUserType("Charity_Administrator");
 		this.userType.setUserTypeId(2);
 		this.userType.setIsActive(true);
-		//this.userType.setTimestamp(new Timestamp(1));
 	}
 		
 	@XmlElement
@@ -92,6 +95,13 @@ public class User {
 	}
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+	@XmlElement(name = "filledforms")
+	public Set<FilledForm> getFilledForms() {
+		return filledForms;
+	}
+	public void setFilledForms(Set<FilledForm> filledForms) {
+		this.filledForms = filledForms;
 	}
 
 }

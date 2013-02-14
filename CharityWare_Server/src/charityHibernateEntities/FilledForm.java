@@ -15,14 +15,14 @@ public class FilledForm {
 	private Integer filled_form_id;
 	private FormFields formFields;
 	private String value;
-	private User user_id;
+	private User user;
 	private Integer record_id;
 	private Boolean isActive;
 	
 	
 	public FilledForm(){}
 	public FilledForm(User user, FormFields form_field_id){
-		this.user_id = user;
+		this.user = user;
 		this.record_id=new Integer(1);
 		this.isActive=true;
 	}
@@ -43,12 +43,12 @@ public class FilledForm {
 		this.value = value;
 	}
 	
-	@XmlElement(name = "user")
-	public User getUser_id() {
-		return user_id;
+	@JsonIgnore
+	public User getUser() {
+		return user;
 	}
-	public void setUser_id(User user_id) {
-		this.user_id = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	@XmlElement

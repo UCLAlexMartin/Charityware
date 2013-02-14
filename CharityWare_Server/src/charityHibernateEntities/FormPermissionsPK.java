@@ -1,8 +1,6 @@
 package charityHibernateEntities;
 
 import java.io.Serializable;
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
