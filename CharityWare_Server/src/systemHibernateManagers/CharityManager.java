@@ -15,10 +15,10 @@ public class CharityManager {
 		conn = new ConnectionManager("");
 	} 
 
-	public List<Charity> getCharitiesRequests(){
-		List<Charity> charities = (List<Charity>)conn.getTable("Charity where isVerified = 0 and isActive = 0");
-		return charities;
-	}
+	public ArrayList<Charity> getCharitiesRequests(){
+		ArrayList<Charity> charity = (ArrayList<Charity>)conn.getTable("Charity where isVerified = 0 and isActive = 0");
+		return charity;
+	}   
 	
 	public List<Charity> getCharities(){
 		List<Charity> results = new  ArrayList<Charity>();

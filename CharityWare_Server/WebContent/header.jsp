@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="css/main.css" type="text/css" media="all">
-<script type="text/javascript" src="js/jQuery1.9.1.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/tabsScript.js"></script>
 
 <div class="body">
