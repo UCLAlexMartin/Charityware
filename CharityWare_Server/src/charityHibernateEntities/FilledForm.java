@@ -1,10 +1,10 @@
 package charityHibernateEntities;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.envers.Audited;
 
 @Entity
@@ -13,22 +13,18 @@ import org.hibernate.envers.Audited;
 public class FilledForm {
 	
 	private Integer filled_form_id;
-	private FormFields form_field_id;
-	//private FormFields form_fields;
+	private FormFields formFields;
 	private String value;
 	private User user_id;
 	private Integer record_id;
 	private Boolean isActive;
-	private Timestamp timestamp;
 	
 	
 	public FilledForm(){}
 	public FilledForm(User user, FormFields form_field_id){
-		this.form_field_id=form_field_id;
 		this.user_id = user;
 		this.record_id=new Integer(1);
 		this.isActive=true;
-		this.timestamp= new Timestamp(Calendar.DATE);
 	}
 	
 	@XmlElement
@@ -69,25 +65,12 @@ public class FilledForm {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-	@XmlElement
-	public Timestamp getTimestamp() {
-		return timestamp;
+	
+	@JsonIgnore
+	public FormFields getFormFields() {
+		return formFields;
 	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
+	public void setFormFields(FormFields formFields) {
+		this.formFields = formFields;
 	}
-	@XmlElement(name = "formFields")
-	public FormFields getForm_field_id() {
-		return form_field_id;
-	}
-	public void setForm_field_id(FormFields form_field_id) {
-		this.form_field_id = form_field_id;
-	}
-	/*@XmlElement
-	public List<FormFields> getForm_fields() {
-		return form_fields;
-	}
-	public void setForm_fields(List<FormFields> form_fields) {
-		this.form_fields = form_fields;
-	}*/
 }

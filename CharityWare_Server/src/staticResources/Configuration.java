@@ -15,7 +15,7 @@ public  class Configuration {
 	static {
 		try{
 			JAXBContext context = JAXBContext.newInstance(Resources.class);
-			resource = (Resources) context.createUnmarshaller().unmarshal(new FileInputStream("src\\staticResources\\Resources.xml"));
+			resource = (Resources) context.createUnmarshaller().unmarshal(Configuration.class.getResourceAsStream("Resources.xml"));
 			MySQLrootUser = resource.getMySQLRootUser();
 			MySQLrootPassword = resource.getMySQLRootPassword();
 			MySQLdriver = resource.getMySQLDriver();

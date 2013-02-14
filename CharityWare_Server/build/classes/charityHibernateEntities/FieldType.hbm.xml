@@ -14,6 +14,5 @@
       <property name="field_dataType" column="field_DataType" type="string"/>
       <property name="field_Description" column="field_Description" type="string"/>
       <property name="isActive" column="isActive" type="boolean"/>
-      <property name="timestamp" column="Timestamp" type="java.sql.Timestamp"/>
    </class>
 </hibernate-mapping>

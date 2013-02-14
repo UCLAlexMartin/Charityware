@@ -1,12 +1,20 @@
 package RESTCharityServices;
 
+import java.util.List;
+
+import charityHibernateEntities.FilledForm;
 import charityHibernateManagers.FilledFormManager;
 
+
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBElement;
 
 @Path("/filledFormService")
 public class FilledFormService {
@@ -19,5 +27,11 @@ public class FilledFormService {
     	GenericEntity<String> entity = new GenericEntity<String>(filledFormManager.getRecordsData()){};
     	return entity;       
     }
-
+	/*
+	@POST
+	@Path("/{DBConfigPath}/filledforms/insertFilledForms")
+	@Consumes("application/json")
+	public Response insertFilledForms(JAXBElement<List<FilledForm>> todo){
+		
+	}*/
 }

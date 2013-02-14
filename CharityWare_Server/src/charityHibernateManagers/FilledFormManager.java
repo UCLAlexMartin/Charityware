@@ -31,7 +31,7 @@ public class FilledFormManager {
 		while (iter.hasNext()){
 			FilledForm filled_form = iter.next();
 			if(filled_form.getIsActive()){
-				FormFields formfields = filled_form.getForm_field_id();
+				FormFields formfields = filled_form.getFormFields();
 				if(formfields.getIsActive()){
 					Integer temp_record_id = filled_form.getRecord_id();
 					HashSet<Integer> records = results.get(filled_form.getUser_id().getUserName());

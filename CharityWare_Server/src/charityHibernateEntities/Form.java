@@ -1,13 +1,13 @@
 package charityHibernateEntities;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.envers.Audited;
 import java.util.HashSet;
 
@@ -21,16 +21,13 @@ public class Form {
 	private Date dateCreated;
 	private String url;
 	private Boolean isActive;
-	private Timestamp timestamp;
 	private Set<FormFields> fields = new HashSet<FormFields>();
-	private Set<FormPermissions> permissions = new HashSet<FormPermissions>();	
 	
 	public Form(){}
 	public Form(FormType ft) {
 		this.formType = ft;
 		this.dateCreated = new Date(Calendar.DATE);
 		this.setIsActive(true);
-		this.setTimestamp(new Timestamp(Calendar.DATE));
 	}
 	
 	
@@ -77,25 +74,19 @@ public class Form {
 		this.isActive = isActive;
 	}
 	@XmlElement
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-	@XmlElement
 	public Set<FormFields> getFields() {
 		return fields;
 	}
 	public void setFields(Set<FormFields> fields) {
 		this.fields = fields;
 	}
-	@XmlElement
+	
+	/*@JsonIgnore
 	public Set<FormPermissions> getPermissions() {
 		return permissions;
 	}
 	public void setPermissions(Set<FormPermissions> permissions) {
 		this.permissions = permissions;
-	}
+	}*/
 	
 }

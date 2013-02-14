@@ -64,7 +64,6 @@ public class FormManager {
 	    f.setUrl("http://whatever");
 	    long secondsAtInsert = Calendar.getInstance().getTimeInMillis();
 	    f.setDateCreated(new java.sql.Date(secondsAtInsert));
-	    f.setTimestamp(new java.sql.Timestamp(secondsAtInsert));
 	    FormTypeManager formTypeManager = new FormTypeManager(this.DBConfname);
 	    f.setFormType(formTypeManager.getFormType(1));
 	    if(conn.transaction("save",f)!=null){
@@ -97,7 +96,7 @@ public class FormManager {
 								FieldSelection selection = new FieldSelection();
 								selection.setField_selection_value(selections[i]);
 								selection.setFormField(ff);
-								selection.setTimestamp(new java.sql.Timestamp(secondsAtInsert));
+								//selection.setTimestamp(new java.sql.Timestamp(secondsAtInsert));
 								conn.transaction("save",selection);
 							}
 						}catch(JsonParseException jpe){

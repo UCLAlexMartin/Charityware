@@ -23,7 +23,7 @@ public class Charity {
 	private String postcode;
 	private String email;
 	private String phone;
-	private User user_id;
+	private User user;
 	private String registration_no;
 	private String account_no;
 	private String connection_string;
@@ -118,11 +118,11 @@ public class Charity {
 	}
 	
 	@XmlElement(name = "user")
-	public User getUser_id() {
-		return user_id;
+	public User getUser() {
+		return user;
 	}
-	public void setUser_id(User user_id) {
-		this.user_id = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 		
 	@XmlElement

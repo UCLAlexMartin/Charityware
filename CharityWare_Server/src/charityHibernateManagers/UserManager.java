@@ -20,10 +20,7 @@ public class UserManager {
 	private ConnectionManager conn;
 	
 	public UserManager(String DBConfname){
-		//this.DBConfname = DBConfname;
-		System.out.println("HELLLOOO!");
 		conn = new ConnectionManager(DBConfname);
-		//conn.setDBConfname(DBConfname);
 	}
 	
 	public ArrayList<User> retrieve(){		
@@ -62,7 +59,7 @@ public class UserManager {
 	
 	public Map<Integer,List<String>> getForms(){
 		Map<Integer,List<String>> results = new TreeMap<Integer,List<String>>();
-		ArrayList<User> users = (ArrayList<User>) conn.getTable("User");
+		List<User> users = (List<User>) conn.getTable("User");
 		
 		ArrayList<FormPermissions> formpermissions = (ArrayList<FormPermissions>) conn.getTable("FormPermissions");
 		

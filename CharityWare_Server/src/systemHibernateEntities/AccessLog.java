@@ -15,15 +15,15 @@ public class AccessLog {
 
 	private Integer access_log_id;
 	private User user;
-	private Date access_start_time;
-	private Date access_end_time;
+	private Date access_start_date;
+	private Date access_end_date;
 	private String device;
 	private String location;
 	private Boolean isOnline;
 	
 	public AccessLog() {}
 	public AccessLog(Date start, User user){
-		this.access_start_time=start;
+		this.access_start_date=start;
 		this.user=user;
 	}
 	@XmlElement
@@ -41,18 +41,18 @@ public class AccessLog {
 		this.user = user;
 	}
 	@XmlElement
-	public Date getAccess_start_time() {
-		return access_start_time;
+	public Date getAccess_start_date() {
+		return access_start_date;
 	}
-	public void setAccess_start_time(Date access_start_time) {
-		this.access_start_time = access_start_time;
+	public void setAccess_start_date(Date access_start_date) {
+		this.access_start_date = access_start_date;
 	}
 	@XmlElement
-	public Date getAccess_end_time() {
-		return access_end_time;
+	public Date getAccess_end_date() {
+		return access_end_date;
 	}
-	public void setAccess_end_time(Date access_end_time) {
-		this.access_end_time = access_end_time;
+	public void setAccess_end_date(Date access_end_date) {
+		this.access_end_date = access_end_date;
 	}
 	@XmlElement
 	public String getDevice() {

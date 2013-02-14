@@ -29,17 +29,8 @@ public class FormFields {
 	private Boolean isActive;
 	private Date date_created;
 	private Form form;
-	//private Timestamp timestamp;
 	
 	private Set<FilledForm> filledForms = new HashSet<FilledForm>();
-	
-	/*@XmlElement
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timeStamp) {
-		this.timestamp = timeStamp;
-	}*/
 	
 	@JsonIgnore
 	public Form getForm() {
@@ -76,12 +67,10 @@ public class FormFields {
 	public Set<FieldSelection> getField_selections() {
 		return field_selections;
 	}
-	public void setField_selections(Set<FieldSelection> s) {
-		this.field_selections = s;
+	public void setField_selections(Set<FieldSelection> fieldselections) {
+		this.field_selections = fieldselections;
 	}
-	/*public void setField_selection_Id(Set<FieldSelection> field_selections) {
-		this.field_selections = field_selections;
-	}*/
+	
 	@XmlElement
 	public Float getX_coordinate() {
 		return X_coordinate;
@@ -154,14 +143,4 @@ public class FormFields {
 	public void setFilledForms(Set<FilledForm> s) {
 		filledForms = s;
 	}
-	/*
-	public Timestamp getTimeStamp() {
-		return timestamp;
-	}
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timestamp = timeStamp;
-	}
-
-	*/
-	
 }

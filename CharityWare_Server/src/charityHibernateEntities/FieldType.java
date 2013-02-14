@@ -1,7 +1,5 @@
 package charityHibernateEntities;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,17 +16,13 @@ public class FieldType {
 	private String field_type;
 	private String field_dataType;
 	private String field_Description;
-	private Boolean isActive;
-	private Timestamp timestamp;
-	
-	
+	private Boolean isActive;	
 	
 	public FieldType(){}
 	
 	public FieldType (String type) {
 		this.field_type=type;
 		this.isActive=true;
-		this.timestamp=new Timestamp(Calendar.DATE);
 	}
 	@XmlElement
 	public Integer getField_type_id() {
@@ -65,12 +59,4 @@ public class FieldType {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-	@XmlElement
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-	
 }
