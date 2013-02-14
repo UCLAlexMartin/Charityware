@@ -1,6 +1,6 @@
 jQuery(document).ready(function(){
 			
-	$('#btnLogin').click(function(){
+	/*$('#btnLogin').click(function(){
 				
 		$('#txtUsername').attr('style', '');
 		$('#txtPassword').attr('style', '');
@@ -17,12 +17,12 @@ jQuery(document).ready(function(){
 		}
 		
 		
-		/*alert("bang");
+		alert("bang");
 		$.post('url',{param : "val"}, function(){
 		
 		
-		});*/
+		});
 		
 		return false;
-	});
+	});*/
 });

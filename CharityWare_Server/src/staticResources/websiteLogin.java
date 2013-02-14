@@ -33,19 +33,26 @@ public class websiteLogin {
 	
 	public static User login(String userName, String password)
 	{
+		System.out.println("Start login");
 		try{
+			System.out.println("Contact service");
 			User MyUser = UserClient.get(userName);
+			System.out.println("Check password");
 			if(PasswordEncryption.encryptPassword(password, MyUser.getSalt()).equals(MyUser.getUserPassword()))
 			{
+				System.out.println("End MyUser");
 				return MyUser;
 			}else
 			{
+				System.out.println("End Null");
 				return null;
 			}
 		}catch(Exception e)
 		{
+			System.out.println("End Print Stack");
 			e.printStackTrace();
 		}
+		System.out.println("End null");
 		return null;
 	}
 	
