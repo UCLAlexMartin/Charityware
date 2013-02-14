@@ -4,10 +4,7 @@ import java.sql.Date;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.envers.Audited;
-
-//import charityHibernateEntities.UserType;
 
 @Entity
 @Audited

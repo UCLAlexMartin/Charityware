@@ -44,11 +44,4 @@ public class UserType {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-/*	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-*/	
 }

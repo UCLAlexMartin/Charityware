@@ -1,4 +1,5 @@
-package RESTSystemClient;
+package RESTCharityClient;
+
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +7,7 @@ import java.util.Map;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+
 import staticResources.Configuration;
 
 import com.sun.jersey.api.client.Client;
@@ -14,25 +16,19 @@ import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
-
-
-public class CharityClient {
+public class EventClient {
 	private static String RestServiceURLPath;
 	static {
-		RestServiceURLPath = Configuration.getSiteUrl()+"RESTSystem/charityService";
+		RestServiceURLPath = Configuration.getSiteUrl()+"RESTCharity/eventService";
 	}
-	public static Map<Integer,List<String>> getCharitiesRequests(){
-		
+	public static Map<Integer,List<String>> getEvents(){
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client client = Client.create(clientConfig);
-		
-		ClientResponse clientresponse = client.resource(RestServiceURLPath)
-		.path("/charityApprovals").accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
+		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/json/events").
+				accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(new GenericType<Map<Integer,List<String>>>(){});
-
-	
 	}
 	
 }

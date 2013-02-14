@@ -55,11 +55,8 @@ org.hibernate.envers.event.AuditEventListener
 	     <!-- Test property -->
 	     
    <!-- List of XML mapping files -->
-   <!-- 
-   <mapping resource="systemHibernateEntities/AccessLog.hbm.xml"/>
-   <mapping resource="systemHibernateEntities/Feedback.hbm.xml"/>
-   <mapping resource="systemHibernateEntities/Charity.hbm.xml"/>	
-    -->  
+   <mapping resource="systemHibernateEntities/Feedback.hbm.xml"/> 
+   <mapping resource="systemHibernateEntities/AccessLog.hbm.xml"/> 
    <mapping resource="systemHibernateEntities/User.hbm.xml"/>      
    <mapping resource="systemHibernateEntities/UserType.hbm.xml"/>
    <mapping resource="systemHibernateEntities/Charity.hbm.xml"/>

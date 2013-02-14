@@ -17,13 +17,17 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 public class UserClient {
+	private static String RestServiceURLPath;
+	static {
+		RestServiceURLPath = Configuration.getSiteUrl()+"RESTCharity/userService";
+	}
 	
 	public static User get(String parameter){
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client Myclient = Client.create(clientConfig);
-		ClientResponse clientresponse = Myclient.resource(Configuration.getSiteUrl())
-				.path("userService").path("userName").path(parameter)
+		ClientResponse clientresponse = Myclient.resource(RestServiceURLPath)
+				.path("/userName").path(parameter)
 				.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(User.class);
@@ -33,7 +37,7 @@ public class UserClient {
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client client = Client.create(clientConfig);
-		ClientResponse clientresponse = client.resource(Configuration.getSiteUrl()).path("REST/userService/json/users/forms/").
+		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/json/users/forms/").
 				accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(new GenericType<Map<Integer,List<String>>>(){});
@@ -43,7 +47,7 @@ public class UserClient {
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client client = Client.create(clientConfig);
-		ClientResponse clientresponse = client.resource(Configuration.getSiteUrl()).path("REST/userService/json/users/formEntities/").
+		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/json/users/formEntities/").
 				path(username).accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(new GenericType<Map<Integer,Map<Integer,List<String>>>>(){});

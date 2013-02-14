@@ -1,7 +1,5 @@
 package systemHibernateEntities;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
@@ -166,14 +164,6 @@ public class Charity {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-	
-	/*@XmlElement
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}*/
 		
 }
 
