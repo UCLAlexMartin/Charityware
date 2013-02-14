@@ -33,10 +33,9 @@ if(session.getAttribute("userTypeId") == null)
 	<meta charset="utf-8">
 	<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
 	<title>CharityWare framework Administration</title>		
-	
 			<!--Load the AJAX API-->
 	    	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	    	
+	    	<script type="text/javascript" src="js/tabsScript.js"></script>
 	    	<!--TO BE TRANSFERED TO A JS FILE-->
 	    	<%--<script type="text/javascript">
 	
@@ -122,12 +121,66 @@ if(session.getAttribute("userTypeId") == null)
 	    	</script>
 	    	 --%>
 	    	<!-- Google Charts Stuff -->
+	    	
+	    	
 	</head>
 	<body>
 		<div class="body">
 			<div class="main">
 	
 		     <jsp:include page="headerLoggedIn.jsp"></jsp:include>	   	    
+	
+			<script type="text/javascript">
+							
+							$(document).ready(function(){
+								$.get('http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/charityApprovals', function(data) {
+										$.each(data, function(i,d){					
+											$('#requests tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
+													"</td><td> <input id=\"btnApprove\" type=image name=Action value="+d.charity_id+" src=\"images/approve3.png\" alt=\"Approve\" onclick=\"approveRequest('"+d.charity_id+"');\" />"+
+													"<input id=\"btnReject\" type=image name=Action value="+d.charity_id+" src=\"images/reject3.png\" alt=\"Reject\" onclick=\"declineRequest('"+d.charity_id+"');\"/>  </td></tr>");
+										});
+									});	
+							});
+							
+							function approveRequest(charityID)
+							{
+								
+								//Execute the service to Generate Schema and Hibernation Configuration File
+								$.post("http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/generateSchema/"+charityID,function(){
+								});
+								
+								
+								/* //Update isActive & isVerified to 1
+								$.ajax({
+								    type: 'PUT',
+								    url: 'http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/approveCharity/'+charityID,
+								    contentType: 'application/json',
+								    data: JSON.stringify(this.toJSON()),
+								    success: function() {
+								      console.log('Charity Has been Verified');
+								    },
+								    failure: function() {
+								     console.log('Failed to verify Charity');
+								    }
+								  }); */
+								
+								$('#row'+ charityID).remove();
+								
+								return false;
+							}
+							 
+							
+							
+							function declineRequest(charityID)
+							{
+								$('#row'+ charityID).remove();
+								//Update isActive to 1 but leave isVerified to 0
+								return false;
+							}
+							
+						
+							</script> 
+	
 	
 		    <!-- Main Content -->
 		    <article id="content">
@@ -146,42 +199,19 @@ if(session.getAttribute("userTypeId") == null)
 				    </div> 
 				    <div class="tabbed_area">       
 				       <div id="content_1" class="tabContent">
-				     	<%-- <%
-				       	List<Charity> fields =
-				       %> --%>
+				   
 				          <form name="frmRequests" method="POST" action="">
 	      					Manage Charity Requests
 					        <br/>
 					        <br/>
 					        <table id="requests" class="resultSet">
 							<tr id="header">
-					            <td>Serial Number </td>
 					            <td>Charity Name </td>
-					            <td>Charity Registration Number </td>
+					            <td>Charity Registration No. </td>
 							    <td>Charity Email </td>
-							    <td>Purpose </td>
-						        <td>Action </td>      
+							    <td>Description </td>
+						        <td>Action</td>      
 							 </tr>
-							
-							 
-							 
-							 
-							 
-						<%-- 	<%			 for(int i=0; i<fields.size();i++){
-					    					 out.println("<tr id=row" +i+ ">");
-					    					 out.println("<td>" + (i+1));
-					    					 out.println("<td>" + fields.get(i).getCharityName());
-					    					 out.println("<td>" + fields.get(i).getRegistrationNo());
-					    					 out.println("<td>" +  fields.get(i).getEmail());
-					    					 out.println("<td>" + fields.get(i).getCharityDescription());
-					    					 String approve = "approve"+i;
-					    					 String reject = "reject"+i;
-					    					 out.println("<td>" +"<input id="+approve+" type= radio name=Action value= yes onclick = DatabaseManager.generateSchema(request.getParameter(fields.get(i).getCharityId()));>" + "Approve <br/>");
-					    					 out.println("<input id="+reject+" type= radio name=Action value= no>" + "Decline <br/>");
-					    					 out.println("<tr>");
-					    				 }
-	
-					    	%> --%>
 					        </table>        
 	     				</form>
 				     </div>
@@ -201,19 +231,7 @@ if(session.getAttribute("userTypeId") == null)
 									<td> Charity Description </td>
 									<td> Delete Account</td>
 									</tr>
-									<%-- <% 
-										List<Charity> fields1 = EditAccounts.httpGet("http://localhost:8080/CharityWare/REST/charity/charities");
-					    				 for(int i=0; i<fields1.size();i++){
-					    					 out.println("<tr>");
-					    					 out.println("<td>" + (i+1));
-					    					 out.println("<td>" + fields1.get(i).getCharityName());
-					    					 out.println("<td>" + fields1.get(i).getEmail()); 
-					    					 out.println("<td>" + fields1.get(i).getCharityDescription());
-					    					 String input = "inpt"+i;
-					    					 out.println("<td>" +"<input id="+input+" type= checkbox method = POST value = Delete>" + "Delete <br/>");
-					    					 out.println("<tr>");
-					    				 }
-					    			%> --%>
+									
 	
 					        </table>        
 	

@@ -17,11 +17,7 @@ public  class Configuration {
 		try{
 			System.out.println("New JAXB parser");
 			JAXBContext context = JAXBContext.newInstance(Resources.class);
-			System.out.println("Get file");
-			System.out.println();
 			resource = (Resources) context.createUnmarshaller().unmarshal(Configuration.class.getResourceAsStream("Resources.xml"));
-			//resource = (Resources) context.createUnmarshaller().unmarshal(new FileInputStream("C:\\Users\\Alex\\Desktop\\RELEASE_Charityware\\CharityWare_Server\\src\\staticResources\\Resources.xml"));
-			System.out.println("Set variables");
 			MySQLrootUser = resource.getMySQLRootUser();
 			MySQLrootPassword = resource.getMySQLRootPassword();
 			MySQLdriver = resource.getMySQLDriver();

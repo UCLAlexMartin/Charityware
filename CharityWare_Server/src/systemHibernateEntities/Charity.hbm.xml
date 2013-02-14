@@ -18,7 +18,7 @@
       <property name="phone" column="Phone" type="string"/> 
                 
       
-	  <many-to-one  lazy="false"  name="user_id" unique="true" class="systemHibernateEntities.User">
+	  <many-to-one  lazy="false"  name="user" unique="true" class="systemHibernateEntities.User">
 		<column name="user_id" not-null="true"/>
 	  </many-to-one>
       

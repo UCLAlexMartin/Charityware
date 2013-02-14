@@ -31,18 +31,18 @@ public class FilledFormManager {
 		while (iter.hasNext()){
 			FilledForm filled_form = iter.next();
 			if(filled_form.getIsActive()){
-				FormFields formfields = filled_form.getForm_field_id();
+				FormFields formfields = filled_form.getFormFields();
 				if(formfields.getIsActive()){
 					Integer temp_record_id = filled_form.getRecord_id();
-					HashSet<Integer> records = results.get(filled_form.getUser_id().getUserName());
+					HashSet<Integer> records = results.get(filled_form.getUser().getUserName());
 					if(records!=null){
 						records.add(temp_record_id);
-						results.put(filled_form.getUser_id().getUserName(),records );
+						results.put(filled_form.getUser().getUserName(),records );
 					}						
 					else{
 						records = new HashSet<Integer>();
 						records.add(temp_record_id);
-						results.put(filled_form.getUser_id().getUserName(),records );
+						results.put(filled_form.getUser().getUserName(),records );
 					}
 				}
 			}

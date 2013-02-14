@@ -11,9 +11,13 @@
          <generator class="native"/>
       </id>
       <property name="field_selection_value" column="field_selection_value" type="string"/>
-      <property name="timestamp" column="Timestamp" type="java.sql.Timestamp"/>
+      <!--  
       <many-to-one cascade="save-update" unique="true" name="formField" class="charityHibernateEntities.FormFields">
       	<column name="field_id" not-null="true"/>
+      </many-to-one>
+      -->
+      <many-to-one  lazy="false" name="formField" class="charityHibernateEntities.FormFields">
+        	<column name="field_id" not-null="true"/>
       </many-to-one>
    </class>
 </hibernate-mapping>

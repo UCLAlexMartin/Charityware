@@ -41,7 +41,7 @@ public class UserService {
 		System.out.println("Get Request recieved");
 		UserManager userManager = new UserManager(DBConfigPath);
 		
-		ArrayList<User> holder = userManager.getUsers(username);
+		List<User> holder = userManager.getUsers(username);
 		System.out.println("User array list populated");
 
 		return holder.get(0);    

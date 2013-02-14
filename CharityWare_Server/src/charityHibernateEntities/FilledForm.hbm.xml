@@ -17,17 +17,16 @@
 		<one-to-many   class="hibernateEntities.FormFields" />
 	</list>
 	-->
-	<many-to-one lazy="false" unique="true" name="form_field_id" class="charityHibernateEntities.FormFields" cascade="save-update">
+	 
+	<many-to-one lazy="false" unique="true" name="formFields" class="charityHibernateEntities.FormFields" cascade="save-update">
 		<column name="field_id" not-null="true"/>	
 	</many-to-one>
 	
-	<many-to-one  lazy="false"  name="user_id" unique="true" class="charityHibernateEntities.User">
+	<many-to-one  lazy="false"  name="user" unique="true" class="charityHibernateEntities.User">
 		<column name="user_id" not-null="true"/>
 	</many-to-one>
 	<property name="value" column="value" type="string"/>
 	<property name="record_id" column="record_id" type="int"/>
 	<property name="isActive" column="isActive" type="boolean"/>
-	<property name="timestamp" column="timestamp" type="java.sql.Timestamp"/>
-
    </class>
 </hibernate-mapping>
