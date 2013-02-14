@@ -59,7 +59,7 @@ public class CharityService {
 		 CharityManager charityManager = new CharityManager();
 		 charityManager.addCharity(charity);
 	 }
-	 
+	 /*
 	 @POST
 	 @Path("/generateSchema/{charityId}")
 	 @Produces("application/json")
@@ -71,11 +71,10 @@ public class CharityService {
 			 System.out.println("Charity Schema Generated");
 			 System.out.println(result);
 			 return result;	   
-	   }catch (Exception ex)
-	   {
-	    ex.printStackTrace();
-	    return false;
-	   }
-	      
-	  }
+		 }catch (Exception ex)
+		 {
+			 ex.printStackTrace();
+			 return false;
+		 }
+	}*/
 }
