@@ -6,7 +6,22 @@
 	{
 		try{
 			User usr = websiteLogin.login(request.getParameter("txtUsername"), request.getParameter("txtPassword"));
-			out.println(usr.getUserEmail());
+			
+			session.setAttribute("userName", usr.getUserName());
+			session.setAttribute("user_Id", usr.getUser_id());
+			session.setAttribute("userTypeId", usr.getUserType().getUserTypeId());
+			
+			switch(usr.getUserType().getUserTypeId())
+			{
+			case 1:
+				response.sendRedirect("uclAdmin.jsp");
+				break;
+			case 2:
+				response.sendRedirect("charityAdmin.jsp");
+				break;			
+			}
+			
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -23,14 +38,14 @@
 		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript">
-		jQuery(document).ready(function(){
+		/*jQuery(document).ready(function(){
 			$('#frmLogin').submit(function(){
-				$.post("login.jsp",{"txtUsername":$('#txtUsername').val(), "txtPassword":$('#txtPassword').val()},function(){
+				$.post("login.jsp",{"ajax":"true","txtUsername":$('#txtUsername').val(), "txtPassword":$('#txtPassword').val()},function(){
 					//callback					
 				});
 				return false;
 			});			
-		});
+		});*/
 		</script>
 		<script type="text/javascript" src="js/validationLogin.js"></script>
 		

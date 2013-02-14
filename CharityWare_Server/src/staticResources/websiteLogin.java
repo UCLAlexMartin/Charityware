@@ -15,7 +15,7 @@ public class websiteLogin {
 		{
 			System.out.println("Login succesful");
 			String url = "http://localhost:8080/CharityWare_Lite/default.jsp";
-			if(isAuthenticated(usr, url))
+			if(isAuthenticated(usr.getUserType().getUserTypeId().toString(), url))
 			{
 				System.out.println("Valid to access: " + url);
 			}
@@ -56,24 +56,35 @@ public class websiteLogin {
 		return null;
 	}
 	
-	public static boolean isAuthenticated(User user, String URL)
+
+	public static boolean isAuthenticated(String userTypeId, String URL)
 	{
 		Boolean ret = false;
 		System.out.println(new File(URL).getName());
-		System.out.println(user.getUserType().getUserTypeId());
+		System.out.println(userTypeId);
 		switch(new File(URL).getName().toLowerCase())
 		{
 		case "default.jsp":
-				switch(user.getUserType().getUserTypeId())
+				switch(userTypeId)
 				{
-				case 0:
+				case "0":
 					ret = true;
 					break;
-				case 1:
+				case "1":
 					ret = true;
 					break;
 				}
 			break;
+		case "ucladmin.jsp":
+			switch(userTypeId)
+			{
+			case "1":
+				ret = true;
+				break;
+			}
+		break;
+
+			
 		
 		}
 		return ret;

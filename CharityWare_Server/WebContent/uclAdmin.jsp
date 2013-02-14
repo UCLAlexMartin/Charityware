@@ -1,3 +1,28 @@
+<%@ page import="staticResources.websiteLogin"%>
+<%
+/*out.println(session.getAttribute("userName")+"<br/>");
+out.println(session.getAttribute("user_Id")+"<br/>");
+out.println(session.getAttribute("userTypeId")+"<br/>");
+out.println(request.getRequestURL().toString()+"<br/>");*/
+if(session.getAttribute("userTypeId") == null)
+{
+	response.sendRedirect("login.jsp");
+	//out.println("go away null"+"<br/>");
+}else
+{
+	if(websiteLogin.isAuthenticated(session.getAttribute("userTypeId").toString(), request.getRequestURL().toString()))
+	{
+		//out.println("you may stay"+"<br/>");
+	}
+	else
+	{
+		/*out.println(session.getAttribute("userTypeId").toString()+"<br/>");
+		out.println(request.getRequestURL().toString()+"<br/>");
+		out.println("go away"+"<br/>");*/
+		response.sendRedirect("login.jsp");
+	}
+}
+%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%-- <%@ page import="ConnectionManager.*" %>   
 <%@ page import="java.util.ArrayList" %>
