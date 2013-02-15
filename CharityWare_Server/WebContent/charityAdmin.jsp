@@ -1,4 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="staticResources.websiteLogin"%>
+<%@ page import="charityHibernateEntities.Form"%>
+<%@ page import="java.util.List" %>
+<%@ page import="charityHibernateEntities.FieldType"%>
+<%@ page import="charityHibernateManagers.FormManager"%>
+<%@ page import="charityHibernateManagers.FieldTypeManager"%>
 <%
 if(session.getAttribute("userTypeId") == null)
 {
@@ -16,9 +22,7 @@ if(session.getAttribute("userTypeId") == null)
 	}
 }
 %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
- 
  
 <%-- 	<%@ page import="ConnectionManager.*" %>
     <%@ page import= "java.util.TreeMap"%>
@@ -183,7 +187,7 @@ if(session.getAttribute("userTypeId") == null)
 	  
 	   <jsp:include page="headerLoggedIn.jsp"></jsp:include>
 	    
-	          
+	   
 	    <!-- Main Content -->
 	    
 	    <article id="content">
@@ -207,11 +211,7 @@ if(session.getAttribute("userTypeId") == null)
 			       <div id="content_1" class="tabContent">
       					<fieldset id="myforms">
       					<legend>My forms</legend>
-	      				<%@ page import= "java.util.List"%>
-	      				<%@ page import= "charityHibernateEntities.Form"%>
-	      				<%@ page import= "charityHibernateEntities.FieldType"%>
-	      				<%@ page import= "charityHibernateManagers.FormManager"%>
-	      				<%@ page import= "charityHibernateManagers.FieldTypeManager"%>
+	      				
 	      				<% 
 	      					
 	      				/* CHANGE FROM MVC TO REST BY SWAPING MANAGER FOR CLIENT */
