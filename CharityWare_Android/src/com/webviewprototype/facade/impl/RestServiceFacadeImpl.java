@@ -1,51 +1,270 @@
 package com.webviewprototype.facade.impl;
 
-import java.util.ArrayList;
+import java.io.BufferedReader; 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-import javax.ws.rs.core.MediaType;
+import android.os.AsyncTask;
 
 import com.webviewprototype.facade.RestServiceFacade;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import env.Entities.Charity;
+import env.Entities.DataBean;
+import env.Entities.FilledForm;
 import env.Entities.Form;
 import env.Entities.User;
 
-public class RestServiceFacadeImpl implements RestServiceFacade {
-
+public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
+	
+	JSONArray data;
+	static String URLPathCore="";
+	static String jsonResult="";
+	DataBean bean;
+	
 	public RestServiceFacadeImpl() {
-		// TODO Auto-generated constructor stub
 	}
 	
-	/*public ArrayList<Form> getData(String username){
-		ClientConfig clientConfig = new DefaultClientConfig();
-		clientConfig.getClasses().add(JacksonJsonProvider.class);
-		Client client = Client.create(clientConfig);
-		ClientResponse clientresponse = client.resource("http://localhost:8080/CharityWare/REST/userService").path("json/user/forms/"+username).
-				accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
-				get(ClientResponse.class);
-		return clientresponse.getEntity(new GenericType<ArrayList<Form>>(){});
-	}*/
 
-	public  Map<Integer,Map<Integer,List<String>>> getFormEntities(String username){
-		ClientConfig clientConfig = new DefaultClientConfig();
-		clientConfig.getClasses().add(JacksonJsonProvider.class);
-		Client client = Client.create(clientConfig);
-		ClientResponse clientresponse = client.resource("http://localhost:8080/CharityWare/REST/userService/").path("json/users/formEntities/").
-				path(username).accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
-				get(ClientResponse.class);
-		return clientresponse.getEntity(new GenericType<Map<Integer,Map<Integer,List<String>>>>(){});
+
+	public  List<Form> getFormEntities(String username){
+		bean= DataBean.getDataBean();
+		List<Form> forms = new LinkedList<Form>();
+		FormURLOpenTask task = new FormURLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username);
+//		FormURLOpenTask task = new FormURLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/users/formEntities/"+username);
+
+		try {
+			jsonResult=task.execute(new URL("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username)).get();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		String debug = jsonResult;
+		JSONParser parser = new JSONParser();
+		org.json.simple.JSONArray array = new org.json.simple.JSONArray();
+		try {
+			 array = (org.json.simple.JSONArray) parser.parse(jsonResult);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-dd-MM").create();		
+		try{
+			Type listType = new TypeToken<LinkedList<Form>>() {
+			}.getType();
+	        forms = gson.fromJson(jsonResult, listType);
+		}catch(Exception e) {
+			Form form = gson.fromJson(jsonResult, Form.class);
+			forms.add(form);
+		}
+		
+		return forms;
 	}
 
 	@Override
-	public User validateUser(String username, String password) {
-		// TODO Auto-generated method stub
+	public synchronized User validateUser(String username, String password) {
+		bean= DataBean.getDataBean();
+		try {
+				URLOpenTask task = new URLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username);
+//			URLOpenTask task = new URLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username);
+			jsonResult=task.execute(new URL("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username)).get();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		System.out.println(jsonResult);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-dd-MM").create();
+		User user = gson.fromJson(jsonResult, User.class);
+		return user;
+	}
+	
+	
+
+	@Override
+	public Boolean setFilledForm(List<FilledForm> forms) {
+		bean= DataBean.getDataBean();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-dd-MM").create();
+		String json = gson.toJson(forms);
+		try {
+			String[] debug = new String[2];
+			debug[0]="http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms";
+//			debug[0]="http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms";
+			debug[1]=json;
+			PostFormTask task = new PostFormTask(debug);
+			task.execute("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms",json).get();
+//			task.execute("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms",json).get();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
+	}
+	
+	
+	private static String readUrl(String urlString) throws Exception {
+	    BufferedReader reader = null;
+	    try {
+	        URL url = new URL(urlString);
+	        InputStream istream = url.openStream();
+	        InputStreamReader is = new InputStreamReader(istream);
+	        reader = new BufferedReader(is);
+	        StringBuffer buffer = new StringBuffer();
+	        int read;
+	        char[] chars = new char[2048];
+	        while ((read = reader.read(chars)) != -1)
+	            buffer.append(chars, 0, read); 
+
+	        return buffer.toString();
+	    } finally {
+	        if (reader != null)
+	            reader.close();
+	    }
+	}
+	
+	
+	
+	private class FormURLOpenTask extends AsyncTask<URL, Void, String> {
+		
+		private String urlString;
+		
+		@Override
+		protected String doInBackground(URL... params) {
+			String result="";	
+			try {
+				System.out.println("Working");
+					if (urlString.length()!=0) {
+						result= env.Entities.JSONParser.getJSONFromUrl(urlString);
+					
+					}else{
+						result= env.Entities.JSONParser.getJSONFromUrl(params[0].toString());
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return result;
+		}
+		
+	
+		public FormURLOpenTask(String url) {
+			urlString=url;
+		}
+		
+	}
+	
+	
+	
+	
+	
+	private class URLOpenTask extends AsyncTask<URL, Void, String> implements Runnable {
+
+		private String urlString;
+		
+		@Override
+		protected String doInBackground(URL... params) {
+			String result="";	
+			try {
+				System.out.println("Working");
+					if (urlString.length()!=0) {
+						result= env.Entities.JSONParser.getJSONFromUrl(urlString);
+					
+					}else{
+						result= env.Entities.JSONParser.getJSONFromUrl(params[0].toString());
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return result;
+		}
+		
+		
+	
+		public URLOpenTask(String url) {
+			urlString=url;
+		}
+
+		@Override
+		public void run() {
+			
+		}
+		
+	}
+
+
+	@Override
+	public void run() {
+		
+	}
+	
+	
+	
+	private class PostFormTask extends AsyncTask<String, Void, Void>{
+		
+		private String[] data;
+		@Override
+		protected Void doInBackground(String... params) {
+			String fin;
+			try {
+				if (data.length!=2) {
+					 env.Entities.JSONParser.makeRequest(params[0], params[1]);
+				}else{
+					  fin=env.Entities.JSONParser.makeRequest(data[0], data[1]);
+				}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			return null;
+		}
+		
+		public PostFormTask(String[] data) {
+			this.data=data;
+		}
+		
+	}
+
+
+
+	@Override
+	public List<Charity> getCharities() {
+		List<Charity>  charities = new LinkedList<Charity>();
+		URLOpenTask task = new URLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTSystem/charityService/charities");
+		try {
+			jsonResult = task.execute(new URL("http://130.43.173.7:8080/CharityWare_Lite/RESTSystem/charityService/charities")).get();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-dd-MM").create();		
+		try{
+			Type listType = new TypeToken<LinkedList<Charity>>() {
+			}.getType();
+	        charities = gson.fromJson(jsonResult, listType);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return charities;
+		
 	}
 
 }

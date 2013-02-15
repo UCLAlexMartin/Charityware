@@ -15,7 +15,6 @@ public class Form {
 	private Date dateCreated;
 	private String url;
 	private Boolean isActive;
-	private Timestamp timestamp;
 	private Set<FormFields> fields;
 	private Set<FormPermissions> permissions;
 	
@@ -25,7 +24,6 @@ public class Form {
 		this.formTypeId = ft;
 		this.dateCreated = new Date(Calendar.DATE);
 		this.setIsActive(true);
-		this.setTimestamp(new Timestamp(Calendar.DATE));
 	}
 	
 	
@@ -72,12 +70,7 @@ public class Form {
 		this.isActive = isActive;
 	}
 	
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
+
 
 	public Set<FormFields> getFields() {
 		return fields;

@@ -1,23 +1,42 @@
 package com.webviewprototype;
 
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity; 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.webviewprototype.facade.RestServiceFacade;
+import com.webviewprototype.facade.impl.DBManager;
+import com.webviewprototype.facade.impl.RestServiceFacadeImpl;
 import com.webviewprototype.service.test.TestActivity;
+
+import env.Entities.AndroidDropDownField;
+import env.Entities.Charity;
+import env.Entities.DataBean;
+import env.Entities.PasswordEncryption;
+import env.Entities.User;
 
 public class MainActivity extends Activity {
 	
 	 String NAME_MAIN="";
+	 public RestServiceFacade restFacade = new RestServiceFacadeImpl();
 	 String PASSWORD_MAIN = "";
 	 EditText edit;
 	 EditText edit2;
+	 	DataBean bean;
 	int counter =0;
+	List<Charity> charities;
 	public static final String EXTRA_MESSAGE ="com.webviewprototype.MESSAGE";
 	public static final String PASSWORD_MESSAGE = "com.webviewprototype.PASSWORD";
     @Override
@@ -25,7 +44,36 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+        ArrayList<String> spinnerValues = new ArrayList<String>();
+        bean = DataBean.getDataBean();
+        charities = restFacade.getCharities();
+        Spinner spinner =(Spinner) findViewById(R.id.charitySpinner);
+			for ( int i=0;i<charities.size();i++) {
+				spinnerValues.add(charities.get(i).getCharity_name());
+			}
+			ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,spinnerValues);
+//			spinner.setBackgroundColor(getResources().getColor(R.color.FloralWhite));
+			spinner.setAdapter(spinnerAdapter);
+			spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int pos, long id) {
+					String value=(String) parent.getItemAtPosition(pos);
+					for ( int i=0;i<MainActivity.this.charities.size();i++) {
+						if (value.equals(MainActivity.this.charities.get(i).getCharity_name())){
+							bean.setSelectedCharity(MainActivity.this.charities.get(i));
+						}
+					}
+					
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					
+				}
+			});
+			
     }
 
     @Override
@@ -34,8 +82,12 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_main, menu);
    	 edit = (EditText) findViewById(R.id.user_name);
    	 edit2 = (EditText) findViewById(R.id.password);
-        return true;
-    }  
+   	if (!bean.getCreated())	{
+		bean =DataBean.getDataBean();
+		bean.setCreated(true);
+    }
+   	return true;
+    }
     
     public void submitMessage(View view) {
     	Intent intent = new Intent(this, CharityActivity.class);
@@ -45,33 +97,22 @@ public class MainActivity extends Activity {
        	 edit2 = (EditText) findViewById(R.id.password);
     	String name = edit.getText().toString();
     	String pass = edit2.getText().toString();
-    	if (!name.equals(NAME_MAIN)) {
-    		text.setText("Wrong username, please try again");
-    		text.setVisibility(View.VISIBLE);
-    	}else if(!pass.equals(PASSWORD_MAIN)){
-    		text.setText("Wrong password, please try again");
-    		text.setVisibility(View.VISIBLE);
-    	}else{
+    	User user = restFacade.validateUser(name, pass);
+    	String final_pass = PasswordEncryption.encryptPassword(pass, user.getSalt());
+    	if (user.getUserPassword().equals(final_pass)) {
     		intent.putExtra(EXTRA_MESSAGE, edit.getText().toString());
         	startActivity(intent);
+        	bean = DataBean.getDataBean();
+        	bean.setUser(user);
+    	}else{
+    		text.setText("Wrong login details, please try again");
+    		text.setVisibility(View.VISIBLE);
     	}
     	
-    	
- 
-    	
     
     }
     
-   /* 
-    public void sendMessage(View view) {
-    	Intent intent = new Intent(this, DisplayMessageActivity.class);
-    	EditText edit = (EditText) findViewById(R.id.edit_message);	
-    	String message = edit.getText().toString();
-    	intent.putExtra(EXTRA_MESSAGE, message);
-    	startActivity(intent);
-    }
-    
-    */
+   
     
 	public void temp_redirect(View view) {
 		Intent intent = new Intent(this, TestActivity.class);

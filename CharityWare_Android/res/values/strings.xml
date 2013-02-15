@@ -17,5 +17,13 @@
     <string name="fname">Form Name</string>
     <string name="title_activity_charity">CharityActivity</string>
     <string name="title_activity_form">Form</string>
+    <string name="form_submit">Submit Form</string>
+    <string name="prompt">Please select a value</string>
+    <string name="warning">Are you sure that you want to go back and discard your changes?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="info"> Click on one of the tabs below to go see a form\'s fields</string>
+    <string name="charsel">Please select a charity</string>
 
 </resources>

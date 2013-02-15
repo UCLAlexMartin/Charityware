@@ -55,6 +55,17 @@ public class CharityService {
 		 return ch;   
 	 }
 	 
+	 @GET
+	 @Path("/charity/user/{userid}")
+	 @Produces("application/json")
+	 public Charity getUserCharity(@PathParam("userid") int userID) {
+		 System.out.println("Service");
+		 CharityManager charityManager = new CharityManager();
+		 Charity ch = charityManager.getUserCharity(userID);
+		 System.out.println("Service return");
+		 return ch;   
+	 }
+	 
 	 /**
 	   * PUT method for updating or creating an instance of CharityResource
 	   * @param content representation for the resource
