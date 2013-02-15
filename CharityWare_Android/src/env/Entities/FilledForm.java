@@ -2,28 +2,26 @@ package env.Entities;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class FilledForm {
 	
 	private Integer filled_form_id;
-	private FormFields form_field_id;
-	//private List<FormFields> form_fields;
+	private FormFields formFields;
 	private String value;
-	private User user_id;
+	private User user;
 	private Integer record_id;
 	private Boolean isActive;
-	private Timestamp timestamp;
 	
 	
 	public FilledForm(){}
 	public FilledForm(User user, FormFields form_field_id){
-		this.form_field_id=form_field_id;
-		this.user_id = user;
+		this.formFields=form_field_id;
+		this.user = user;
 		this.record_id=new Integer(1);
 		this.isActive=true;
-		this.timestamp= new Timestamp(Calendar.DATE);
 	}
 	
 
@@ -42,11 +40,11 @@ public class FilledForm {
 		this.value = value;
 	}
 
-	public User getUser_id() {
-		return user_id;
+	public User getUser() {
+		return user;
 	}
-	public void setUser_id(User user_id) {
-		this.user_id = user_id;
+	public void setUser(User user_id) {
+		this.user = user_id;
 	}
 
 	public Integer getRecord_id() {
@@ -63,19 +61,15 @@ public class FilledForm {
 		this.isActive = isActive;
 	}
 
-	public Timestamp getTimestamp() {
-		return timestamp;
+	public FormFields getFormFields() {
+		return formFields;
 	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
+	public void setFormFields(FormFields form_field_id) {
+		this.formFields = form_field_id;
 	}
-
-	public FormFields getForm_field_id() {
-		return form_field_id;
-	}
-	public void setForm_field_id(FormFields form_field_id) {
-		this.form_field_id = form_field_id;
-	}
+	
+	
+	
 	/*@XmlElement
 	public List<FormFields> getForm_fields() {
 		return form_fields;

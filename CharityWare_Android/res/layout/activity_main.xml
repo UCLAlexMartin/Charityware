@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#2E8B57"
+    android:background="#2F4F4F"
     tools:context=".MainActivity"
     >
 
@@ -57,8 +57,23 @@
         
     </LinearLayout>
 
-
-	    <Button
+    <TextView
+        android:textColor="@color/FloralWhite"
+        android:id="@+id/charitySel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/charsel"
+        android:layout_gravity="center_horizontal"
+        />
+    <Spinner
+		android:id="@+id/charitySpinner"
+		android:prompt="@string/prompt"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_gravity="center_horizontal"
+	    />
+    
+    <Button
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:onClick="submitMessage"

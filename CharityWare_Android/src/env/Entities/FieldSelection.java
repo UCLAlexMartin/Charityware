@@ -7,12 +7,10 @@ public class FieldSelection {
 
 	private Integer field_selection_id;
 	private String field_selection_value;
-	private Timestamp timestamp;
 	
 	public FieldSelection() {}
 	
 	public FieldSelection( String value) {
-		this.timestamp = new Timestamp(Calendar.DATE);
 		this.field_selection_value= value;
 	}
 
@@ -30,12 +28,6 @@ public class FieldSelection {
 		this.field_selection_value = field_selection_value;
 	}
 
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
 	
 	
 	
