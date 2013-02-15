@@ -1,9 +1,5 @@
 <%@ page import="staticResources.websiteLogin"%>
 <%
-/*out.println(session.getAttribute("userName")+"<br/>");
-out.println(session.getAttribute("user_Id")+"<br/>");
-out.println(session.getAttribute("userTypeId")+"<br/>");
-out.println(request.getRequestURL().toString()+"<br/>");*/
 if(session.getAttribute("userTypeId") == null)
 {
 	response.sendRedirect("login.jsp");
@@ -16,9 +12,6 @@ if(session.getAttribute("userTypeId") == null)
 	}
 	else
 	{
-		/*out.println(session.getAttribute("userTypeId").toString()+"<br/>");
-		out.println(request.getRequestURL().toString()+"<br/>");
-		out.println("go away"+"<br/>");*/
 		response.sendRedirect("login.jsp");
 	}
 }

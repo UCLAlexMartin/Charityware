@@ -1,7 +1,7 @@
 <%@ page import="staticResources.websiteLogin"%>
 <%@ page import="staticResources.Configuration"%>
 <%
-/*if(session.getAttribute("userTypeId") == null)
+if(session.getAttribute("userTypeId") == null)
 {
 	response.sendRedirect("login.jsp");
 	//out.println("go away null"+"<br/>");
@@ -16,7 +16,7 @@
 	
 		response.sendRedirect("login.jsp");
 	}
-}*/
+}
 %> 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%-- <%@ page import="ConnectionManager.*" %>   

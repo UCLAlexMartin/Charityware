@@ -15,8 +15,10 @@ public class GenerateConfig{
      
     public static void execute(String DB_Name,String Username,String Password) throws Exception {
     	             
-    	
-    	File file = new File("/Users/yanikafarrugia/Development/Charityware/CharityWare_Server/src/charityHibernateEntities/"+ DB_Name +".cfg.xml");
+    	//Configuration.class.getResourceAsStream();
+    	String FilePath = charityHibernateEntities.User.class.getResource("").getFile()+DB_Name +".cfg.xml";
+    	System.out.println("The file path is:"+FilePath);
+    	File file = new File(FilePath);
     	//File file = new File("../CharityHibernateConfigurations/"+ DB_Name +".cfg.xml");
         //File file = new File(outputDir + "/" + DB_Name +".cfg.xml");
        
