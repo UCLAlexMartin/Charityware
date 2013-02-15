@@ -1,10 +1,7 @@
 <%@ page import="staticResources.websiteLogin"%>
+<%@ page import="staticResources.Configuration"%>
 <%
-/*out.println(session.getAttribute("userName")+"<br/>");
-out.println(session.getAttribute("user_Id")+"<br/>");
-out.println(session.getAttribute("userTypeId")+"<br/>");
-out.println(request.getRequestURL().toString()+"<br/>");*/
-if(session.getAttribute("userTypeId") == null)
+/*if(session.getAttribute("userTypeId") == null)
 {
 	response.sendRedirect("login.jsp");
 	//out.println("go away null"+"<br/>");
@@ -16,12 +13,10 @@ if(session.getAttribute("userTypeId") == null)
 	}
 	else
 	{
-		/*out.println(session.getAttribute("userTypeId").toString()+"<br/>");
-		out.println(request.getRequestURL().toString()+"<br/>");
-		out.println("go away"+"<br/>");*/
+	
 		response.sendRedirect("login.jsp");
 	}
-}
+}*/
 %> 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%-- <%@ page import="ConnectionManager.*" %>   
@@ -132,9 +127,10 @@ if(session.getAttribute("userTypeId") == null)
 		     <jsp:include page="headerLoggedIn.jsp"></jsp:include>	   	    
 	
 			<script type="text/javascript">
-							
+							var url = '<%=Configuration.getSiteUrl()%>';
 							$(document).ready(function(){
-								$.get('http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/charityApprovals', function(data) {
+								
+								$.get(url+'RESTSystem/charityService/charityApprovals', function(data) {
 										$.each(data, function(i,d){					
 											$('#requests tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
 													"</td><td> <input id=\"btnApprove\" type=image name=Action value="+d.charity_id+" src=\"images/approve3.png\" alt=\"Approve\" onclick=\"approveRequest('"+d.charity_id+"');\" />"+
@@ -142,7 +138,7 @@ if(session.getAttribute("userTypeId") == null)
 										});
 									});	
 								
-								$.get('http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/charities', function(data) {
+								$.get(url+'RESTSystem/charityService/charities', function(data) {
 									$.each(data, function(i,d){					
 										$('#accounts tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
 												"</td><td> <input id=\"btnDelete\" type=image name=Action value="+d.charity_id+" src=\"images/delete.png\" alt=\"Delete\" onclick=\"deleteAccount('"+d.charity_id+"');\" /> </td></tr>");
@@ -155,7 +151,7 @@ if(session.getAttribute("userTypeId") == null)
 							{
 								
 								//Execute the service to Generate Schema and Hibernation Configuration File
-								$.post("http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/generateSchema/"+charityID,function(){
+								$.post(url+'RESTSystem/charityService/generateSchema/'+charityID,function(){
 								});
 								
 								$('#row'+ charityID).remove();
@@ -167,7 +163,7 @@ if(session.getAttribute("userTypeId") == null)
 							{
 									
 								//Execute the service to Generate Schema and Hibernation Configuration File
-								$.post("http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/rejectCharity/"+charityID,function(){
+								$.post(url+'RESTSystem/charityService/rejectCharity/'+charityID,function(){
 								});
 								
 								$('#row'+ charityID).remove();
@@ -179,7 +175,8 @@ if(session.getAttribute("userTypeId") == null)
 							function deleteAccount(charityID){
 								
 								//Update isActive to 0
-								$.post("http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/deleteCharityAccount/"+charityID,function(){
+								
+								$.post(url+'RESTSystem/charityService/deleteCharityAccount/'+charityID,function(){
 								});
 								
 								$('#row'+ charityID).remove();

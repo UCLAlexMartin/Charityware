@@ -2,7 +2,7 @@ package RESTSystemServices;
 
 import systemHibernateEntities.Charity;
 import systemHibernateManagers.CharityManager;
-//import systemHibernateManagers.GenerateSchemaManager;
+import systemHibernateManagers.GenerateSchemaManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,37 +1,39 @@
 package systemHibernateManagers;
 
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.DriverManager;
 
+import sharedHibernateResources.ConnectionManager;
 import staticResources.Configuration;
 
 
 
 public class GenerateSchemaManager {
-	private static Connection conn = null;
+	private static ConnectionManager conn;
 	
 	
 	public static Boolean generateSchema(int CharityId) throws Exception{
 	
-			CharityManager chMng = new CharityManager();
+			
 	   		String CharityName = "charity" + CharityId;
 	   		String Username = Configuration.getMySQLrootUser();
 	   		String Password = Configuration.getMySQLrootPassword();	   	
 	   		
 	   		Class.forName(Configuration.getMySQLdriver()).newInstance();
-		    conn  = DriverManager.getConnection(Configuration.getMySQLConUrl()+"System_DB_Test_Model", Username,Password);
-	   		
+		    //conn  = DriverManager.getConnection(Configuration.getMySQLConUrl()+"System_DB_Test_Model", Username,Password);
+	   		conn = new ConnectionManager("");
 	   		try {
 	   			
-	   			CallableStatement statement = conn.prepareCall("{call spSchemaGeneration(?)}");
+	   			/*CallableStatement statement = 
+	   					//conn.prepareCall("{call spSchemaGeneration(?)}");
 	   			statement.setString("DB_Name", CharityName);
 	   	    	statement.executeQuery();
-	   	    	System.out.println("Charity Schema Generated");
-	   	    	
+	   	    	*/
+	   			conn.runProcedure("spSchemaGeneration", "DB_Name", CharityName);
+	   			System.out.println("Charity Schema Generated");
 	   	    	GenerateConfig.execute(CharityName,Username,Password);
 	   	    	System.out.println("Charity Config Generated");
-	   	    	
+	   	    	CharityManager chMng = new CharityManager();
 	   	    	chMng.approveCharity(CharityId);
 	   	    	System.out.println("Charity Table Updated");
 	   	    	

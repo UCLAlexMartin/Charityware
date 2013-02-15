@@ -3,6 +3,7 @@ package sharedHibernateResources;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -42,6 +43,15 @@ public class ConnectionManager {
 		List<?> result = query.list();
 		closeSession(session);
 		return result;
+	}
+	
+	
+	public void runProcedure (String procedure,String parameterName,String parameterValue){
+		Session session = this.getSession();
+		//String querystr;"CALL "+procedure +"(" 
+		session.createQuery("CALL "+ procedure+"(:"+parameterName+")").setParameter(parameterName,parameterValue);		
+		closeSession(session);
+		return;
 	}
 	
 	public  Object get(Class arg0,Serializable serial){

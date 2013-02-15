@@ -33,6 +33,7 @@ public class CharityManager {
 		return results;
 	}
 	
+	
 	public Charity getCharity(int charityID){
 		Charity charity = (Charity)conn.get(Charity.class, charityID);
 		return charity;
