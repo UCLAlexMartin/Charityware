@@ -1,4 +1,4 @@
-<%-- <%@ page import="staticResources.websiteLogin"%>
+<%@ page import="staticResources.websiteLogin"%>
 <%
 /*out.println(session.getAttribute("userName")+"<br/>");
 out.println(session.getAttribute("user_Id")+"<br/>");
@@ -22,7 +22,7 @@ if(session.getAttribute("userTypeId") == null)
 		response.sendRedirect("login.jsp");
 	}
 }
-%> --%>
+%> 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%-- <%@ page import="ConnectionManager.*" %>   
 <%@ page import="java.util.ArrayList" %>
