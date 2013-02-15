@@ -54,4 +54,5 @@ public class CharityClient {
 				.path("/addCharities").type(MediaType.APPLICATION_JSON)
 				.post(charities);
 	}
+	
 }
