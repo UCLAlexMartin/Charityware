@@ -83,6 +83,14 @@ public class websiteLogin {
 				break;
 			}
 		break;
+		case "charityadmin.jsp":
+			switch(userTypeId)
+			{
+			case "2":
+				ret = true;
+				break;
+			}
+		break;
 
 			
 		
