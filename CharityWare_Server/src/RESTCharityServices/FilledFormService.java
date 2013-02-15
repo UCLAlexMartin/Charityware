@@ -1,5 +1,4 @@
 package RESTCharityServices;
-
 import java.util.List;
 
 import charityHibernateEntities.FilledForm;
@@ -14,8 +13,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBElement;
+import org.codehaus.jackson.map.ObjectMapper;
+
+//import org.codehaus.jackson.map.type;
 
 
 @Path("/filledFormService")
@@ -34,11 +34,16 @@ public class FilledFormService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/plain")
-	public String addFilledForms(@PathParam("DBConfigPath")String DBConfigPath,List<FilledForm> filledforms) {		 
-		 
-		 FilledFormManager filledFormManager = new FilledFormManager(DBConfigPath);
-		 
-		 return filledFormManager.addFilledForms(filledforms).toString();
+	public String addFilledForms(@PathParam("DBConfigPath")String DBConfigPath,String data)  {		 		 
+		try{		
+			List<FilledForm> filledforms = (List<FilledForm>)new ObjectMapper().readValue(data, List.class);
+			FilledFormManager filledFormManager = new FilledFormManager(DBConfigPath);
+			return filledFormManager.addFilledForms(filledforms).toString();
+		}
+		catch(Exception e){
+			return "0";
+			
+		}		 
 	 }
 	/*
 	@POST

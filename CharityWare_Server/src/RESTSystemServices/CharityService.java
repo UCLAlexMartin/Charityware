@@ -2,7 +2,7 @@ package RESTSystemServices;
 
 import systemHibernateEntities.Charity;
 import systemHibernateManagers.CharityManager;
-import systemHibernateManagers.GenerateSchemaManager;
+//import systemHibernateManagers.GenerateSchemaManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class CharityService {
 		 return charityManager.addCharities(charities).toString();
 	 }
 	 
-	 
+	 /*
 	 @POST
 	 @Path("/generateSchema/{charityId}")
 	 @Produces("application/json")
@@ -120,7 +120,7 @@ public class CharityService {
 			 return false;
 		 }
 	    	
-	 }
+	 }*/
 	 
 	 
 	 
