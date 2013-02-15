@@ -2,8 +2,11 @@ package sharedHibernateResources;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -46,10 +49,27 @@ public class ConnectionManager {
 	}
 	
 	
-	public void runProcedure (String procedure,String parameterName,String parameterValue){
+	public void runProcedure (String procedure,Map<String,String> parameters_map){
 		Session session = this.getSession();
-		//String querystr;"CALL "+procedure +"(" 
-		session.createQuery("CALL "+ procedure+"(:"+parameterName+")").setParameter(parameterName,parameterValue);		
+		Iterator<Entry<String,String>> parameters_map_iter1 = parameters_map.entrySet().iterator();
+		String parameters = "";
+		while(parameters_map_iter1.hasNext()){			
+			String parameterName = parameters_map_iter1.next().getKey();
+			parameters = parameters+":"+parameterName;
+			if(parameters_map_iter1.hasNext())
+				parameters = parameters+",";
+		}
+		String callprocedure = "CALL "+procedure+"("+parameters+")";
+		
+		Query query = session.createSQLQuery(callprocedure);
+		Iterator<Entry<String,String>> parameters_map_iter2 = parameters_map.entrySet().iterator();
+		while(parameters_map_iter2.hasNext()){
+			Entry<String,String> parameters_entry = parameters_map_iter2.next();
+			String parameterName = parameters_entry.getKey();
+			String parameterValue = parameters_entry.getValue();
+			query.setParameter(parameterName, parameterValue);
+		}
+		query.executeUpdate();	
 		closeSession(session);
 		return;
 	}

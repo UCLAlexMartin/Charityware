@@ -2,6 +2,8 @@ package systemHibernateManagers;
 
 import java.sql.CallableStatement;
 import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.Map;
 
 import sharedHibernateResources.ConnectionManager;
 import staticResources.Configuration;
@@ -29,7 +31,9 @@ public class GenerateSchemaManager {
 	   			statement.setString("DB_Name", CharityName);
 	   	    	statement.executeQuery();
 	   	    	*/
-	   			conn.runProcedure("spSchemaGeneration", "DB_Name", CharityName);
+	   			Map<String,String> parameters_map = new HashMap<String,String>();
+	   			parameters_map.put("DB_Name", CharityName);
+	   			conn.runProcedure("spSchemaGeneration", parameters_map);
 	   			System.out.println("Charity Schema Generated");
 	   	    	GenerateConfig.execute(CharityName,Username,Password);
 	   	    	System.out.println("Charity Config Generated");
