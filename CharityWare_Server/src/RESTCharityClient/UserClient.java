@@ -33,13 +33,23 @@ public class UserClient {
 		return clientresponse.getEntity(User.class);
 	}
 	
-	public static Map<Integer,List<String>> getForms(){
+//	public static Map<Integer,List<String>> getForms(){
+//		ClientConfig clientConfig = new DefaultClientConfig();
+//		clientConfig.getClasses().add(JacksonJsonProvider.class);
+//		Client client = Client.create(clientConfig);
+//		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/json/users/forms/").
+//				accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
+//				get(ClientResponse.class);
+//		return clientresponse.getEntity(new GenericType<Map<Integer,List<String>>>(){});
+//	}
+	
+	public static Map<Integer,List<String>> getForms(String DBConfig){
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client client = Client.create(clientConfig);
-		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/json/users/forms/").
-				accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
-				get(ClientResponse.class);
+		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/charityConfig/").path(DBConfig).path("/users/forms/").
+		accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
+		get(ClientResponse.class);
 		return clientresponse.getEntity(new GenericType<Map<Integer,List<String>>>(){});
 	}
 	

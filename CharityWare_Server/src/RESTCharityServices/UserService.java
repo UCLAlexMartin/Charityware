@@ -72,7 +72,7 @@ public class UserService {
     }
     
     @GET
-	@Path("/charityConfig/{DBConfigPath}/json/users/forms/")
+	@Path("/charityConfig/{DBConfigPath}/users/forms/")
     @Produces("application/json")
     public GenericEntity<Map<Integer,List<String>>> getForms(@PathParam("DBConfigPath")String DBConfigPath){
     	UserManager userManager = new UserManager(DBConfigPath);

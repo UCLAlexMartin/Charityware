@@ -5,6 +5,7 @@
 <%@ page import="charityHibernateEntities.FieldType"%>
 <%@ page import="charityHibernateManagers.FormManager"%>
 <%@ page import="charityHibernateManagers.FieldTypeManager"%>
+<%@ page import="staticResources.Configuration"%> 
 <%
 if(session.getAttribute("userTypeId") == null)
 {
@@ -187,6 +188,39 @@ if(session.getAttribute("userTypeId") == null)
 	  
 	   <jsp:include page="headerLoggedIn.jsp"></jsp:include>
 	    
+	   	<script type="text/javascript">
+	   	
+	   	var urlHibernate = ${charity_Con};
+	   	var url = '<%=Configuration.getSiteUrl()%>';
+							
+		$(document).ready(function(){
+			
+			/* <th id="tr1">Username</th>
+			<th id="tr1">User Category</th>
+			<th id="tr1">Email</th>
+			<th id="tr1">Permissions</th>
+			<th id="tr1">Delete</th> */
+			
+			//for viewing of user accounts
+		
+			$.get(url+'RESTCharity/userService/charityConfig/'+ urlHibernate +'/users/forms/', function(data) {
+					$.each(data, function(i,d){					
+						$('#tableView tr:last').after("<tr id=row"+d.username+"><td>" + d.user_type + "</td><td>" + d.registration_no +
+								"</td><td> <input id=\"btnApprove\" type=image name=Action value="+d.user_id+" src=\"images/approve3.png\" alt=\"Approve\" onclick=\"approveRequest('"+d.charity_id+"');\" /></td></tr>");
+					});
+				});	
+			
+			//for deleting user accounts
+			/* $.get('http://localhost:8080/CharityWare_Lite/RESTSystem/userService/charities', function(data) {
+				$.each(data, function(i,d){					
+					$('#accounts tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
+							"</td><td> <input id=\"btnDelete\" type=image name=Action value="+d.charity_id+" src=\"images/delete.png\" alt=\"Delete\" onclick=\"deleteAccount('"+d.charity_id+"');\" /> </td></tr>");
+				});
+			});	
+			 */
+		});
+			
+		</script>
 	   
 	    <!-- Main Content -->
 	    
@@ -407,11 +441,11 @@ if(session.getAttribute("userTypeId") == null)
 						<table id="tableDelete">
 						
 						<tr>
-							<th id="tr1"> <label for="uname">Username</label> </th>
-							<th id="tr1"> <label for="ucat">User Category</label> </th>
-							<th id="tr1"> <label for="uemail">Email</label> </th>
-							<th id="tr1"> <label for="uper">Permissions</label> </th>
-							<th id="tr1"> <label for="udel">Delete</label> </th>
+							<th id="tr1">Username</th>
+							<th id="tr1">User Category</th>
+							<th id="tr1">Email</th>
+							<th id="tr1">Permissions</th>
+							<th id="tr1">Delete</th>
 			      		</tr>
 			      		<%-- <%     
             			Map<Integer,List<String>> datamap2 =UserClient.getForms();//(TreeMap<Integer,ArrayList<String>>)DatabaseManager.readUsers();
