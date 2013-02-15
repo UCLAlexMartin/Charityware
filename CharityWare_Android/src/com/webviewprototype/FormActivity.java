@@ -1,5 +1,9 @@
 package com.webviewprototype;
 
+import java.sql.Date; 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,25 +11,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.webviewprototype.facade.RestServiceFacade;
 import com.webviewprototype.facade.impl.DBManager;
+import com.webviewprototype.facade.impl.RestServiceFacadeImpl;
+import com.webviewprototype.service.test.TestActivity;
 
+import env.Entities.AndroidCalendarField;
+import env.Entities.AndroidCheckBoxField;
+import env.Entities.AndroidDropDownField;
 import env.Entities.AndroidField;
+import env.Entities.AndroidTextField;
 import env.Entities.DataBean;
+import env.Entities.FieldSelection;
 import env.Entities.FilledForm;
 import env.Entities.Form;
 import env.Entities.FormFields;
 import env.Entities.FormListAdapter;
 
 import android.os.Bundle;
+import android.os.DropBoxManager;
 import android.provider.ContactsContract.CommonDataKinds.Note;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.ListActivity;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -36,13 +54,14 @@ import android.text.Layout;
 @SuppressLint("NewApi")
 public class FormActivity extends ListActivity {
 
-	FilledForm filledForm = new FilledForm();
-	Form form = new Form();
+	List<FilledForm> filledForm = new LinkedList<FilledForm>();
+	List<FormFields> formFields;
 	DBManager manager;
 	Integer userid;
 	String username;
 	LinearLayout flayout;
-	
+	DataBean bean;
+	RestServiceFacade restFacade = new RestServiceFacadeImpl();
 	
 	
 	
@@ -52,33 +71,30 @@ public class FormActivity extends ListActivity {
 		setContentView(R.layout.activity_form);
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		DataBean bean = DataBean.getDataBean();
+		bean = DataBean.getDataBean();
 		manager = bean.getManager();		
-		form = bean.getForm();
-//		filledForm = bean.getFform();
 		Intent intent = getIntent();
-		userid = intent.getExtras().getInt("Userid");
 		username = intent.getExtras().getString("Username");
 		flayout = (LinearLayout) findViewById(R.layout.activity_form);
 		ListView listView = (ListView) findViewById(android.R.id.list);
-		AndroidField[] fields = new AndroidField[3];
-		AndroidField field = new AndroidField();
-		field.setLabel("Name");
-		field.setText("Beleq");
-		fields[0] = field;	
-		AndroidField field2 = new AndroidField();
-		field2.setLabel("Surname");
-		field2.setText("Uthizaar");
-		fields[1 ] = field2;
-		AndroidField field3 = new AndroidField();
-		field3.setLabel("Location");
-		field3.setText("Prospero");
-		fields[2] = field3;
-		
+		formFields = bean.getFormFields();
+		for (int i=0;i<formFields.size();i++) {
+			FilledForm fform = new FilledForm();
+			fform.setRecord_id(i);
+			fform.setFormFields(formFields.get(i));
+			fform.setValue("");
+			fform.setUser(bean.getUser());
+			fform.setIsActive(true);
+			filledForm.add(fform);
+		}
+		bean.setFilledForm(filledForm);
+		List<AndroidField> fields = new ArrayList<AndroidField>();
+		fields = configAndroidFields(formFields);
 		FormListAdapter formAdapter = new FormListAdapter(this, fields, R.layout.listview_layout_form);
 		listView.setAdapter(formAdapter);
 		TextView header = (TextView) findViewById(R.id.fname);
-		header.setText(form.getFormName());
+		header.setText(bean.getSelectedForm());
+		
 		
 		//  creation of UI components here
 	}
@@ -111,22 +127,7 @@ public class FormActivity extends ListActivity {
 	public void onStop() {
 	    super.onStop(); 
 	    ContentValues values = new ContentValues();
-	    this.form = null;
 	    this.filledForm=null;
-//	    if (!form.isEmpty()){
-//	    	Set<String> labels = form.keySet();
-//	    	List<String> vls = (List<String>) form.values();
-//	    	Iterator<String> it = labels.iterator();
-//	    	for ( int i=0;i<labels.size();i++){
-//	    		values.put(it.next(), vls.get(i));
-//	    	}
-//	    }
-	   /* getContentResolver().update(
-	            mUri,    // The URI for the note to update.
-	            values,  // The map of column names and new values to apply to them.
-	            null,    // No SELECT criteria are used.
-	            null     // No WHERE columns are used.
-	            );*/
 	}
 	
 	@Override 
@@ -142,9 +143,102 @@ public class FormActivity extends ListActivity {
 	
 	}
 	
-	
 	private void saveToSqlLite() {
 		
 	}
+	
+	
+	
+	private void check(View view) {
+		CheckBox cbox = (CheckBox) view;
+	}
+	
+	
+	public void submitFilledForm(View view) {
+		restFacade.setFilledForm(bean.getFilledForm());
+	}
+	
+	
+	private List<AndroidField> configAndroidFields(List<FormFields> fields) {
+		
+		List<AndroidField> fin_fields = new LinkedList<AndroidField>();
+		for ( int i=0;i<fields.size();i++) {
+			FormFields field = fields.get(i);
+			Integer type = field.getFieldType().getField_type_id();
+			switch(type) {
+								
+				case 3 :
+								AndroidDropDownField afield = new AndroidDropDownField();
+								afield.setLabel(field.getField_label());
+								afield.setField_id(field.getF_id());
+								afield.setField_Type_id(type);
+								List<FieldSelection> dropvalues = new LinkedList<FieldSelection>();
+								Set<FieldSelection> fs = field.getField_selections();
+								Iterator<FieldSelection> it = fs.iterator();
+								while (it.hasNext()) {
+									dropvalues.add(it.next());
+								}
+								afield.setDropDownValues(dropvalues);
+								fin_fields.add(afield);
+								break;	
+			
+				case 5:
+								AndroidCalendarField calfield = new AndroidCalendarField();
+								calfield.setLabel(field.getField_label());
+								calfield.setField_Type_id(type);
+								calfield.setField_id(field.getF_id());
+								calfield.setDate(new Date(Calendar.DATE));
+								fin_fields.add(calfield);
+								break;
+				case 6:
+								AndroidCheckBoxField cfield = new AndroidCheckBoxField();
+								cfield.setLabel(field.getField_label());
+								cfield.setField_Type_id(type);
+								cfield.setField_id(field.getF_id());
+								cfield.setChecked(false);
+								fin_fields.add(cfield);
+								break;
+				default:
+								AndroidTextField tfield = new AndroidTextField();
+								tfield.setField_Type_id(type);
+								tfield.setField_id(field.getF_id());
+								tfield.setLabel(field.getField_label());
+								tfield.setText("");
+								tfield.setInputType(type==2 ? 0 : 1);
+								fin_fields.add(tfield);
+								break;
+			}	
+				
+			
+		}
+		
+		return fin_fields;
+		
+		
+	}
+	
 
+	@Override
+    public void onBackPressed() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.warning)
+	       .setTitle(R.string.confirmation);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   bean.setFilledForm(new LinkedList<FilledForm>());
+	        	   bean.setFormFields(new LinkedList<FormFields>());
+	        	   bean.setFormNames(new LinkedList<String>());
+	        	   Intent intent = new Intent(FormActivity.this, CharityActivity.class);
+	       			FormActivity.this.startActivity(intent);
+	           }
+	       });
+	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   
+	           }
+	       });
+
+//	 super.onBackPressed();   
+
+    }
 }

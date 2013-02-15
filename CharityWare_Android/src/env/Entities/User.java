@@ -7,7 +7,7 @@ public class User {
 
 	private Integer user_id;
 	private String userName;
-	private UserType userTypeId;
+	private UserType userType;
 	private String userPassword;
 	private String salt;
 
@@ -23,11 +23,11 @@ public class User {
 		this.isActive=true;
 		this.salt="456";
 		this.dateCreated = new Date(1);
-		this.userTypeId = new UserType();
-		this.userTypeId.setUserType("Charity_Administrator");
-		this.userTypeId.setUserTypeId(1);
-		this.userTypeId.setIsActive(true);
-		this.userTypeId.setTimestamp(new Timestamp(1));
+		this.userType = new UserType();
+		this.userType.setUserType("Charity_Administrator");
+		this.userType.setUserTypeId(2);
+		this.userType.setIsActive(true);
+		//this.userType.setTimestamp(new Timestamp(1));
 	}
 		
 	public String getSalt() {
@@ -48,11 +48,11 @@ public class User {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public UserType getUserTypeId() {
-		return userTypeId;
+	public UserType getUserType() {
+		return userType;
 	}
-	public void setUserTypeId(UserType userTypeId) {
-		this.userTypeId = userTypeId;
+	public void setUserType(UserType userType) {
+		this.userType = userType;
 	}
 	public String getUserPassword() {
 		return userPassword;
@@ -66,14 +66,12 @@ public class User {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
-	
 	public Date getDateCreated() {
 		return dateCreated;
 	}
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	
 	public Boolean getIsActive() {
 		return isActive;
 	}

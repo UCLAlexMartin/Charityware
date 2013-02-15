@@ -15,24 +15,32 @@ import java.util.TimerTask;
 
 import android.annotation.SuppressLint; 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
@@ -46,8 +54,10 @@ import com.webviewprototype.facade.impl.NetworkFacadeImpl;
 import com.webviewprototype.facade.impl.RestServiceFacadeImpl;
 import com.webviewprototype.service.test.TestActivity;
 
+import env.Entities.Charity;
 import env.Entities.DataBean;
 import env.Entities.FieldType;
+import env.Entities.FilledForm;
 import env.Entities.Form;
 import env.Entities.FormFields;
 import env.Entities.FormType;
@@ -60,15 +70,13 @@ public class CharityActivity extends ListActivity {
 	NetworkServiceFacade networkFacade = new NetworkFacadeImpl();
 	static List<String> FORM_TITLES = new LinkedList<String>();
 	LinearLayout layout ;
-	ArrayList<Form> forms;
 	NetworkPollTask task;
 	static String name; 
 	 DBManager manager;
 	 Integer userid;
 	 DataBean bean= DataBean.getDataBean();
-	 PopupWindow popUp;
-	 LinearLayout popUpLayout;
 	    LayoutParams params;
+	    
 
 	 
 	@SuppressLint({ "SetJavaScriptEnabled", "NewApi" })
@@ -76,22 +84,18 @@ public class CharityActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		FORM_TITLES = new LinkedList<String>();
-		forms = new ArrayList<Form>();
 		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FORM_TITLES));
 		setContentView(R.layout.activity_charity);
-	if (!bean.getCreated())	{
 		manager = new DBManager(this);
 		bean =DataBean.getDataBean();
 		bean.setManager(manager);
-		bean.setCreated(true);
-	}
-		// Show the Up button in the action bar.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR_MR1){
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		Intent intent = getIntent();
 		name = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-	
+		TextView txt = (TextView) findViewById(R.id.textView1);
+		txt.setText(bean.getSelectedCharity().getCharity_name());
 		configureListTitles();
 		}
 	
@@ -104,41 +108,19 @@ public class CharityActivity extends ListActivity {
 			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 			if (networkFacade.hasActiveInternetConnection(activeNetworkInfo,this)){
 				RestServiceFacade RestServiceFacade = new RestServiceFacadeImpl();
-				Map<Integer,Map<Integer,List<String>>> form_map = RestServiceFacade.getFormEntities(name);
-				Iterator<Entry<Integer,Map<Integer,List<String>>>> results_iterator = form_map.entrySet().iterator();
-				while(results_iterator.hasNext()){
-					Entry<Integer,Map<Integer,List<String>>> entry = results_iterator.next();
-					Map<Integer,List<String>> values_map = (Map<Integer, List<String>>) entry.getValue().keySet();
-					Iterator<Entry<Integer,List<String>>> values_map_iter = values_map.entrySet().iterator();
-					Entry<Integer,List<String>> values_map_entry = values_map_iter.next();
-					List<String> string_values = values_map_entry.getValue();
-					FORM_TITLES.add(string_values.get(0));
-					Form form_tmp = new Form();
-					form_tmp.setFormName(FORM_TITLES.get(0));
-					forms.add(form_tmp);
-					
-				}
-				/*if (forms!=null) {
-					for (Form f:forms) {
-							FORM_TITLES.add("FORM "+f.getFormId());
-							Set<FormFields> fields = f.getFields();
-							Iterator<FormFields> it = fields.iterator();
-							while (it.hasNext()){
-								FormFields field = it.next();
-//								FORM_CONTENT.put(field.getField_label(), field.getField_type_id().get)
-								
-							}
+				List<Form> form_list = RestServiceFacade.getFormEntities(name);
+				bean.setAllForms(form_list);
+				for (int i=0;i<form_list.size();i++) {
+					Set<FormFields> fs = form_list.get(i).getFields();
+					Iterator<FormFields> it = fs.iterator();
+					List<FormFields> list = new LinkedList<FormFields>();
+					while (it.hasNext()) {
+						list.add(it.next());
 					}
-				}*/
-				//test
-				/*FORM_TITLES.add("FORM 1");
-				Form dummy = new Form();
-				dummy.setFormName(FORM_TITLES.get(0));
-				FORM_TITLES.add("FORM 2");
-				Form dummy2 = new Form();
-				dummy2.setFormName(FORM_TITLES.get(1));
-				forms.add(dummy);
-				forms.add(dummy2);*/
+					FORM_TITLES.add(form_list.get(i).getFormName());
+				}
+				bean.setFormNames(FORM_TITLES);
+
 				this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FORM_TITLES));
 
 				listView.setOnItemClickListener(new OnItemClickListener() {
@@ -146,20 +128,14 @@ public class CharityActivity extends ListActivity {
 					public void onItemClick(AdapterView<?> parent, View view, int arg2,
 							long arg3) {
 						String title = ((TextView) view).getText().toString();
-						
-						
-						Form fr = getFormByName(title);
-						if (fr!=null) {
-							bean.setForm(fr);
-//							bean.setFform();
-						}
-			              // Launching new Activity on selecting single List Item
+						bean.setSelectedForm(title);
+						List<FormFields> flds = CharityActivity.this.findFormFieldsByFormName(title);
+						bean.setFormFields(flds);
+						// Launching new Activity on selecting single List Item
 			              Intent i = new Intent(getApplicationContext(), FormActivity.class);
 			              // sending data to new activity
 			              Bundle bundle = new Bundle();
-			              userid =4;
-			              bundle.putInt("Userid", userid.intValue());
-			              bundle.putString("Username",name);
+			              bundle.putString("Username",bean.getUser().getUserName());
 			             // bundle allocation
 			              i.putExtras(bundle);
 			              startActivity(i);
@@ -172,10 +148,28 @@ public class CharityActivity extends ListActivity {
 				layout.addView(view);
 			}
 			
-			task = new NetworkPollTask(activeNetworkInfo,networkFacade);
-			task.execute(this);
+//			task = new NetworkPollTask(activeNetworkInfo,networkFacade);
+//			task.execute(this);
 			
 
+	}
+	
+	
+	private List<FormFields> findFormFieldsByFormName(String title) {
+		List<FormFields> result = new LinkedList<FormFields>();
+		List<Form> form_list = bean.getAllForms();
+		for (int i=0;i<form_list.size();i++) {
+			if (title.equals(form_list.get(i).getFormName())) {
+				Set<FormFields> set = form_list.get(i).getFields();
+				Iterator<FormFields> iterator = set.iterator();
+				while (iterator.hasNext()) {
+					result.add(iterator.next());
+				}
+				break;
+			}
+		}
+		return result;
+		
 	}
 
 	@Override
@@ -214,15 +208,6 @@ public class CharityActivity extends ListActivity {
 	}
 	
 	
-	private Form getFormByName(String name) {
-		for (Form f: forms){
-			if (f.getFormName().equals(name)) {
-				return f;
-			}
-		}
-		
-		return null;
-	}	
 	
 	private class NetworkPollTask extends AsyncTask<Activity, Void, Void> {
 
@@ -242,20 +227,71 @@ public class CharityActivity extends ListActivity {
 		
 	}
 		
-	public void infoPopup (View view) {
-		 popUp.showAtLocation(popUpLayout, Gravity.BOTTOM, 10, 10);
-         popUp.update(50, 50, 300, 80);
-         popUpLayout = new LinearLayout(this);
-         params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-                 LayoutParams.WRAP_CONTENT);
-         popUpLayout.setOrientation(LinearLayout.VERTICAL);
-         
-         TextView tx = new TextView(this);
-         popUpLayout.addView(tx, params);
-         popUp.setContentView(popUpLayout);
-         
 
+
+	// The method that displays the popup.
+	public void infoPopup(final Activity context, Point p) {
+	   int popupWidth = 200;
+	   int popupHeight = 150;
+
+	   // Inflate the popup_layout.xml
+	   LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.pop);
+	   LayoutInflater layoutInflater = (LayoutInflater) context
+	     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	   View layout = layoutInflater.inflate(R.layout.popuplayout, viewGroup);
+
+	   // Creating the PopupWindow
+	   final PopupWindow popup = new PopupWindow(context);
+	   popup.setContentView(layout);
+	   popup.setWidth(popupWidth);
+	   popup.setHeight(popupHeight);
+	   popup.setFocusable(true);
+
+	   // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
+	   int OFFSET_X = 30;
+	   int OFFSET_Y = 30;
+
+	   // Clear the default translucent background
+	   popup.setBackgroundDrawable(new BitmapDrawable());
+
+	   // Displaying the popup at the specified location, + offsets.
+	   popup.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
+
+	   // Getting a reference to Close button, and close the popup when clicked.
+	   Button close = (Button) layout.findViewById(R.id.ok);
+	   close.setOnClickListener(new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+		       popup.dismiss();
+		}
+	});
 	}
+	
+	
+	
+
+	@Override
+    public void onBackPressed() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.warning)
+	       .setTitle(R.string.confirmation);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   	bean.flush();
+	        	   Intent intent = new Intent(CharityActivity.this, MainActivity.class);
+	       			CharityActivity.this.startActivity(intent);
+	           }
+	       });
+	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   
+	           }
+	       });
+
+//	 super.onBackPressed();   
+
+    }
 	
 	
 	

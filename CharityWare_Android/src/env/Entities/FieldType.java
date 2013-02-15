@@ -12,7 +12,6 @@ public class FieldType {
 	private String field_dataType;
 	private String field_Description;
 	private Boolean isActive;
-	private Timestamp timestamp;
 	
 	
 	
@@ -21,7 +20,6 @@ public class FieldType {
 	public FieldType (String type) {
 		this.field_type=type;
 		this.isActive=true;
-		this.timestamp=new Timestamp(Calendar.DATE);
 	}
 
 	public Integer getField_type_id() {
@@ -59,11 +57,5 @@ public class FieldType {
 		this.isActive = isActive;
 	}
 
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
 	
 }

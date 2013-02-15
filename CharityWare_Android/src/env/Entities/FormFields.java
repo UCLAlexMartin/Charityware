@@ -1,13 +1,13 @@
 package env.Entities;
 
-import java.sql.Date;
+import java.sql.Date; 
 import java.sql.Timestamp;
 import java.util.Set;
 
 public class FormFields {
 	private Integer f_id;
 	private String field_label;
-	private FieldType field_type_id;
+	private FieldType fieldType;
 	private Set<FieldSelection> field_selections;
 	private Float X_coordinate;
 	private Float Y_coordinate;
@@ -15,18 +15,20 @@ public class FormFields {
 	private Boolean default_value;
 	private Float minValue;
 	private Float maxValue;
-	private User user_id;
 	private Boolean isActive;
 	private Date date_created;
 	private Form form_id;
-	private Timestamp timestamp;
+	private String creatorName;
 	
 
-	public Timestamp getTimestamp() {
-		return timestamp;
+	public String getCreatorName() {
+		return creatorName;
 	}
-	public void setTimestamp(Timestamp timeStamp) {
-		this.timestamp = timeStamp;
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+	public void setField_selections(Set<FieldSelection> field_selections) {
+		this.field_selections = field_selections;
 	}
 
 	public Form getForm_id() {
@@ -50,13 +52,13 @@ public class FormFields {
 		this.field_label = field_label;
 	}
 
-	public FieldType getField_type_id() {
-		return field_type_id;
-	}
-	public void setField_type_id(FieldType field_type_id) {
-		this.field_type_id = field_type_id;
-	}
 
+	public FieldType getFieldType() {
+		return fieldType;
+	}
+	public void setFieldType(FieldType fieldType) {
+		this.fieldType = fieldType;
+	}
 	public Set<FieldSelection> getField_selections() {
 		return field_selections;
 	}
@@ -106,12 +108,6 @@ public class FormFields {
 		this.maxValue = maxValue;
 	}
 
-	public User getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(User user_id) {
-		this.user_id = user_id;
-	}
 
 	public Boolean getIsActive() {
 		return isActive;
