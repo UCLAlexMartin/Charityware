@@ -37,6 +37,19 @@ public class CharityClient {
 		return clientresponse.getEntity(new GenericType<Map<Integer,List<String>>>(){});	
 	}
 	
+	public static Charity getUserCharity(int userId){
+		System.out.println("Client");
+		String uID = Integer.toString(userId);
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getClasses().add(JacksonJsonProvider.class);
+		Client client = Client.create(clientConfig);
+		ClientResponse clientresponse = client.resource(RestServiceURLPath)
+		.path("/charity/user/").path(uID).type(MediaType.APPLICATION_JSON)
+		.get(ClientResponse.class);
+		System.out.println("Client return");
+		return clientresponse.getEntity(Charity.class);	
+	}
+	
 	public static void addCharity(Charity charity){
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);

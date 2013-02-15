@@ -38,6 +38,15 @@ public class CharityManager {
 		Charity charity = (Charity)conn.get(Charity.class, charityID);
 		return charity;
 	}
+
+	public Charity getUserCharity(int userID){;
+		System.out.println("Manager");
+		ArrayList<Charity> charity = (ArrayList<Charity>)conn.getTable("Charity where User_Id="+userID);
+		//Charity charity = (Charity)conn.get(Charity.class, userID);
+		System.out.println("Manager return");
+		return charity.get(0);
+	}
+	
 	public Integer addCharity (Charity newCharity) { 
 		UserManager userManager = new UserManager();
 		User user = (User) userManager.getUsers("rcadmin").get(0);

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="staticResources.websiteLogin"%>
 <%@ page import="systemHibernateEntities.User"%>
+<%@ page import="RESTSystemClient.CharityClient"%>
+<%@ page import="systemHibernateEntities.Charity"%>
 <%
 	if(request.getParameter("txtUsername") != null && request.getParameter("txtPassword") != null)
 	{
@@ -17,6 +19,9 @@
 				response.sendRedirect("uclAdmin.jsp");
 				break;
 			case 2:
+				Charity ch = CharityClient.getUserCharity(usr.getUser_id());
+				session.setAttribute("charity_id", ch.getCharity_id());
+				session.setAttribute("charity_Con", ch.getConnection_string());
 				response.sendRedirect("charityAdmin.jsp");
 				break;			
 			}
