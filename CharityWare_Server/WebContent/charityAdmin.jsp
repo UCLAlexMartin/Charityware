@@ -24,10 +24,13 @@ if(session.getAttribute("userTypeId") == null)
 }
 %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
+ 
+ 
 <%-- 	<%@ page import="ConnectionManager.*" %>
     <%@ page import= "java.util.TreeMap"%>
     <%@ page import= "java.util.Map"%>
-    <%@ page import= "java.util.List"%>
+   
     <%@ page import= "java.util.ArrayList"%>
     <%@ page import= "java.util.Set"%>
     <%@ page import= "java.util.Map.Entry"%>
@@ -211,6 +214,23 @@ if(session.getAttribute("userTypeId") == null)
 			       <div id="content_1" class="tabContent">
       					<fieldset id="myforms">
       					<legend>My forms</legend>
+	      				<%@ page import= "java.util.List"%>
+	      				<%@ page import= "charityHibernateEntities.Form"%>
+	      				<%@ page import= "charityHibernateEntities.FieldType"%>
+	      				<%@ page import= "charityHibernateManagers.FormManager"%>
+	      				<%@ page import= "charityHibernateManagers.FieldTypeManager"%>
+	      				<% 
+	      					
+	      				/* CHANGE FROM MVC TO REST BY SWAPING MANAGER FOR CLIENT */
+	      				try{
+	      						FormManager frmMng = new FormManager(request.getAttribute("charity_Con").toString());
+	      						FieldTypeManager fieMng = new FieldTypeManager(request.getAttribute("charity_Con").toString());
+	      					List<Form> userForms = frmMng.retrieve();
+	      					List<FieldType> allTypes = fieMng.retrieve();
+	      					request.setAttribute("sentForms", userForms);
+	      					request.setAttribute("fieldTypes",allTypes);
+	      					}catch(Exception e){e.printStackTrace();}
+      					%>
       					<c:choose>
       					<c:when test='${sentForms!= null && sentForms.size() > 0}'>
       					<label for="myformslist">Form name:</label>
