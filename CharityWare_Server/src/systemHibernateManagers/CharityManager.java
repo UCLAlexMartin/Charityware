@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import systemHibernateEntities.Charity;
+import systemHibernateEntities.User;
 import sharedHibernateResources.ConnectionManager;
 
 public class CharityManager {
@@ -37,6 +38,24 @@ public class CharityManager {
 		return charity;
 	}
 	public Integer addCharity (Charity newCharity) { 
+		UserManager userManager = new UserManager();
+		User user = (User) userManager.getUsers("rcadmin").get(0);
+		newCharity.setUser(user);
 		return (Integer) conn.transaction("save",newCharity);
+	}
+	
+	public Integer addCharities (List<Charity> newCharities) { 
+		Iterator<Charity> char_iterator = newCharities.iterator();
+		
+		while(char_iterator.hasNext()){
+			Charity charity = char_iterator.next();
+			UserManager userManager = new UserManager();
+			User user = (User) userManager.getUsers("rcadmin").get(0);
+			charity.setUser(user);
+			if(conn.transaction("save",charity)==null)
+				return null;
+		}
+		
+		return 1;
 	}
 }

@@ -21,6 +21,13 @@
         	<key column="user_id" not-null="true" /> 
         	<one-to-many class="charityHibernateEntities.FilledForm" />
         </set>   
-
+	 <set name="events" table="events" inverse="true" lazy="true" cascade="all-delete-orphan">
+        	<key column="user_id" not-null="true"/>
+        	<one-to-many class="charityHibernateEntities.Event" />
+        </set>
+     <set name="accesslogs" table="access_log" inverse="true" lazy="true" cascade="all-delete-orphan">
+        	<key column="user_id" not-null="true"/>
+        	<one-to-many class="charityHibernateEntities.AccessLog" />
+        </set>   
    </class>
 </hibernate-mapping>

@@ -3,9 +3,12 @@ package RESTSystemClient;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.codehaus.jettison.json.JSONArray;
+
 import staticResources.Configuration;
 import systemHibernateEntities.Charity;
 
@@ -38,11 +41,17 @@ public class CharityClient {
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client client = Client.create(clientConfig);
-		//ClientResponse clientresponse = 
 		client.resource(RestServiceURLPath)
-				.path("/addCharity/").type(MediaType.APPLICATION_JSON)
-				.post(Charity.class,charity);
-				
-				//new GenericType<Charity>(charity){}
+				.path("/addCharity").type(MediaType.APPLICATION_JSON)
+				.post(charity);
+	}
+	
+	public static void addCharities(List<Charity> charities){
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getClasses().add(JacksonJsonProvider.class);
+		Client client = Client.create(clientConfig);
+		client.resource(RestServiceURLPath)
+				.path("/addCharities").type(MediaType.APPLICATION_JSON)
+				.post(charities);
 	}
 }

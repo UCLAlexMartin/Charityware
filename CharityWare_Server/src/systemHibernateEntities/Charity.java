@@ -33,7 +33,7 @@ public class Charity {
 	
 	public Charity(){}
 	
-	public Charity(String Charity_Name, String Charity_Description,String Address_Line1,String Address_Line2,String Location,String Postcode,String Email,String Phone,String Registration_No){
+	public Charity(String Charity_Name, String Charity_Description,String Address_Line1,String Address_Line2,String Location,String Postcode,String Email,String Phone,String Registration_No){		
 		this.charity_name = Charity_Name;
 		this.charity_description = Charity_Description;
 		this.address_line1 = Address_Line1;

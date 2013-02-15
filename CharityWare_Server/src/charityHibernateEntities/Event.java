@@ -5,6 +5,8 @@ import java.sql.Time;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.envers.Audited;
 
 
@@ -64,7 +66,7 @@ public class Event {
 	public void setEvent_time(Time event_time) {
 		this.event_time = event_time;
 	}
-	@XmlElement
+	@JsonIgnore
 	public User getUser() {
 		return user;
 	}

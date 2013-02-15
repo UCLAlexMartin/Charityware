@@ -15,6 +15,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+
+import com.sun.jersey.api.client.GenericType;
 
 @Path("/charityService")
 public class CharityService {
@@ -57,13 +60,24 @@ public class CharityService {
 	   * @param content representation for the resource
 	   * @return an HTTP response with content of the updated or created resource.
 	   */
-	 @Path("/addCharity/")
+	 @Path("/addCharity")
 	 @POST
-	 @Consumes("application/json")
-	 public void postCharity(Charity charity) {		 
-		 //Charity newCharity = (Charity)ch.getEntity();
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/plain")
+	 public String postCharity(Charity charity) {		 		 
 		 CharityManager charityManager = new CharityManager();
-		 charityManager.addCharity(charity);
+		 return charityManager.addCharity(charity).toString();
+	 }
+	 
+	 @Path("/addCharities")
+	 @POST
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/plain")
+	 public String postCharities(List<Charity> charities) {		 
+		 
+		 CharityManager charityManager = new CharityManager();
+		 
+		 return charityManager.addCharities(charities).toString();
 	 }
 	 
 	 

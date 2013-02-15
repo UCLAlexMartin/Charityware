@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.envers.Audited;
 
 @Entity
@@ -54,7 +55,7 @@ public class AccessLog {
 		this.fields = fields;
 	}
 	
-	@XmlElement
+	@JsonIgnore
 	public User getUser() {
 		return user;
 	}
