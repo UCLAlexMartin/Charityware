@@ -5,15 +5,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import staticResources.Configuration;
-import systemHibernateEntities.Charity;
+
 
 
 public class GenerateSchemaManager {
-	
 	private static Connection conn = null;
+	
 	
 	public static Boolean generateSchema(int CharityId) throws Exception{
 	
+			CharityManager chMng = new CharityManager();
 	   		String CharityName = "charity" + CharityId;
 	   		String Username = Configuration.getMySQLrootUser();
 	   		String Password = Configuration.getMySQLrootPassword();	   	
@@ -26,7 +27,14 @@ public class GenerateSchemaManager {
 	   			CallableStatement statement = conn.prepareCall("{call spSchemaGeneration(?)}");
 	   			statement.setString("DB_Name", CharityName);
 	   	    	statement.executeQuery();
+	   	    	System.out.println("Charity Schema Generated");
+	   	    	
 	   	    	GenerateConfig.execute(CharityName,Username,Password);
+	   	    	System.out.println("Charity Config Generated");
+	   	    	
+	   	    	chMng.approveCharity(CharityId);
+	   	    	System.out.println("Charity Table Updated");
+	   	    	
 	   	    	return true;
 	   			}catch(Exception e){
 	   				e.printStackTrace();
@@ -34,18 +42,7 @@ public class GenerateSchemaManager {
 	   			}	
 	   	}
 	
-	public static Boolean approveCharity(int CharityId) throws Exception{
-		
-		
-		Charity approvedCharity = new Charity();
-		approvedCharity.setIsActive(true);
-		approvedCharity.setIsVerified(true);
-		
-		return true;
-		
-	}
 	
-
 //	private boolean generateSchema(int CharityId)
 //	{
 //		boolean isSuccessful;

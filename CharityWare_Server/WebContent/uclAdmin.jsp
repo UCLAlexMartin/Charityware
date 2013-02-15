@@ -1,4 +1,4 @@
-<%@ page import="staticResources.websiteLogin"%>
+<%-- <%@ page import="staticResources.websiteLogin"%>
 <%
 /*out.println(session.getAttribute("userName")+"<br/>");
 out.println(session.getAttribute("user_Id")+"<br/>");
@@ -22,11 +22,12 @@ if(session.getAttribute("userTypeId") == null)
 		response.sendRedirect("login.jsp");
 	}
 }
-%>
+%> --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%-- <%@ page import="ConnectionManager.*" %>   
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %> --%>
+<%@ page import="staticResources.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -140,6 +141,14 @@ if(session.getAttribute("userTypeId") == null)
 													"<input id=\"btnReject\" type=image name=Action value="+d.charity_id+" src=\"images/reject3.png\" alt=\"Reject\" onclick=\"declineRequest('"+d.charity_id+"');\"/>  </td></tr>");
 										});
 									});	
+								
+								$.get('http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/charities', function(data) {
+									$.each(data, function(i,d){					
+										$('#accounts tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
+												"</td><td> <input id=\"btnDelete\" type=image name=Action value="+d.charity_id+" src=\"images/delete.png\" alt=\"Delete\" onclick=\"deleteAccount('"+d.charity_id+"');\" /> </td></tr>");
+									});
+								});	
+								
 							});
 							
 							function approveRequest(charityID)
@@ -149,35 +158,34 @@ if(session.getAttribute("userTypeId") == null)
 								$.post("http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/generateSchema/"+charityID,function(){
 								});
 								
-								
-								/* //Update isActive & isVerified to 1
-								$.ajax({
-								    type: 'PUT',
-								    url: 'http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/approveCharity/'+charityID,
-								    contentType: 'application/json',
-								    data: JSON.stringify(this.toJSON()),
-								    success: function() {
-								      console.log('Charity Has been Verified');
-								    },
-								    failure: function() {
-								     console.log('Failed to verify Charity');
-								    }
-								  }); */
-								
 								$('#row'+ charityID).remove();
 								
 								return false;
 							}
-							 
-							
 							
 							function declineRequest(charityID)
 							{
+									
+								//Execute the service to Generate Schema and Hibernation Configuration File
+								$.post("http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/rejectCharity/"+charityID,function(){
+								});
+								
 								$('#row'+ charityID).remove();
-								//Update isActive to 1 but leave isVerified to 0
+								
 								return false;
 							}
 							
+							
+							function deleteAccount(charityID){
+								
+								//Update isActive to 0
+								$.post("http://localhost:8080/CharityWare_Lite/RESTSystem/charityService/deleteCharityAccount/"+charityID,function(){
+								});
+								
+								$('#row'+ charityID).remove();
+								
+								return false;
+							}
 						
 							</script> 
 	
@@ -217,26 +225,20 @@ if(session.getAttribute("userTypeId") == null)
 				     </div>
 	
 				     <div id="content_2" class="tabContent">
-				     		<form name="listAccounts" method="POST" action="listAccounts.jsp">
-	      								Manage User Accounts
-					        		<br/>
-					        		<br/>
-	
-					        		<table class="resultSet">
-									<tr>
-	
-									<td> Serial Number </td>
-									<td> Charity Name </td>
-									<td> Charity Email  </td>
-									<td> Charity Description </td>
-									<td> Delete Account</td>
-									</tr>
-									
-	
-					        </table>        
-	
-	
-	
+				     		<form name="frmAccounts" method="POST" action="">
+     							Manage User Accounts
+			        		<br/>
+			        		<br/>
+
+			        		<table id="accounts" class="resultSet">
+							<tr id="header">
+								<td> Charity Name </td>
+								<td> Charity Registration No. </td>
+								<td> Charity Email  </td>
+								<td> Description </td>
+								<td> Delete Account</td>
+							</tr>
+			        		</table>  
 	     				</form>
 				     </div>  
 	

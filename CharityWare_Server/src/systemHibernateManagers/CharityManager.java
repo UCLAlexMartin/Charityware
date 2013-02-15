@@ -58,4 +58,27 @@ public class CharityManager {
 		
 		return 1;
 	}
+	
+	public Integer approveCharity(Integer CharityId){
+		Charity charity = (Charity)conn.get(Charity.class, CharityId);
+		charity.setIsActive(true);
+		charity.setIsVerified(true);
+		charity.setConnection_string("charity"+CharityId+".cfg.xml");
+		return (Integer) conn.transaction("update",charity);
+	}
+	
+	public Integer rejectCharity(Integer CharityId){
+		Charity charity = (Charity)conn.get(Charity.class, CharityId);
+		charity.setIsActive(true);
+		charity.setIsVerified(false);
+		charity.setConnection_string("NA");
+		return (Integer) conn.transaction("update",charity);
+	}
+	
+	public Integer deleteCharityAccount(Integer CharityId){
+		Charity charity = (Charity)conn.get(Charity.class, CharityId);
+		charity.setIsActive(false);
+		return (Integer) conn.transaction("update",charity);
+	}
+	
 }

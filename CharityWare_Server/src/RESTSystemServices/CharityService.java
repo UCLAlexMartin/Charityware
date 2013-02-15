@@ -79,8 +79,7 @@ public class CharityService {
 		 
 		 return charityManager.addCharities(charities).toString();
 	 }
-	 
-	 
+
 	 @POST
 	 @Path("/generateSchema/{charityId}")
 	 @Produces("application/json")
@@ -89,7 +88,6 @@ public class CharityService {
 			System.out.println("Get Charity ID"); 
 		 	int charID = Integer.parseInt(charityId);		 	 
 			Boolean result = GenerateSchemaManager.generateSchema(charID);
-			System.out.println("Charity Schema Generated");
 			System.out.println(result);
 			return result;
 			
@@ -101,19 +99,20 @@ public class CharityService {
 	    	
 	 }
 	 
-	 @PUT
-	 @Path("/approveCharity/{charityId}")
+	 @POST
+	 @Path("/rejectCharity/{charityId}")
 	 @Produces("application/json")
-	 public Boolean putApproveCharity(@PathParam("charityId") String charityId){		 
+	 //@Consumes("application/json")
+	 public Boolean postRejectCharity(@PathParam("charityId") String charityId){		 
 		 try{ 
+			 //isVerified = 0
+			 //isActive = 1
+			 //connection_string = charity + ChairtyId
 			System.out.println("Get Charity ID"); 
-		 	int charID = Integer.parseInt(charityId);
-		 	
-			Boolean result = GenerateSchemaManager.generateSchema(charID);
-			System.out.println("Charity Schema Generated");
-			System.out.println(result);
-			return result;
-			
+			int charID = Integer.parseInt(charityId);
+			CharityManager charityMgr = new CharityManager();
+			charityMgr.rejectCharity(charID);
+			return true;
 		 }catch (Exception ex)
 		 {
 			 ex.printStackTrace();
@@ -121,6 +120,27 @@ public class CharityService {
 		 }
 	    	
 	 }
+	
+	 @POST
+	 @Path("/deleteCharityAccount/{charityId}")
+	 @Produces("application/json")
+	 //@Consumes("application/json")
+	 public Boolean pOSTDeleteCharityAccount(@PathParam("charityId") String charityId){		 
+		 try{ 
+			 //isActive = 0
+			System.out.println("Get Charity ID"); 
+			int charID = Integer.parseInt(charityId);
+			CharityManager charityMgr = new CharityManager();
+			charityMgr.deleteCharityAccount(charID);
+			return true;
+		 }catch (Exception ex)
+		 {
+			 ex.printStackTrace();
+			 return false;
+		 }
+	    	
+	 }
+	 
 	 
 	 
 	 
