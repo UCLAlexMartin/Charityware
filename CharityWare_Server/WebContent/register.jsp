@@ -10,6 +10,7 @@
 		<meta charset="utf-8">
 		<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
 		<link rel="stylesheet" href="css/register.css" type="text/css" media="all">
+		
 		<title>CharityWare - Register your Charity</title>		
 	</head>
 	
@@ -18,7 +19,7 @@
 			<div class="main">
 			
 			<jsp:include page="header.jsp"></jsp:include>  
-			
+			<script type="text/javascript" src="js/validationRegister.js"></script>
 				<!-- Main Content -->
 				<article id="content">
 				<div class="wrapper">

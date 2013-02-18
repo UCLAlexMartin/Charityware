@@ -1,29 +1,33 @@
 jQuery(document).ready(function(){
 			
-	$('#btnLogin').click(function(){
+	$('#btnAddUser').click(function(){
 				
 		$('#txtUsername').attr('style', '');
 		$('#txtPassword').attr('style', '');
-		
-			var valid = true;		
+		$('#txtChEmail').attr('style', '');
+					
 		if($('#txtUsername').val() == undefined || $('#txtUsername').val() == "")
 		{					
 			$("#txtUsername").css({"border":"1px solid #FF0000"});
-			valid = false;
 		}
 		
 		if($('#txtPassword').val() == undefined || $('#txtPassword').val() == "")
 		{					
 			$("#txtPassword").css({"border":"1px solid #FF0000"});
-			valid = false;
 		}
 		
+		if($('#txtEmail').val() == undefined || $('#txtEmail').val() == "")
+		{					
+			$("#txtEmail").css({"border":"1px solid #FF0000"});
+		}
 		
-		if(!valid)
-			{
-			return false;
-			}
+		/*alert("bang");
+		$.post('url',{param : "val"}, function(){
 		
 		
+		});*/
+		
+		return false;
 	});
 });
+		

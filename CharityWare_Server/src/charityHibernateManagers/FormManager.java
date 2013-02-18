@@ -37,6 +37,11 @@ public class FormManager {
 		return forms;
 	}
 	
+	public List<Form> getForms(){
+		List<Form> forms = (List<Form>) conn.getTable("Form where isActive = 1");
+		return forms;
+	} 
+	
 	public Form getForm(Integer id){
 		Form form = (Form)conn.get(Form.class,id);
 		return form;

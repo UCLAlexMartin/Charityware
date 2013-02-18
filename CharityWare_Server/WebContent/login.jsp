@@ -43,14 +43,17 @@
 		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript">
-		/*jQuery(document).ready(function(){
-			$('#frmLogin').submit(function(){
+		jQuery(document).ready(function(){
+			/*$('#frmLogin').submit(function(){
 				$.post("login.jsp",{"ajax":"true","txtUsername":$('#txtUsername').val(), "txtPassword":$('#txtPassword').val()},function(){
 					//callback					
 				});
 				return false;
-			});			
-		});*/
+			});*/	
+			
+
+			
+		});
 		</script>
 		<script type="text/javascript" src="js/validationLogin.js"></script>
 		
@@ -64,7 +67,7 @@
 		<div class="main">
 	  
 	    <jsp:include page="header.jsp"></jsp:include>	    
-	    
+	    	<script type="text/javascript" src="js/validationLogin.js"></script>
 	    
 	          
 	    <!-- Main Content -->  
@@ -88,7 +91,8 @@
 								Username
 			        		</td>
 			        		<td>
-			        			<input type="text" name="txtUsername" id="txtUsername" class="registerTextbox"><!-- <input type="text" name="txtUsername" id="txtUsername" class="registerTextbox" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$" placeholder="Enter your Username." required>-->
+			        			<!-- <input type="text" name="txtUsername" id="txtUsername" class="registerTextbox">-->
+			        			<input type="text" name="txtUsername" id="txtUsername" class="registerTextbox" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$" placeholder="Enter your Username." required>
 							</td>
 						</tr>
 						
@@ -97,7 +101,8 @@
 								Password
 			        		</td>
 			        		<td>
-			        		  	<input type="password" name="txtPassword" id="txtPassword" class="registerTextbox"/><!-- <input type="password" name="txtPassword" id="txtPassword" class="registerTextbox" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" placeholder="Enter Your Password." required/> -->
+			        		  <!-- <input type="password" name="txtPassword" id="txtPassword" class="registerTextbox"/> -->
+			        		  <input type="password" name="txtPassword" id="txtPassword" class="registerTextbox" placeholder="Enter Your Password." required/>
 							</td>
 						</tr>
 						

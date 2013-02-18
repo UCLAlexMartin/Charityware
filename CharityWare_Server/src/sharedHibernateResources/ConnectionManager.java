@@ -37,7 +37,7 @@ public class ConnectionManager {
 
 	//Stub to remove old function
 	public  List<?> getTable(String table){
-		return runSelectQuery("from "+table);
+		return runSelectQuery("from "+ table);
 	}
 	
 	public  List<?> runSelectQuery(String querystr){
@@ -157,8 +157,15 @@ public class ConnectionManager {
 	    return result;
 	}
 	
+	public Object merge(Object obj){
+		Session session = this.getSession();
+		Object result = session.merge(obj);
+		this.closeSession(session);
+		return result;
+	}
+	
 	public void closeSession(Session session){
-		//session.close();
+		session.close();
 	}
 
 }

@@ -15,19 +15,19 @@
       <property name="salt" column="salt" type="string"/>
      <many-to-one lazy="false" unique="true" name="userType" class="charityHibernateEntities.UserType" >
             <column name="user_type_id" not-null="true" />
-        </many-to-one>
+     </many-to-one>
         
-     <set name="filledForms" table="filled_form" inverse="true" lazy="true" cascade="all-delete-orphan">
+     <set name="filledForms" table="filled_form" inverse="true" lazy="false" cascade="all-delete-orphan">
         	<key column="user_id" not-null="true" /> 
         	<one-to-many class="charityHibernateEntities.FilledForm" />
         </set>   
-	 <set name="events" table="events" inverse="true" lazy="true" cascade="all-delete-orphan">
+	<set name="events" table="events" inverse="true" lazy="false" cascade="all-delete-orphan">
         	<key column="user_id" not-null="true"/>
         	<one-to-many class="charityHibernateEntities.Event" />
         </set>
-     <set name="accesslogs" table="access_log" inverse="true" lazy="true" cascade="all-delete-orphan">
+     <set name="accesslogs" table="access_log" inverse="true" lazy="false" cascade="all-delete-orphan">
         	<key column="user_id" not-null="true"/>
         	<one-to-many class="charityHibernateEntities.AccessLog" />
-        </set>   
+     </set>
    </class>
 </hibernate-mapping>

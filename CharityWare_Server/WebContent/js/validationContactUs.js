@@ -6,26 +6,21 @@ jQuery(document).ready(function(){
 		$('#txtContactName').attr('style', '');
 		$('#txtContactComment').attr('style', '');
 					
-		if($('#txtContactEmail').val() == undefined || $('#contactEmail').val() == "")
+		if($('#txtContactEmail').val() == undefined || $('#txtContactEmail').val() == "")
 		{					
 			$("#txtContactEmail").css({"border":"1px solid #FF0000"});
 		}
 		
-		if($('#txtContactName').val() == undefined || $('#contactName').val() == "")
+		if($('#txtContactName').val() == undefined || $('#txtContactName').val() == "")
 		{					
 			$("#txtContactName").css({"border":"1px solid #FF0000"});
 		}
 		
-		if($('#txtContactComment').val() == undefined || $('#contactComment').val() == "")
+		if($('#txtContactComment').val() == undefined || $('#txtContactComment').val() == "")
 		{					
 			$("#txtContactComment").css({"border":"1px solid #FF0000"});
 		}
 		
-		/*alert("bang");
-		$.post('url',{param : "val"}, function(){
-		
-		
-		});*/
 		
 		return false;
 	});

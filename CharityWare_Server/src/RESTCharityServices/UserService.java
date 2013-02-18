@@ -93,7 +93,28 @@ public class UserService {
     	return entity;
     }
     
- 
+    @POST
+	@Path("/deactivateUserAccount/{DBConfigPath}/{userId}")
+	@Produces("application/json")
+	//@Consumes("application/json")
+	public Boolean postDeactivateUserAccount(@PathParam("DBConfigPath")String DBConfigPath,@PathParam("userId") String userId){		 
+		 try{ 
+			 //isActive = 0
+			System.out.println("Get User ID"); 
+			int userID = Integer.parseInt(userId);
+			UserManager userManager = new UserManager(DBConfigPath);
+			userManager.deactivateUserAccount(userID);
+			System.out.println("User Deactivated"); 
+			return true;
+		 }catch (Exception ex)
+		 {
+			 ex.printStackTrace();
+			 return false;
+		 }
+	    	
+	 }
+    
+    
  	/*@GET
  	@Path("/charityConfig/{DBConfigPath}/userName/{username}")
  	@Produces("application/json")

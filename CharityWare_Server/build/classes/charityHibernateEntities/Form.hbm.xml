@@ -14,12 +14,12 @@
         <property name="dateCreated" type="java.sql.Date" column="Date_Created"/>
         <property name="isActive" type="boolean" column="isActive"/>
         <property name="url" type="string" column="url"/>       
-        <set name="fields" table="form_fields" inverse="true" lazy="true" cascade="all-delete-orphan">
+        <set name="fields" table="form_fields" inverse="true" lazy="false" cascade="all-delete-orphan">
         	<key column="form_id" not-null="true"/>
         	<one-to-many class="charityHibernateEntities.FormFields" />
         </set>
         <!--    
-        <set name="permissions" table="form_permissions" inverse="true" lazy="true" cascade="all-delete-orphan">
+        <set name="permissions" table="form_permissions" inverse="true" lazy="false" cascade="all-delete-orphan">
         	<key column="form_id" not-null="true"/>
         	<one-to-many class="charityHibernateEntities.FormPermissions" />
         </set>

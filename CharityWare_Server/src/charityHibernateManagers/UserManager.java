@@ -29,10 +29,9 @@ public class UserManager {
 	}
 	
 	public  List<User> getUsers(String name){
-		List<User> user = (List<User>)conn.getTable("User where userName = '"+ name+"'");
+		List<User> user = (List<User>)conn.getTable("User where userName = '"+ name +"'");
 		return user;
 	}
-	
 	
 	
 	public Integer addUserSample (String name,String pass) {
@@ -59,7 +58,7 @@ public class UserManager {
 	
 	public Map<Integer,List<String>> getForms(){
 		Map<Integer,List<String>> results = new TreeMap<Integer,List<String>>();
-		List<User> users = (List<User>) conn.getTable("User");
+		List<User> users = (List<User>) conn.getTable("User where isActive = 1");
 		
 		ArrayList<FormPermissions> formpermissions = (ArrayList<FormPermissions>) conn.getTable("FormPermissions");
 		
@@ -107,6 +106,19 @@ public class UserManager {
 		//conn.closeSession(session);
 		return results;
 	}
+	
+	public void deactivateUserAccount(Integer userId){
+		User user = (User) conn.get(User.class, userId);
+		user.setIsActive(false);
+		user = (User) conn.merge(user);
+		conn.transaction("update",user);
+	}
+	
+	
+	
+	
+	
+	
 	/*public Map<Integer,Map<Integer,List<String>>> getFormEntities(String username){
 		ConnectionManager conn = new ConnectionManager();
 		conn.setDBConfname(this.DBConfname);

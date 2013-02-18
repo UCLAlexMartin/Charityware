@@ -21,11 +21,11 @@ public class EventClient {
 	static {
 		RestServiceURLPath = Configuration.getSiteUrl()+"RESTCharity/eventService";
 	}
-	public static Map<Integer,List<String>> getEvents(){
+	public static Map<Integer,List<String>> getEvents(String DBConfig){
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client client = Client.create(clientConfig);
-		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/json/events").
+		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/charityConfig/").path(DBConfig).path("/events/").
 				accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(new GenericType<Map<Integer,List<String>>>(){});
