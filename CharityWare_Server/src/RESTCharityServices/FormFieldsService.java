@@ -26,6 +26,17 @@ public class FormFieldsService {
 		//return map;
 	}
 	
+	
+	@GET
+	@Path("/{DBConfigPath}/formFields/")
+	@Produces("application/json")
+	public GenericEntity<Map<Integer,String>> getAllFormFields(@PathParam("DBConfigPath")String DBConfigPath){
+		FormFieldsManager formFieldsManager = new FormFieldsManager(DBConfigPath);
+		Map<Integer,String> map = formFieldsManager.getListFormFields();
+		GenericEntity<Map<Integer, String>> entity = new GenericEntity<Map<Integer,String>>(map){};
+		return entity;
+	}
+	
 	/*@GET
 	@Path("/formFields/{formId}")
 	@Produces(MediaType.APPLICATION_XML)

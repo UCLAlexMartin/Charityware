@@ -43,6 +43,22 @@ public class FormFieldsManager {
 		return results;
 	}
 	
+	public  Map<Integer,String> getListFormFields(){
+		
+		List<FormFields> formFields = (List<FormFields>) conn.getTable("FormFields where isActive = 1");
+		Iterator<FormFields> formFields_iter = formFields.iterator();
+		Map<Integer,String> results = new TreeMap<Integer,String>();
+		
+		while(formFields_iter.hasNext()){
+				FormFields formFieldsTemp = formFields_iter.next();
+			
+				String field = formFieldsTemp.getField_label();
+				results.put(formFieldsTemp.getF_id(), field);
+		}
+		return results;
+	}
+	
+	
 	public FormFields getFormFields(Integer id){
 		
 		FormFields formFields = (FormFields)conn.get(FormFields.class,id);

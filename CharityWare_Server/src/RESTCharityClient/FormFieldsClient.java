@@ -43,5 +43,17 @@ public class FormFieldsClient {
 		return clientresponse.getEntity(User.class);
 
 	}
+	
+	public static Map<Integer,String> getListFormFields(String DBConfig){
+		DefaultClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getClasses().add(JacksonJsonProvider.class);
+		Client client = Client.create(clientConfig);
+		ClientResponse clientresponse = client.resource(RestServiceURLPath).path(DBConfig).path("/formFields/")
+				.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON)
+				.get(ClientResponse.class);
+		return clientresponse.getEntity(new GenericType<Map<Integer,String>>(){});
+	}
+	
+	
 
 }

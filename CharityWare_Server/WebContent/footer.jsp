@@ -41,7 +41,7 @@
 					<tr>
 						<td colspan=2>Comment
 							<br/>
-							<textarea cols=80 rows=5 id="txtContactComment" name="contactComment" class="contactTextarea" maxlength="16777215" tabindex="3" required></textarea>
+							<textarea cols=80 rows=5 id="txtContactComment" name="contactComment" class="contactTextarea" maxlength="1000" tabindex="3" required></textarea>
 						</td>
 					</tr>
 				

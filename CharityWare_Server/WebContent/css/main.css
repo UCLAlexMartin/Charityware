@@ -379,19 +379,11 @@ table.resultSet td{
 .pad_bot2 {
 	padding-bottom:4px
 }
-
-.col1 {
-	margin:0 6px;
-	width:264px;
-	position:relative
-}
-.box2 {
-	background:#0e0c0a;
-	padding:25px 30px 32px
-}
-.line1 {
-	background:url(../images/line_vert1.gif) 289px 0 repeat-y
-}
-.line2 {
-	background:url(../images/line_vert1.gif) 591px 0 repeat-y
+.events{
+	background-color: #EFEFEF;
+    border-radius: 5px;-webkit-border-radius: 5px;
+    float: left;
+    margin: 2px;
+    padding: 5px;
+    width: 280px;
 }

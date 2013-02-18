@@ -13,6 +13,7 @@
 <%@ page import="staticResources.Configuration"%> 
 <%@ page import="RESTCharityClient.UserClient" %>
 <%@ page import="RESTCharityClient.EventClient" %>
+<%@ page import="RESTCharityClient.FormFieldsClient" %>
 
 
 
@@ -448,19 +449,14 @@ if(session.getAttribute("userTypeId") == null)
 				       
 								<%
 									String urlHibernate2 = session.getAttribute("charity_Con").toString();
-									Map<Integer,List<String>> datamap3 = EventClient.getEvents(urlHibernate2); //(TreeMap<Integer,ArrayList<String>>)DatabaseManager.readEvents();
+									Map<Integer,List<String>> datamap3 = EventClient.getEvents(urlHibernate2);
 						        	Set<Entry<Integer,List<String>>> entryset3 = datamap3.entrySet();
 						        	Iterator<Entry<Integer,List<String>>> iter3 =  entryset3.iterator();
 						            
 									while (iter3.hasNext()){
 										List<String> eventsDetails =  iter3.next().getValue();
 						            %>
-						            <div style="background-color: #EFEFEF;
-    border-radius: 5px;-webkit-border-radius: 5px;
-    float: left;
-    margin: 2px;
-    padding: 5px;
-    width: 280px;">
+						            <div class = "events">
 						                <h4><span><%=eventsDetails.get(0)%></span></h4>
 											<p class="pad_bot2"><strong> <%=eventsDetails.get(1)%></strong></p>
 											<p class="pad_bot2"><strong>VENUE </strong><%=eventsDetails.get(2)%></p>
@@ -473,33 +469,42 @@ if(session.getAttribute("userTypeId") == null)
 			     </div>
 			      
 				<div id="content_4" class="tabContent">
-					<Form id="charityAdmin.jsp" name="frmSearch" method="post"
-						action="search">
-						<p>
-							<label for=""></label> 
+					<form id="frmSearch" name="frmSearch" method="post" action="">
+						<table>
+							<tr>
+							<td>
 							<select name="category" id="category" name="category">
 
-								<%-- <%
-									List<String> list = ConnectionManager.DatabaseManager.searchtitle();
-									for (int i = 0; i < list.size(); i++) {
+								<%
+									String urlHibernate3 = session.getAttribute("charity_Con").toString();
+									Map<Integer,String> datamap4 = FormFieldsClient.getListFormFields(urlHibernate3);
+						        	Set<Entry<Integer,String>> entryset4 = datamap4.entrySet();
+						        	Iterator<Entry<Integer,String>> iter4 =  entryset4.iterator();
+						            
+									while (iter4.hasNext()){
+										
+										 Map.Entry<Integer, String> fields = (Map.Entry<Integer, String>)iter4.next();
+										 String field =  fields.getValue();
+										 Integer fieldId = fields.getKey();
+										 String optionValue = "row" + fieldId;
+											
 								%>
-								<option>
-									<%=list.get(i)%>
+								<option value=<%= optionValue%>>
+									<%=field%>
 								</option>
 								<%
 									}
-								%> --%>
-							</select> : <input type="text" name="keywords" />
-						</p>
-						<p>&nbsp;</p>
-						<p>
-							<%-- <%
-								String a = request.getParameter("category");
-								String b = request.getParameter("keywords");
-							%>
-							<input type="submit" name="Search" id="Search" value="Search"
-								onclick="sendGetRequest(<%=a%>,<%=b%>)" /> --%>
-						</p>
+								%>
+							</select>
+							</td>
+							<td>
+								<input type="text" name="txtSearch" />
+							</td>
+							<td>
+								<input class="contactSubmit" name="btnSearch" type="submit" id="btnSearch" value="SEARCH"/>
+							</td>
+							</tr>
+						</table>
 					</form>
 				</div>
 			     
@@ -516,7 +521,7 @@ if(session.getAttribute("userTypeId") == null)
                         <br/>
                         <br/>
 			
-			     		Div that will hold thchart
+			     		
     					<div id="chart0_div" class="content_5_charts"></div>
     					<div id="chart1_div" class="content_5_charts"></div>
     					<div id="chart2_div" class="content_5_charts"></div>
