@@ -26,7 +26,8 @@ public class UserClient {
 		System.out.println("Create client");
 		Client Myclient = Client.create(clientConfig);
 		System.out.println("Parse Client Response");
-		ClientResponse clientresponse = Myclient.resource(RestServiceURLPath)
+		ClientResponse clientresponse;
+		clientresponse = Myclient.resource(RestServiceURLPath)
 				.path("userName").path(parameter)
 				.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);

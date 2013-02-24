@@ -14,7 +14,7 @@ public class websiteLogin {
 		if(usr != null)
 		{
 			System.out.println("Login succesful");
-			String url = "http://localhost:8080/CharityWare_Lite/default.jsp";
+			String url = "http://localhost:8080/CharityWare_Lite/login.jsp";
 			if(isAuthenticated(usr.getUserType().getUserTypeId().toString(), url))
 			{
 				System.out.println("Valid to access: " + url);
@@ -49,8 +49,8 @@ public class websiteLogin {
 			}
 		}catch(Exception e)
 		{
-			System.out.println("End Print Stack");
-			e.printStackTrace();
+			System.out.println("Failed to login, user probably not found in database.");
+			//e.printStackTrace();
 		}
 		System.out.println("End null");
 		return null;

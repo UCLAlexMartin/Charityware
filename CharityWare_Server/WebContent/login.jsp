@@ -8,24 +8,25 @@
 	{
 		try{
 			User usr = websiteLogin.login(request.getParameter("txtUsername"), request.getParameter("txtPassword"));
-			
-			session.setAttribute("userName", usr.getUserName());
-			session.setAttribute("user_Id", usr.getUser_id());
-			session.setAttribute("userTypeId", usr.getUserType().getUserTypeId());
-			
-			switch(usr.getUserType().getUserTypeId())
-			{
-			case 1:
-				response.sendRedirect("uclAdmin.jsp");
-				break;
-			case 2:
-				Charity ch = CharityClient.getUserCharity(usr.getUser_id());
-				session.setAttribute("charity_id", ch.getCharity_id());
-				session.setAttribute("charity_Con", ch.getConnection_string());
-				response.sendRedirect("charityAdmin.jsp");
-				break;			
+			System.out.println("hey");
+			if(usr != null){
+				session.setAttribute("userName", usr.getUserName());
+				session.setAttribute("user_Id", usr.getUser_id());
+				session.setAttribute("userTypeId", usr.getUserType().getUserTypeId());
+				
+				switch(usr.getUserType().getUserTypeId())
+				{
+				case 1:
+					response.sendRedirect("uclAdmin.jsp");
+					break;
+				case 2:
+					Charity ch = CharityClient.getUserCharity(usr.getUser_id());
+					session.setAttribute("charity_id", ch.getCharity_id());
+					session.setAttribute("charity_Con", ch.getConnection_string());
+					response.sendRedirect("charityAdmin.jsp");
+					break;			
+				}
 			}
-			
 			
 		}catch(Exception e)
 		{
@@ -92,7 +93,7 @@
 			        		</td>
 			        		<td>
 			        			<!-- <input type="text" name="txtUsername" id="txtUsername" class="registerTextbox">-->
-			        			<input type="text" name="txtUsername" id="txtUsername" class="registerTextbox" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$" placeholder="Enter your Username." required>
+			        			<input type="text" value="<% if(request.getParameter("txtUsername")!=null){out.print(request.getParameter("txtUsername"));} %>" name="txtUsername" id="txtUsername" class="registerTextbox" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$" placeholder="Enter your Username." required>
 							</td>
 						</tr>
 						
@@ -102,7 +103,7 @@
 			        		</td>
 			        		<td>
 			        		  <!-- <input type="password" name="txtPassword" id="txtPassword" class="registerTextbox"/> -->
-			        		  <input type="password" name="txtPassword" id="txtPassword" class="registerTextbox" placeholder="Enter Your Password." required/>
+			        		  <input type="password" value="" name="txtPassword" id="txtPassword" class="registerTextbox" placeholder="Enter Your Password." required/>
 							</td>
 						</tr>
 						

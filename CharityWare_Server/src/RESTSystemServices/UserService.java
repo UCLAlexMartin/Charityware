@@ -23,7 +23,13 @@ public class UserService {
 		UserManager userManager = new UserManager();
 		ArrayList<User> holder = userManager.getUsers(username);
 		System.out.println("User array list populated");
-
-		return holder.get(0);    
+		if(holder.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return holder.get(0);
+		}
 	} 
 }
