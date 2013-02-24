@@ -4,7 +4,10 @@
 if(session.getAttribute("userTypeId") == null)
 {
 	response.sendRedirect("login.jsp");
-	//out.println("go away null"+"<br/>");
+	response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+	String newLocn = "login.jsp";
+	response.setHeader("Location",newLocn);
+	System.out.println("go away null user");
 }else
 {
 	if(websiteLogin.isAuthenticated(session.getAttribute("userTypeId").toString(), request.getRequestURL().toString()))

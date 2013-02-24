@@ -1,4 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="utf-8"%>
+<%@ page import="java.util.Enumeration"%>
+<%
+	if(request.getParameter("logout") != null)
+	{
+		if(request.getParameter("logout").equals("logMeOut"))
+		{
+			System.out.println("RAWR!!");
+			for(Enumeration<String> i = session.getAttributeNames(); i.hasMoreElements();)
+			{
+				String attr = i.nextElement();
+				session.removeAttribute(attr);
+			}
+			
+			session.invalidate();
+		}	
+	}
+
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
