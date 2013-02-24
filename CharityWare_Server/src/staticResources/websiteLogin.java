@@ -56,7 +56,18 @@ public class websiteLogin {
 		return null;
 	}
 	
-
+	public static String getHomePage(String userID)
+	{
+		switch(userID)
+		{
+		case "1":
+			return "uclAdmin.jsp";
+		case "2":
+			return "charityAdmin.jsp";
+		default:
+			return "default.jsp";
+		}
+	}
 	public static boolean isAuthenticated(String userTypeId, String URL)
 	{
 		Boolean ret = false;
