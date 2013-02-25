@@ -1,7 +1,5 @@
 package systemHibernateManagers;
 
-import java.sql.CallableStatement;
-import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,38 +45,4 @@ public class GenerateSchemaManager {
 	   				return false;
 	   			}	
 	   	}
-	
-	
-//	private boolean generateSchema(int CharityId)
-//	{
-//		boolean isSuccessful;
-//		
-//		Session session = HibernateUtil.getSessionFactory().openSession();
-//	    Transaction tx = null;
-//	    
-//	    String DBName = "Charity" + CharityId;
-//	    
-//	    try{
-//	         tx = session.beginTransaction();
-//	         
-//	         session.createSQLQuery("call spSchemaGeneration(':DB_Name')").setParameter("DB_Name", DBName);
-//	                  	         
-//	         tx.commit();
-//	         isSuccessful = true;
-//	         System.out.print("Schema generated Successfully");
-//
-//	      }catch (HibernateException e) {
-//	         if (tx!=null) tx.rollback();
-//	         e.printStackTrace();
-//	         isSuccessful = false;
-//	         System.out.print("Cannot generate Schema");
-//	         
-//	      }finally {
-//	         session.close();
-//	      }
-//	    
-//	    return isSuccessful;	
-//		
-	
-
 }

@@ -1,10 +1,14 @@
 package charityHibernateManagers;
 
+import charityHibernateEntities.Event;
 import charityHibernateEntities.FilledForm;
 import charityHibernateEntities.FormFields;
 import charityHibernateEntities.User;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +17,10 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import sharedHibernateResources.ConnectionManager;
+import staticResources.Configuration;
+import systemHibernateManagers.CharityManager;
+import systemHibernateManagers.GenerateConfig;
+
 
 public class FilledFormManager {
 	private ConnectionManager conn;
@@ -90,6 +98,25 @@ public class FilledFormManager {
 	public List<FilledForm> getFilledForms(String column,List<FormFields> fields){
 		List<FilledForm> results =(List<FilledForm>) conn.searchCriteria(FilledForm.class, column, fields);
 		return results;
+	}
+	
+	public Map<Integer,ArrayList<String>> getSearchResults(String FieldLabel,String Criteria){
+		   
+		List<Integer> searchResults = (List<Integer>) conn.searchCriteria (FilledForm.class,"record_id","value",Criteria,"formFields", "form_fields", "field_label",FieldLabel);
+		Iterator<Integer> iter =searchResults.iterator();
+		Map<Integer, ArrayList<String>> hashMap = new HashMap<Integer, ArrayList<String>>(searchResults.size());
+		while(iter.hasNext()){
+			Integer record_id = iter.next();
+			List<FilledForm> searchResults2 = (List<FilledForm>) conn.getTable("FilledForm where record_id="+record_id+"and isActive="+1);
+			ArrayList<String> values = 	new ArrayList<String>();
+			for (FilledForm row : searchResults2) {
+				Integer key = (Integer)row.getRecord_id();
+				values.add(row.getFormFields().getField_label());
+				values.add(row.getValue());
+				hashMap.put(key, values);
+			}
+		}
+		return hashMap;	
 	}
 	
 }

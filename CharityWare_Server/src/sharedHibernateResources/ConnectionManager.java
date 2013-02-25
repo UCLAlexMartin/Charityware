@@ -14,7 +14,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 public class ConnectionManager {
 	private  SessionFactory factory;
@@ -73,6 +75,20 @@ public class ConnectionManager {
 		closeSession(session);
 		return;
 	}
+	
+	public List<?> searchCriteria (Class arg0,String groupbycolumn,String criteriaColumn1,Object criteriaValue1,String joint_table,String joint_table_name, String criteriaColumn2,Object criteriaValue2/*,List<?> objects*/ ){
+		 Session session = getSession();
+		 List<?> results =  session.createCriteria(arg0)
+		   .createAlias(joint_table,joint_table_name,JoinType.INNER_JOIN)
+		   .add(Restrictions.eq(joint_table_name+"."+criteriaColumn2,criteriaValue2 ))
+		   .add(Restrictions.eq( criteriaColumn1,criteriaValue1))
+		   .setProjection(Projections.projectionList()
+		   .add(Projections.groupProperty(groupbycolumn))
+				   )
+		   .list();
+		 closeSession(session);
+		    return results;
+		}
 	
 	public  Object get(Class arg0,Serializable serial){
 		Session session = this.getSession();

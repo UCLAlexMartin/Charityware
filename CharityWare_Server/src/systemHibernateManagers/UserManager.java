@@ -19,5 +19,10 @@ public class UserManager {
 		ArrayList<User> user = (ArrayList<User>)conn.getTable("User where userName = '"+ name+"'");
 		return user;
 	}
-
+	
+	
+	public User getUser(Integer id){
+		User user = (User)conn.get(User.class,id);
+		return user;
+	}
 }

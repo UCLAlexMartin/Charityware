@@ -1,7 +1,9 @@
 package RESTCharityServices;
 import java.lang.reflect.Type;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import charityHibernateEntities.FilledForm;
 import charityHibernateManagers.FilledFormManager;
@@ -32,7 +34,7 @@ public class FilledFormService {
     	return entity;       
     }
 	
-	@Path("/{DBConfigPath}/filledforms/insertFilledForms")
+	 @Path("/{DBConfigPath}/filledforms/insertFilledForms")
 	 @POST
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/plain")
@@ -50,4 +52,15 @@ public class FilledFormService {
 	    	return "0";
 	    }   
 	}
+	
+	@GET
+    @Path("/{DBConfigPath}/filledforms/getSearchResults/{FieldLabel}/{Criteria}")
+    @Produces("application/json")
+	public 	Map<Integer,ArrayList<String>> getSearchResults(@PathParam("DBConfigPath")String DBConfigPath,@PathParam("FieldLabel")String FieldLabel,@PathParam("Criteria")String Criteria){
+		
+			FilledFormManager filledFormManager = new FilledFormManager(DBConfigPath);
+			Map<Integer,ArrayList<String>> resultSet = (Map<Integer,ArrayList<String>>)filledFormManager.getSearchResults(FieldLabel,Criteria);
+	    	return resultSet;  	
+	} 
+
 }

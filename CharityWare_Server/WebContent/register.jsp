@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%-- <%@ page import="systemDBHibernateEntities.Charity" %>  
-<%@ page import="RESTClient.CharityClient" %>
-<%@ page import="systemDBHibernateEntities.User" %>  
-<%@ page import="RESTClient.SystemUserClient" %>   --%>       
+<%@ page import="staticResources.Configuration"%> 
+   
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -20,6 +18,17 @@
 			
 			<jsp:include page="header.jsp"></jsp:include>  
 			<script type="text/javascript" src="js/validationRegister.js"></script>
+			<script type="text/javascript">
+			
+			 	var url = '<%=Configuration.getSiteUrl()%>';			   	
+				function Register()
+				{
+					$.post(url+'RESTSystem/charityService/addCharity/'+$('#txtCharity').val()+'/'+$('#txtReg').val()+'/'+$('#txtChEmail').val()+'/'+$('#txtChDescription').val()+'/'+$('#txtAdminUsername').val()+'/'+$('#txtAdminPassword').val(),function(){
+					});
+					
+					alert("Your Request has successfully been registered, we'll get back with you shortly");
+				}
+			</script>
 				<!-- Main Content -->
 				<article id="content">
 				<div class="wrapper">
@@ -41,7 +50,7 @@
 								Charity Name
 							</td>
 							<td>
-								<input type="text" class="registerTextbox" name="txtCharity" id="txtCharity" maxlength="100" pattern="[a-zA-Z0-9]+" placeholder="Charity Name" tabindex="1" required>
+								<input type="text" class="registerTextbox" name="txtCharity" id="txtCharity" maxlength="100" pattern="[a-zA-Z0-9]+" placeholder="Charity Name" tabindex="11" required>
 							</td>
 						</tr>
 						
@@ -50,7 +59,7 @@
 								Registration Number
 							</td>
 							<td>
-								<input type="text" class="registerTextbox" name="txtReg" id="txtReg" maxlength="100" tabindex="2" pattern="[0-9]{5,7}" placeholder="Charity Registration No" required>
+								<input type="text" class="registerTextbox" name="txtReg" id="txtReg" maxlength="100" tabindex="12" pattern="[0-9]{5,7}" placeholder="Charity Registration No" required>
 							</td>
 						</tr>
 						
@@ -59,7 +68,7 @@
 								Charity Email
 							</td>
 							<td>
-								<input type="email" class="registerTextbox" name="txtChEmail" id="txtChEmail" maxlength="250" tabindex="3" placeholder="Charity Email Address" required>
+								<input type="email" class="registerTextbox" name="txtChEmail" id="txtChEmail" maxlength="250" tabindex="13" placeholder="Charity Email Address" required>
 							</td>
 						</tr>
 						
@@ -68,7 +77,7 @@
 								Charity Description
 							</td>
 							<td>
-								<textarea cols=65 rows=4 id="txtChDescription" name="txtChDescription" class="registerTextbox" maxlength="300" tabindex="4" pattern="[a-zA-Z0-9]+" placeholer="Charity Description" required></textarea>
+								<textarea cols=65 rows=4 id="txtChDescription" name="txtChDescription" class="registerTextbox" maxlength="300" tabindex="14" pattern="[a-zA-Z0-9]+" placeholer="Charity Description" required></textarea>
 							</td>
 						</tr>
 						
@@ -77,7 +86,7 @@
 								Charity Administrator Username
 							</td>
 							<td>
-								<input type="text" class="registerTextbox" name="txtAdminUsername" id="txtAdminUsername" maxlength="20" tabindex="5" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]$" placeholder="Username must contain a minimum of 2 characters and maximum of 20." required>
+								<input type="text" class="registerTextbox" name="txtAdminUsername" id="txtAdminUsername" maxlength="20" tabindex="15" pattern="^[a-zA-Z0-9]+" placeholder="Charity Administrator Username" required>
 							</td>
 						</tr>
 						
@@ -86,13 +95,13 @@
 								Charity Administrator Password
 							</td>
 							<td>
-								<input type="password"  class="registerTextbox" name="txtAdminPassword" id="txtAdminPassword" maxlength="25" tabindex="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" placeholder="Password should contain a minimum of one Uppercase, Lower and Number." required>
+								<input type="password"  class="registerTextbox" name="txtAdminPassword" id="txtAdminPassword" maxlength="25" tabindex="16" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" placeholder="Password should contain a minimum of one Uppercase, Lower and Number." required>
 							</td>
 						</tr>	
 						
 						<tr>
 							<td>
-								<input class="registerSubmit" name="btnRegister" type="submit" id="btnRegister" value="REGISTER">
+								<input class="registerSubmit" name="btnRegister" type="submit" id="btnRegister" value="REGISTER" onclick="Register()"/>
 							</td>
 						</tr>
 						
@@ -111,32 +120,7 @@
 					
 					</form>
 				
-				<%-- <%
-				if( (request.getParameter("txtCharity") != null) & (request.getParameter("txtReg") != null) & (request.getParameter("txtChEmail") != null) 
-				& (request.getParameter("txtChDetails") != null) & (request.getParameter("txtAdminUsername") != null) & (request.getParameter("txtAdminPassword") != null)) { 
 				
-				User u = new User();
-				
-				u.setUserName((request.getParameter("txtAdminUsername")).toString());
-				u.setUserPassword((request.getParameter("txtAdminPassword")).toString());
-				SystemUserClient.addUser(u);
-				
-				
-				//SystemUserClient.addUser((request.getParameter("txtAdminUsername")).toString(), (request.getParameter("txtAdminPassword")).toString());
-				//u = SystemUserClient.get((request.getParameter("txtAdminUsername")).toString());
-				
-				/* Charity ch = new Charity();
-				
-				ch.setCharityName(request.getParameter("txtCharity"));
-				ch.setCharityDescription(request.getParameter("txtChDetails"));
-				ch.setEmail(request.getParameter("txtChEmail"));
-				ch.setRegistrationNo(request.getParameter("txtReg"));
-				ch.setUser(u);
-							
-				CharityClient.addCharity(ch); */
-				
-				}
-				%>      			 --%>
 				
 				</div>
 				</div>

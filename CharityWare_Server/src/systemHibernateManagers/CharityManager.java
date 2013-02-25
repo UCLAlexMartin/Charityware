@@ -47,10 +47,27 @@ public class CharityManager {
 		return charity.get(0);
 	}
 	
-	public Integer addCharity (Charity newCharity) { 
+	public Integer addCharity (String chName, String RegNo,String chEmail,String chDescription,String AdminUsername,String AdminPassword) { 
+				
+		//User user = (User) userManager.getUsers("rcadmin").get(0);
+		User user = new User(AdminUsername,AdminPassword);
+		Charity newCharity = new Charity();
+		user.setUserName(AdminUsername);
+		user.setIsActive(true);
+		conn.transaction("save",user);
+		
+		//Add Charity
 		UserManager userManager = new UserManager();
-		User user = (User) userManager.getUsers("rcadmin").get(0);
-		newCharity.setUser(user);
+		User u = (User) userManager.getUser(user.getUser_id());
+		newCharity.setCharity_name(chName);
+		newCharity.setRegistration_no(RegNo);
+		newCharity.setEmail(chEmail);
+		
+		newCharity.setCharity_description(chDescription);
+		newCharity.setUser(u);
+		newCharity.setConnection_string("NA");
+		newCharity.setIsVerified(false);
+		newCharity.setIsActive(false);
 		return (Integer) conn.transaction("save",newCharity);
 	}
 	

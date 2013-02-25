@@ -28,7 +28,7 @@ public class User {
 		this.userPassword=pass;
 		this.isActive=true;
 		this.salt="456";
-		this.dateCreated = new Date(1);
+		//this.dateCreated = new Date(1);
 		this.userType = new UserType();
 		this.userType.setUserType("Charity_Administrator");
 		this.userType.setUserTypeId(1);

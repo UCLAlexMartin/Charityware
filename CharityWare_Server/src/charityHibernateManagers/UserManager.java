@@ -3,6 +3,7 @@ package charityHibernateManagers;
 import charityHibernateEntities.Form;
 import charityHibernateEntities.FormPermissions;
 import charityHibernateEntities.User;
+import charityHibernateEntities.UserType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,11 +17,12 @@ import sharedHibernateResources.ConnectionManager;
 
 public class UserManager {
 	
-	//private String DBConfname;
+	private String DBConfname;
 	private ConnectionManager conn;
 	
 	public UserManager(String DBConfname){
 		conn = new ConnectionManager(DBConfname);
+		this.DBConfname=DBConfname;
 	}
 	
 	public List<User> retrieve(){		
@@ -40,10 +42,21 @@ public class UserManager {
 		
 	}
 	
+	public Integer addUser (String name,String pass,String email, int userTypeId ) {
+		UserTypeManager ut =new UserTypeManager(this.DBConfname);
+		UserType usertype = (UserType)ut.getUserType(new Integer (userTypeId));
+		User user = new User(name,pass);
+		user.setUserEmail(email);
+		user.setUserType(usertype);
+		user.setIsActive(true);
+		return (Integer) conn.transaction("save",user);	
+	}
+	
 	public User getUser(Integer id){
 		User user = (User)conn.get(User.class,id);
 		return user;
 	}
+	
 	
 	/*public static ArrayList<User> getUsers(String name){
 		ArrayList<User> user = (ArrayList<User>)ConnectionManager.getTable("User where userName = '" + name+"'");

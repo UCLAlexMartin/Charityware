@@ -191,6 +191,7 @@ if(session.getAttribute("userTypeId") == null)
 		<div class="main">
 	  
 	   <jsp:include page="headerLoggedIn.jsp"></jsp:include>
+<!-- <<<<<<< HEAD
 	    
 	   	<script type="text/javascript">
 	   	
@@ -226,6 +227,150 @@ if(session.getAttribute("userTypeId") == null)
 			
 		</script>
 	   
+======= -->
+	   <script type="text/javascript">
+      var url = '<%=Configuration.getSiteUrl()%>';
+      var urlHibernate = '<%=session.getAttribute("charity_Con").toString()%>';
+      var forms = new Array();
+      
+   $(document).ready(function(){
+    
+    $.get(url+'RESTCharity/userTypeService/charityConfig/'+urlHibernate+'/userTypes', function(data) {
+      $.each(data, function(i,d){     
+       $('#ddUserType').append("<option value ='" + d.userTypeId  + "'>" + d.userType + "</option>");
+       $('#ddUserType2').append("<option value ='" + d.userTypeId  + "'>" + d.userType + "</option>");
+       });
+     
+      });
+    
+    $.get(url+'RESTCharity/formService/forms/'+urlHibernate, function(data) {
+     $.each(data, function(i,d){
+      forms[i] = d.formId;
+      $('#cbPermissions').append('<input type="checkbox" id="cb'+forms[i]+'" value="'+forms[i]+'" /> <label for="cb'+forms[i]+'">'+ d.formName+'</label> <br/>');
+	   
+     }); 
+    }); 
+    
+    
+    $("#ddUserType2").change(function(){
+        
+      var e = document.getElementById("ddUserType");
+  	  var optionval = e.options[e.selectedIndex].value;
+  	  if (optionval=="Select")
+  	  {
+  		  alert("Please select a valid Option");
+  	  }
+  	  else
+  	 {
+        //Show Loading Animation
+        $('#userTypeLoader2').show();
+        
+        var userTypeId = $(this).val();
+        var permissions = new Array();
+
+        $.get(url+'RESTCharity/formPermissionsService/'+urlHibernate+'/formPermissions/'+userTypeId, function(data){
+        $.each(data, function(i,d){
+          permissions[i] = d;
+            });
+         
+         //$('#cbPermissions').html('');
+         
+         for(var i=0; i<forms.length;i++)
+         {
+              for(var j=0; j<permissions.length;j++)
+             {
+               
+              if(forms[i] == permissions[j])
+              {
+            //$('#cbPermissions').append('<input type="checkbox" id="cb'+forms[i]+'" value="'+forms[i]+'" checked="checked" disabled="disabled"/> <label for="cb'+forms[i]+'">'+ forms[i]+'</label> <br/>');
+                var element = document.getElementById('cb'+forms[i]); 
+                if(element.tagName === "INPUT" && element.type === "checkbox")
+                {
+                 	element.checked = "checked";
+                 	element.disabled = "disabled";
+                }              
+              }       
+             }          
+           }
+           //Hide Loading Animation
+         $('#userTypeLoader2').hide();
+            });
+  	 }
+       });
+       }); 
+       
+      function deactivateUser(userID){
+    
+       $.post(url+'RESTCharity/userService/deactivateUserAccount/'+urlHibernate+'/'+userID,function(){
+    });
+    
+    $('#row'+ userID).remove();
+    
+    return false;
+      };
+      
+      function addUser()
+      {
+    	  var e = document.getElementById("ddUserType");
+    	  var optionval = e.options[e.selectedIndex].value;
+    	  if (optionval=="Select")
+    	  {
+    		  alert("Please select a valid Option");
+    	  }
+    	  
+    	  else
+    	 {
+		 
+          $.post(url+'RESTCharity/userService/charityConfig/'+urlHibernate+'/'+$('#txtUsername').val()+'/'+$('#txtPassword').val()+'/'+$('#txtEmail').val()+'/'+$('#ddUserType').val(),
+        		  function(){
+      		}); 
+          alert(" User added successfully");
+         }
+      };
+      
+         function addUType()
+         {
+        	 
+              $.post(url+'RESTCharity/userTypeService/charityConfig/'+urlHibernate+'/'+$('#txtAddUserType').val(),
+            		  function(){
+            	  alert('Type Added');	  
+          });
+         };
+         
+         function addPermissions(){
+		    	for(var i=0; i<forms.length;i++){
+		    		var element = document.getElementById('cb'+forms[i]);	
+		 			if(element.checked && !element.disabled)
+		            {
+		 				
+		 				 var wsurl = url+'RESTCharity/formPermissionsService/formPermissions/addPermissions/'+urlHibernate+'/'+$('#ddUserType2').val()+'/'+forms[i];
+				    	$.post(wsurl,function(){
+				    		alert(i);
+						});
+		            }
+		    	}
+		    
+		    }		    
+		   
+         
+     
+    /*   function search(field_label,value){
+       
+       $.get(url+'RESTCharity/filledFormService/'+urlHibernate+'/filledforms/getSearchResults/'+field_label+'/'+value, function(data) {
+     $.each(data, function(i,d){ 
+      $('#searchResult').append(' <table> ');
+      for(row = 0; row < i ; row++){
+       
+      }
+      
+      $('#searchResult tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
+        "</td></tr>"); 
+     });
+    });
+       
+      } */
+    </script>
+<!-- >>>>>>> 9e7e257476aaab6ffa4e500ae96e026f8b49045f -->
 	    <!-- Main Content -->
 	    
 	    <article id="content">
@@ -376,6 +521,7 @@ if(session.getAttribute("userTypeId") == null)
 					  </table>
 				    </form>
                         
+<!-- <<<<<<< HEAD
                         </div>
                         <div id="addUser" class="subContent2" style="display:none;">
 
@@ -542,6 +688,88 @@ if(session.getAttribute("userTypeId") == null)
                         
                         </div>
 			     </div>  
+======= -->
+ 						<div id="addUser" class="subContent2" style="display:none;">
+	                        
+		 						<table style="border-spacing:5px;border-collapse: inherit;">
+								<tr>
+									<td>Username</td>
+					      			<td>								
+					      				<input type="text" class="registerTextbox" name="txtUsername" id="txtUsername" maxlength="20" tabindex="1" placeholder="Username" required/> 
+					      			</td>
+					      		</tr>
+					      		<tr>
+									<td>Password</td>
+					      			<td> 
+					      				<input type="password"  class="registerTextbox" name="txtPassword" id="txtPassword" maxlength="25" tabindex="2" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" placeholder="One Uppercase, Lowercase and Number." required/>
+					      			</td>
+					      		</tr>
+					      		<tr>
+									<td>Email</td>
+					      			<td> 
+					      				<input type="email" class="registerTextbox" name="txtEmail" id="txtEmail" maxlength="250" tabindex="3" placeholder="User Email Address" required/>
+					      			</td>
+					      		</tr>
+					      		<tr>
+									  <td>User Category</td>
+									<td>	
+										<select id="ddUserType" name="ddUserType">
+										<option>Select</option>
+										</select>
+									</td> 
+																			      			
+					      		</tr>
+								<tr>
+									<td></td>
+									<td> 
+										<input class="contactSubmit" name="btnAddUser" type="button" onclick="addUser()" id="btnAddUser" value="ADD USER"/>
+									</td>
+								</tr>
+							</table>
+                        </div>
+				 
+				 		<div id="userPermissions" class="subContent2" style="display:none;">
+				 		 <form id="userPermissions" name="userPermissions" method="post" action="">
+		 						<table style="border-spacing:5px;border-collapse: inherit;">
+		 						<tr>
+									<td>User Category</td>
+									<td>	
+										<select id="ddUserType2" name="ddUserType2">
+										<option>Select</option>
+										</select>
+										<img id="userTypeLoader" src="images/ajax-loader.gif"/>
+										<div id="userTypeLoader2" style="width:5px; height:5px; background-color:red; display:none;"></div>
+										<div id="addUserType" style="display:none;">
+										
+										<input id="txtAddUserType" type="text" ></input>
+										<input class="contactSubmit" name="btnAddUserType" type="submit" id="btnAddPermission" onclick="addUType()"value="ADD USER TYPE"/>
+										
+										</div>
+									</td>
+									<td>
+										<input id="btnAddUCat" type=image name="btnAddUCat" src="images/add.png" alt="Add User Category" onclick="$('#addUserType').toggle(); return false;"/>
+									</td>										      			
+					      		</tr>
+		 						<tr>
+									<td> Form Permissions</td>
+					      			<td>	
+						      			<div id="cbPermissions">
+						      			</div>
+					      			</td>
+					      		</tr>
+					      		<tr>
+									<td></td>
+									<td> 
+										<input class="contactSubmit" name="btnAddPermission" type="submit" id="btnAddPermission"  onclick="addPermissions()" value="ADD PERMISSION"/>
+									</td>
+								</tr>
+		 						
+		 						</table>
+		 				</form>		
+		 						
+				 		</div>
+				 </div>  
+<!-- >>>>>>> 9e7e257476aaab6ffa4e500ae96e026f8b49045f -->
 			     
 			     <div id="content_3" class="tabContent">
 			     		  <div class="wrapper">

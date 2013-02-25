@@ -71,6 +71,15 @@ public class UserService {
     	userManager.addUserSample(name, pass);
     }
     
+    @POST
+  	@Path("/charityConfig/{DBConfigPath}/{name}/{pass}/{email}/{userType}")
+      public void postUser(@PathParam("DBConfigPath")String DBConfigPath,@PathParam("name") String name,@PathParam("pass") String pass,
+    		  @PathParam("email") String email,@PathParam("userType") int userType){
+      	UserManager userManager = new UserManager(DBConfigPath);
+      	userManager.addUser(name, pass, email, userType);
+      }
+    
+    
     @GET
 	@Path("/charityConfig/{DBConfigPath}/users/forms/")
     @Produces("application/json")
