@@ -10,7 +10,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import charityHibernateEntities.UserType;
-import charityHibernateManagers.UserManager;
 import charityHibernateManagers.UserTypeManager;
 
 @Path("/userTypeService")

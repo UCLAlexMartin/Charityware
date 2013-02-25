@@ -6,7 +6,6 @@ import java.util.Map;
 
 import charityHibernateEntities.Form;
 import charityHibernateEntities.User;
-import charityHibernateEntities.UserType;
 import charityHibernateManagers.UserManager;
 
 import javax.ws.rs.GET;

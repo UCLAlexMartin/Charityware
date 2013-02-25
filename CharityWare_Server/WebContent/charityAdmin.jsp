@@ -206,6 +206,8 @@ if(session.getAttribute("userTypeId") == null)
     $.get(url+'RESTCharity/formService/forms/'+urlHibernate, function(data) {
      $.each(data, function(i,d){
       forms[i] = d.formId;
+      $('#cbPermissions').append('<input type="checkbox" id="cb'+forms[i]+'" value="'+forms[i]+'" /> <label for="cb'+forms[i]+'">'+ d.formName+'</label> <br/>');
+			
           
      }); 
     }); 
@@ -299,6 +301,22 @@ if(session.getAttribute("userTypeId") == null)
             	  alert('Type Added');	  
           });
          };
+         
+         function addPermissions(){
+		    	for(var i=0; i<forms.length;i++){
+		    		var element = document.getElementById('cb'+forms[i]);	
+		 			if(element.checked && !element.disabled)
+		            {
+		 				
+		 				 var wsurl = url+'RESTCharity/formPermissionsService/formPermissions/addPermissions/'+urlHibernate+'/'+$('#ddUserType2').val()+'/'+forms[i];
+				    	$.post(wsurl,function(){
+				    		alert(i);
+						});
+		            }
+		    	}
+		    
+		    }		    
+		   
          
      
     /*   function search(field_label,value){
@@ -520,6 +538,7 @@ if(session.getAttribute("userTypeId") == null)
 										<select id="ddUserType2" name="ddUserType2">
 										<option>Select</option>
 										</select>
+										<img id="userTypeLoader" src="images/ajax-loader.gif"/>
 										<div id="userTypeLoader2" style="width:5px; height:5px; background-color:red; display:none;"></div>
 										<div id="addUserType" style="display:none;">
 										

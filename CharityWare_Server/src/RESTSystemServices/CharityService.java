@@ -71,13 +71,13 @@ public class CharityService {
 	   * @param content representation for the resource
 	   * @return an HTTP response with content of the updated or created resource.
 	   */
-	 @Path("/addCharity")
+	 @Path("/addCharity/{chName}/{RegNo}/{chEmail}/{chDescription}/{AdminUsername}/{AdminPassword}")
 	 @POST
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/plain")
-	 public String postCharity(Charity charity) {		 		 
+	 public String postCharity(@PathParam("chName") String chName,@PathParam("RegNo") String RegNo,@PathParam("chEmail") String chEmail,@PathParam("chDescription") String chDescription,@PathParam("AdminUsername") String AdminUsername,@PathParam("AdminPassword") String AdminPassword) {		 		 
 		 CharityManager charityManager = new CharityManager();
-		 return charityManager.addCharity(charity).toString();
+		 return charityManager.addCharity(chName,RegNo,chEmail,chDescription,AdminUsername,AdminPassword).toString();
 	 }
 	 
 	 @Path("/addCharities")
