@@ -248,6 +248,10 @@ h3 {
 
 /* TABS */
 
+#formwizard{
+	display:none;
+}
+
 .tabbed_area {  
     padding:8px; 
     margin: 0px auto 0px auto;  
