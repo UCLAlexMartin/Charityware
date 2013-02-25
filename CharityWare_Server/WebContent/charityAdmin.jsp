@@ -207,8 +207,7 @@ if(session.getAttribute("userTypeId") == null)
      $.each(data, function(i,d){
       forms[i] = d.formId;
       $('#cbPermissions').append('<input type="checkbox" id="cb'+forms[i]+'" value="'+forms[i]+'" /> <label for="cb'+forms[i]+'">'+ d.formName+'</label> <br/>');
-			
-          
+	   
      }); 
     }); 
     
@@ -259,10 +258,6 @@ if(session.getAttribute("userTypeId") == null)
   	 }
        });
        }); 
-         
-
-   
-    
        
       function deactivateUser(userID){
     

@@ -107,7 +107,7 @@ public class FilledFormManager {
 		Map<Integer, ArrayList<String>> hashMap = new HashMap<Integer, ArrayList<String>>(searchResults.size());
 		while(iter.hasNext()){
 			Integer record_id = iter.next();
-			List<FilledForm> searchResults2 = (List<FilledForm>) conn.getTable("FilledForm where record_id="+record_id);
+			List<FilledForm> searchResults2 = (List<FilledForm>) conn.getTable("FilledForm where record_id="+record_id+"and isActive="+1);
 			ArrayList<String> values = 	new ArrayList<String>();
 			for (FilledForm row : searchResults2) {
 				Integer key = (Integer)row.getRecord_id();
