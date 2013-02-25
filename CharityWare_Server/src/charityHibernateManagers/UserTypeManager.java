@@ -33,4 +33,11 @@ public class UserTypeManager {
 	}
 
 
+	public Integer addUserType (String userType) {
+		UserType utype = new UserType();
+		utype.setUserType(userType);
+		utype.setDescription(userType);
+		utype.setIsActive(true);
+		return (Integer) conn.transaction("save",utype);	
+	}
 }

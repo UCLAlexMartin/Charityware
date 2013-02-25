@@ -189,35 +189,134 @@ if(session.getAttribute("userTypeId") == null)
 	  
 	   <jsp:include page="headerLoggedIn.jsp"></jsp:include>
 	   <script type="text/javascript">
-		   	var url = '<%=Configuration.getSiteUrl()%>';
-		   	var urlHibernate = '<%=session.getAttribute("charity_Con").toString()%>';
-			$(document).ready(function(){
-				
-				$.get(url+'RESTCharity/userTypeService/charityConfig/'+urlHibernate+'/userTypes', function(data) {
-						$.each(data, function(i,d){					
-							$('#ddUserType').append("<option value ='" + d.userTypeId  + "'>" + d.userType + "</option>");
-							$('#ddUserType2').append("<option value ='" + d.userTypeId  + "'>" + d.userType + "</option>");
-							});
-					
-						});
-				});	
-			
-				$.get(url+'RESTCharity/formService/forms/'+urlHibernate, function(data) {
-						$.each(data, function(i,d){	
-							$('#cbPermissions').append('<input type="checkbox" id="cb'+d.formId+'" value="'+d.formId+'" /> <label for="cb'+d.formId+'">'+ d.formName+'</label> <br/>');
-						});
-				});	
-				   
-		    function deactivateUser(userID){
-				
-		    	$.post(url+'RESTCharity/userService/deactivateUserAccount/'+urlHibernate+'/'+userID,function(){
-				});
-				
-				$('#row'+ userID).remove();
-				
-				return false;
-			}			
-	   </script>
+      var url = '<%=Configuration.getSiteUrl()%>';
+      var urlHibernate = '<%=session.getAttribute("charity_Con").toString()%>';
+      var forms = new Array();
+      
+   $(document).ready(function(){
+    
+    $.get(url+'RESTCharity/userTypeService/charityConfig/'+urlHibernate+'/userTypes', function(data) {
+      $.each(data, function(i,d){     
+       $('#ddUserType').append("<option value ='" + d.userTypeId  + "'>" + d.userType + "</option>");
+       $('#ddUserType2').append("<option value ='" + d.userTypeId  + "'>" + d.userType + "</option>");
+       });
+     
+      });
+    
+    $.get(url+'RESTCharity/formService/forms/'+urlHibernate, function(data) {
+     $.each(data, function(i,d){
+      forms[i] = d.formId;
+          
+     }); 
+    }); 
+    
+    
+    $("#ddUserType2").change(function(){
+        
+      var e = document.getElementById("ddUserType");
+  	  var optionval = e.options[e.selectedIndex].value;
+  	  if (optionval=="Select")
+  	  {
+  		  alert("Please select a valid Option");
+  	  }
+  	  else
+  	 {
+        //Show Loading Animation
+        $('#userTypeLoader2').show();
+        
+        var userTypeId = $(this).val();
+        var permissions = new Array();
+
+        $.get(url+'RESTCharity/formPermissionsService/'+urlHibernate+'/formPermissions/'+userTypeId, function(data){
+        $.each(data, function(i,d){
+          permissions[i] = d;
+            });
+         
+         //$('#cbPermissions').html('');
+         
+         for(var i=0; i<forms.length;i++)
+         {
+              for(var j=0; j<permissions.length;j++)
+             {
+               
+              if(forms[i] == permissions[j])
+              {
+            //$('#cbPermissions').append('<input type="checkbox" id="cb'+forms[i]+'" value="'+forms[i]+'" checked="checked" disabled="disabled"/> <label for="cb'+forms[i]+'">'+ forms[i]+'</label> <br/>');
+                var element = document.getElementById('cb'+forms[i]); 
+                if(element.tagName === "INPUT" && element.type === "checkbox")
+                {
+                 	element.checked = "checked";
+                 	element.disabled = "disabled";
+                }              
+              }       
+             }          
+           }
+           //Hide Loading Animation
+         $('#userTypeLoader2').hide();
+            });
+  	 }
+       });
+       }); 
+         
+
+   
+    
+       
+      function deactivateUser(userID){
+    
+       $.post(url+'RESTCharity/userService/deactivateUserAccount/'+urlHibernate+'/'+userID,function(){
+    });
+    
+    $('#row'+ userID).remove();
+    
+    return false;
+      };
+      
+      function addUser()
+      {
+    	  var e = document.getElementById("ddUserType");
+    	  var optionval = e.options[e.selectedIndex].value;
+    	  if (optionval=="Select")
+    	  {
+    		  alert("Please select a valid Option");
+    	  }
+    	  
+    	  else
+    	 {
+		 
+          $.post(url+'RESTCharity/userService/charityConfig/'+urlHibernate+'/'+$('#txtUsername').val()+'/'+$('#txtPassword').val()+'/'+$('#txtEmail').val()+'/'+$('#ddUserType').val(),
+        		  function(){
+      		}); 
+          alert(" User added successfully");
+         }
+      };
+      
+         function addUType()
+         {
+        	 
+              $.post(url+'RESTCharity/userTypeService/charityConfig/'+urlHibernate+'/'+$('#txtAddUserType').val(),
+            		  function(){
+            	  alert('Type Added');	  
+          });
+         };
+         
+     
+    /*   function search(field_label,value){
+       
+       $.get(url+'RESTCharity/filledFormService/'+urlHibernate+'/filledforms/getSearchResults/'+field_label+'/'+value, function(data) {
+     $.each(data, function(i,d){ 
+      $('#searchResult').append(' <table> ');
+      for(row = 0; row < i ; row++){
+       
+      }
+      
+      $('#searchResult tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
+        "</td></tr>"); 
+     });
+    });
+       
+      } */
+    </script>
 	    <!-- Main Content -->
 	    
 	    <article id="content">
@@ -374,12 +473,12 @@ if(session.getAttribute("userTypeId") == null)
                     	</div>
                         
  						<div id="addUser" class="subContent2" style="display:none;">
-	                        <form id="addUser" name="addUser" method="post" action="">
+	                        
 		 						<table style="border-spacing:5px;border-collapse: inherit;">
 								<tr>
 									<td>Username</td>
 					      			<td>								
-					      				<input type="text" class="registerTextbox" name="txtUsername" id="txtUsername" maxlength="20" tabindex="1" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]$" placeholder="Username" required/> 
+					      				<input type="text" class="registerTextbox" name="txtUsername" id="txtUsername" maxlength="20" tabindex="1" placeholder="Username" required/> 
 					      			</td>
 					      		</tr>
 					      		<tr>
@@ -395,20 +494,21 @@ if(session.getAttribute("userTypeId") == null)
 					      			</td>
 					      		</tr>
 					      		<tr>
-									<td>User Category</td>
+									  <td>User Category</td>
 									<td>	
 										<select id="ddUserType" name="ddUserType">
+										<option>Select</option>
 										</select>
-									</td>										      			
+									</td> 
+																			      			
 					      		</tr>
 								<tr>
 									<td></td>
 									<td> 
-										<input class="contactSubmit" name="btnAddUser" type="submit" id="btnAddUser" value="ADD USER"/>
+										<input class="contactSubmit" name="btnAddUser" type="button" onclick="addUser()" id="btnAddUser" value="ADD USER"/>
 									</td>
 								</tr>
 							</table>
-					    </form>
                         </div>
 				 
 				 		<div id="userPermissions" class="subContent2" style="display:none;">
@@ -418,10 +518,18 @@ if(session.getAttribute("userTypeId") == null)
 									<td>User Category</td>
 									<td>	
 										<select id="ddUserType2" name="ddUserType2">
+										<option>Select</option>
 										</select>
+										<div id="userTypeLoader2" style="width:5px; height:5px; background-color:red; display:none;"></div>
+										<div id="addUserType" style="display:none;">
+										
+										<input id="txtAddUserType" type="text" ></input>
+										<input class="contactSubmit" name="btnAddUserType" type="submit" id="btnAddPermission" onclick="addUType()"value="ADD USER TYPE"/>
+										
+										</div>
 									</td>
 									<td>
-										<input id="btnAddUCat" type=image name="btnAddUCat" src="images/add.png" alt="Add User Category" onclick="AddUserCat()"/>
+										<input id="btnAddUCat" type=image name="btnAddUCat" src="images/add.png" alt="Add User Category" onclick="$('#addUserType').toggle(); return false;"/>
 									</td>										      			
 					      		</tr>
 		 						<tr>
@@ -434,7 +542,7 @@ if(session.getAttribute("userTypeId") == null)
 					      		<tr>
 									<td></td>
 									<td> 
-										<input class="contactSubmit" name="btnAddPermission" type="submit" id="btnAddPermission" value="ADD PERMISSION"/>
+										<input class="contactSubmit" name="btnAddPermission" type="submit" id="btnAddPermission"  onclick="addPermissions()" value="ADD PERMISSION"/>
 									</td>
 								</tr>
 		 						

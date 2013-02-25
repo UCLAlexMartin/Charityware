@@ -6,6 +6,7 @@ import java.util.Map;
 
 import charityHibernateEntities.Form;
 import charityHibernateEntities.User;
+import charityHibernateEntities.UserType;
 import charityHibernateManagers.UserManager;
 
 import javax.ws.rs.GET;
@@ -70,6 +71,15 @@ public class UserService {
     	UserManager userManager = new UserManager(DBConfigPath);
     	userManager.addUserSample(name, pass);
     }
+    
+    @POST
+  	@Path("/charityConfig/{DBConfigPath}/{name}/{pass}/{email}/{userType}")
+      public void postUser(@PathParam("DBConfigPath")String DBConfigPath,@PathParam("name") String name,@PathParam("pass") String pass,
+    		  @PathParam("email") String email,@PathParam("userType") int userType){
+      	UserManager userManager = new UserManager(DBConfigPath);
+      	userManager.addUser(name, pass, email, userType);
+      }
+    
     
     @GET
 	@Path("/charityConfig/{DBConfigPath}/users/forms/")

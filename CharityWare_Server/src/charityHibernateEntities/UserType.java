@@ -4,7 +4,7 @@ package charityHibernateEntities;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import sharedHibernateResources.ConnectionManager;
 import org.hibernate.envers.Audited;
 
 @Entity
@@ -45,5 +45,6 @@ public class UserType {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
+
 	
 }
