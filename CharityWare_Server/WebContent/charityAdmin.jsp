@@ -229,6 +229,7 @@ if(session.getAttribute("userTypeId") == null)
 	   
 ======= -->
 	   <script type="text/javascript">
+	   
       var url = '<%=Configuration.getSiteUrl()%>';
       var urlHibernate = '<%=session.getAttribute("charity_Con").toString()%>';
       var forms = new Array();
