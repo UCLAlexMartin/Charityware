@@ -1,13 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page import="staticResources.websiteLogin"%>
 <%@ page import="charityHibernateEntities.Form"%>
 <%@ page import="java.util.List" %>
-<%@ page import="org.codehaus.jettison.json.JSONObject"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.Map.Entry"%>
 <%@ page import="charityHibernateEntities.FieldType"%>
 <%@ page import="charityHibernateManagers.FormManager"%>
 <%@ page import="charityHibernateManagers.FieldTypeManager"%>
-<%@ page import="staticResources.Configuration"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ page import="staticResources.Configuration"%> 
+<%@ page import="RESTCharityClient.UserClient" %>
+<%@ page import="RESTCharityClient.EventClient" %>
+<%@ page import="RESTCharityClient.FormFieldsClient" %>
+
+
+
 <%
 if(session.getAttribute("userTypeId") == null)
 {
@@ -27,33 +36,23 @@ if(session.getAttribute("userTypeId") == null)
 	}
 }
 %>
-
- 
-<%-- 	<%@ page import="ConnectionManager.*" %>
+<%-- 	
     <%@ page import= "java.util.TreeMap"%>
-    <%@ page import= "java.util.Map"%>
-   
-    <%@ page import= "java.util.ArrayList"%>
-    <%@ page import= "java.util.Set"%>
-    <%@ page import= "java.util.Map.Entry"%>
-    <%@ page import= "java.util.Iterator"%> 
-	<%@page import="XMLParse.xmlParser"%>
-	<%@ page import= "RESTClient.*"%>   --%>
+	<%@page import="XMLParse.xmlParser"%>   --%>
 <%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta charset="utf-8">
 <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
 <title>CharityWare Administration Panel</title>
-		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="js/charityManager.js"></script>
 		<script type="text/javascript" src="js/xhr.js"></script>
 		<script type="text/javascript" src="js/panelSwitcher.js"></script>
-		
-    	<!-- <script type="text/javascript" src="js/GoogleCalendar.js"></script> -->
-		
+		<script type="text/javascript" src="js/validationAddUser.js"></script>
+		<link rel="stylesheet" href="css/register.css" type="text/css" media="all">   	
 		
     	<%-- <script type="text/javascript">
     	  //Number of Records inputted per User	 
@@ -186,48 +185,11 @@ if(session.getAttribute("userTypeId") == null)
 	      
     	</script> --%>
 </head>
-<body onload="onBodyLoad()">
+<body>
 	<div class="body">
 		<div class="main">
 	  
 	   <jsp:include page="headerLoggedIn.jsp"></jsp:include>
-<!-- <<<<<<< HEAD
-	    
-	   	<script type="text/javascript">
-	   	
-	   	var urlHibernate = ${charity_Con};
-	   	var url = '<%=Configuration.getSiteUrl()%>';
-							
-		$(document).ready(function(){
-			
-			/* <th id="tr1">Username</th>
-			<th id="tr1">User Category</th>
-			<th id="tr1">Email</th>
-			<th id="tr1">Permissions</th>
-			<th id="tr1">Delete</th> */
-			
-			//for viewing of user accounts
-		
-			$.get(url+'RESTCharity/userService/charityConfig/'+ urlHibernate +'/users/forms/', function(data) {
-					$.each(data, function(i,d){					
-						$('#tableView tr:last').after("<tr id=row"+d.username+"><td>" + d.user_type + "</td><td>" + d.registration_no +
-								"</td><td> <input id=\"btnApprove\" type=image name=Action value="+d.user_id+" src=\"images/approve3.png\" alt=\"Approve\" onclick=\"approveRequest('"+d.charity_id+"');\" /></td></tr>");
-					});
-				});	
-			
-			//for deleting user accounts
-			/* $.get('http://localhost:8080/CharityWare_Lite/RESTSystem/userService/charities', function(data) {
-				$.each(data, function(i,d){					
-					$('#accounts tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
-							"</td><td> <input id=\"btnDelete\" type=image name=Action value="+d.charity_id+" src=\"images/delete.png\" alt=\"Delete\" onclick=\"deleteAccount('"+d.charity_id+"');\" /> </td></tr>");
-				});
-			});	
-			 */
-		});
-			
-		</script>
-	   
-======= -->
 	   <script type="text/javascript">
 	   
       var url = '<%=Configuration.getSiteUrl()%>';
@@ -245,21 +207,34 @@ if(session.getAttribute("userTypeId") == null)
       });
     
     $.get(url+'RESTCharity/formService/forms/'+urlHibernate, function(data) {
-     $.each(data, function(i,d){
-      forms[i] = d.formId;
-      $('#cbPermissions').append('<input type="checkbox" id="cb'+forms[i]+'" value="'+forms[i]+'" /> <label for="cb'+forms[i]+'">'+ d.formName+'</label> <br/>');
-	   
-     }); 
-    }); 
-    
-    
+        $.each(data, function(i,d){
+         forms[i] = d.formId;
+         $('#cbPermissions').append('<input type="checkbox" id="cb'+forms[i]+'"  value="'+forms[i]+'" disabled="disabled" /> <label for="cb'+forms[i]+'">'+ d.formName+'</label> <br/>');
+   	   
+        }); 
+       }); 
+      
+       
     $("#ddUserType2").change(function(){
         
-      var e = document.getElementById("ddUserType");
+    	 //$('#cbPermissions').empty();
+    	 for(var i=0; i<forms.length;i++)
+    	 {
+    	 document.getElementById('cb'+forms[i]).checked=false; 
+    	 document.getElementById('cb'+forms[i]).disabled=false; 
+    	 }                
+    	
+        var userTypeId = $(this).val();
+        var permissions = new Array();
+    	var e = document.getElementById("ddUserType2");
   	  var optionval = e.options[e.selectedIndex].value;
   	  if (optionval=="Select")
   	  {
   		  alert("Please select a valid Option");
+  		for(var i=0; i<forms.length;i++)
+   	 	{
+   	 		document.getElementById('cb'+forms[i]).disabled=true; 
+   	 	}   
   	  }
   	  else
   	 {
@@ -331,11 +306,17 @@ if(session.getAttribute("userTypeId") == null)
       
          function addUType()
          {
-        	 
+        	 if($('#txtAddUserType').val()=="")
+        		 {
+        		 	alert("Please enter a valid Type");
+        		 }
+        	 else
+        		 {
               $.post(url+'RESTCharity/userTypeService/charityConfig/'+urlHibernate+'/'+$('#txtAddUserType').val(),
             		  function(){
             	  alert('Type Added');	  
-          });
+          		});
+         	};
          };
          
          function addPermissions(){
@@ -371,7 +352,7 @@ if(session.getAttribute("userTypeId") == null)
        
       } */
     </script>
-<!-- >>>>>>> 9e7e257476aaab6ffa4e500ae96e026f8b49045f -->
+
 	    <!-- Main Content -->
 	    
 	    <article id="content">
@@ -393,311 +374,115 @@ if(session.getAttribute("userTypeId") == null)
 			    </div> 
 			    <div class="tabbed_area">       
 			       <div id="content_1" class="tabContent">
-      					<fieldset id="myforms">
+      				/*-----------------------------TEMP START---------------------*/
+      				<fieldset id="myforms">
       					<legend>My forms</legend>
-	      				
-	      				<% 
-	      					
-	      				/* CHANGE FROM MVC TO REST BY SWAPING MANAGER FOR CLIENT */
-	      				try{
-	      						FormManager frmMng = new FormManager(session.getAttribute("charity_Con").toString());
-	      						FieldTypeManager fieMng = new FieldTypeManager(session.getAttribute("charity_Con").toString());
-	      						List<Form> userForms = frmMng.retrieve();
-	      						List<FieldType> allTypes = fieMng.retrieve();
-	      						session.setAttribute("userForms", userForms);
-	      						session.setAttribute("allTypes",allTypes);
+      					
+      				<%
+      				List<Form> userForms = null;
+      				List<FieldType> allTypes = null;
+      				FormManager frmMng = null;
+      				FieldTypeManager fieMng = null;
+      				try{
+	      						frmMng = new FormManager(session.getAttribute("charity_Con").toString());
+	      						fieMng = new FieldTypeManager(session.getAttribute("charity_Con").toString());
+	      						userForms = frmMng.retrieve();
+	      						allTypes = fieMng.retrieve();
+	      						out.println(session.getAttribute("charity_Con").toString());
+	      						//session.setAttribute("userForms", userForms);
+	      						//session.setAttribute("allTypes",allTypes);
 	      				}catch(Exception e){e.printStackTrace();}
-      					%>
-      					<c:choose>
-      					<c:when test='${userForms!= null && userForms.size() > 0}'>
-      					<label for="myformslist">Form name:</label>
-      					<select id="myformslist" onchange="onCurrentFormChanged()">
-      				 	<c:forEach items="${userForms}" var="theform">
-      				    <option value="${theform.getFormId()}"><c:out value="${theform.getFormName()}"/>
-      				    	<c:set var="formfields" value="${theform.getFields()}"/>
-      				    </option>			 	      				 		       				 	
-      				 	</c:forEach>
-      				 	</select>
-      				 	<button type="button" onclick="writeFormStructure(JSON.stringify($('#myformslist').val()))">View structure</button>
-      				 	<button type="button" onclick="viewCurrentFormData()">View data</button>
-      				 	<button type="button" onclick="deleteCurrentForm()">Remove this form</button> 
-      				 	<!--  <button type="button" onclick="viewCurrentFormStructure()">View structure</button>-->      				 	
-      					</c:when>
-      					<c:otherwise>
-      						Sorry, it appears you have no forms defined!
-      				 	</c:otherwise>
-      				 	</c:choose>  
-      				 	<br/>   				 	
-      					<button type="button" onclick="showFormWizard()">Add new Form</button>
-      					</fieldset>
-      					<c:if test="${userForms!= null && userForms.size() > 0}">
-      					<fieldset id="currentformstructure" class="nodisplay">
-      					<div id="currentformstructurefill"></div>
-      					<button type="button" onclick="hideCurrentFormStructure()">Hide</button>
-      					</fieldset>
-      					<fieldset id="currentformdata" class="nodisplay">
-      					<div id="currentformdatafill"></div>
-      					<button type="button" onclick="hideCurrentFormData()">Hide</button>
-      					</fieldset>
-      					</c:if>
-      					<fieldset id="formwizard" class="nodisplay">
-      					<legend>Form Wizard</legend>
-      					<label>Form name:</label>
-      					<input id="formname" type="text" />
-      									
-      					<fieldset id = "fieldselect">
-      					<legend>Field wizard</legend>
-      					<label for="fieldname">Field name</label>
-      					<input id="fieldname" type="text" validate="notEmpty:true, English:ture"/>
-      					<label for="typeoptions">Input type</label>
-      					<select id="typeoptions" onchange="onRowTypeChanged()">
-      					<c:forEach items="${allTypes}" var="iType">
-      					<option value="${iType.getField_type_id()}">${iType.getField_Description()}</option>
-      					</c:forEach>
-      					</select>
-      					<input type="checkbox" id="rowrequired" name="rowrequired"/>
-      					<label for="rowrequired">Mandatory?</label>
-      					<button onclick="addRow()" type="button" >Add row</button>
-      					<div id="extra" class="nodisplay"></div>
-      					<div id="errmsg" class="nodisplay"></div>
-      					</fieldset>
-      					<form id="rowset" action="FormServlet" method="post">
-      					<fieldset>
-      					<input type="hidden" id="argc" name="argc" value="0"/>
-      					<input type="hidden" name="req" value="create"/>
-      					<legend>Current rows:</legend>
-      					<div id="rowsetrows"></div>
-      					
-      					<!-- <button type="button" id="clearbtn" onclick='removeChildren(document.getElementById("rowsetrows") ); document.getElementById("argc").value=0;'>Clear all rows</button>
-      					 -->
-      					 </fieldset>
-      					<button type="button" onclick="hideFormWizard()">Hide</button>
-      					<button type="button" id="btnSubmitForm" onclick="createForm()">Create this form!</button>
-      					<button type="button" id="clearbtn" onclick='removeChildren(document.getElementById("rowsetrows") ); document.getElementById("argc").value=0;'>Clear all rows</button>
-      					
-      					</form>
-      					</fieldset>
-				   
-			     </div>
+	      				
+      					if(userForms!= null && userForms.size() > 0)
+      					{
+      						%>
+      						    <label for="myformslist">Form name:</label>
+      							<select id="myformslist" onchange="onCurrentFormChanged()">
+      						<% 
+      						for(int i = 0; i < userForms.size(); i++)
+      						{
+      							Form theForm = userForms.get(i);
+      							%>
+	      							<option value="<%=theForm.getFormId()%>"><%=theForm.getFormName()%>
+	          				    	</option>
+          				    	<%	
+      						}
+	      					%>
+	      						</select>
+	          				 	<button type="button" onclick="writeFormStructure(JSON.stringify($('#myformslist').val()))">View structure</button>
+	          				 	<button type="button" onclick="viewCurrentFormData()">View data</button>
+	          				 	<button type="button" onclick="deleteCurrentForm()">Remove this form</button>
+      						<%
+      						
+      					}else
+      					{
+      						%>Sorry, it appears you have no forms defined!<%      						
+      					}
+      				
+	      				%> 
+      				
+      				</fieldset>
+      				/*--------------------------------------------------------------*/
+      			</div>
 			     
 			     <div id="content_2" class="tabContent">
 			     		<ul id="menubar2">
-				     		<li><a href ="#" onclick="changePanel('subContent2','viewUser'); return false;"> View Users </a> <b>|</b> </li>
-	             	       	<li><a href ="#" onclick="changePanel('subContent2','addUser'); return false;"> Add Users </a> <b>|</b> </li>
-	                        <li><a href ="#" onclick="changePanel('subContent2','deleteUser'); return false;"> Delete Users </a></li>
-	                        <li><a href ="#" onclick="changePanel('subContent2','mailingList'); return false;"> Mailing List </a></li>
+				     		<li><a href ="#" onclick="changePanel('subContent2','viewUser'); return false;"> View Users Accounts</a> <b>|</b> </li>
+	             	       	<li><a href ="#" onclick="changePanel('subContent2','addUser'); return false;"> Add Users </a> <b>|</b></li>
+	             	       	<li><a href ="#" onclick="changePanel('subContent2','userPermissions'); return false;"> Users Permissions </a></li>
                         </ul>
                         
-                        <div id="viewUser" class="subContent2" style="display:none;">
+                    	<div id="viewUser" class="subContent2" style="display:none;">
+	                      	<form id="viewUser" name="viewUser" method="post" action="">
+								<table class="resultSet">
+								
+								<tr>
+									<th>Username</th>
+									<th>User Category</th>
+									<th>Email</th>
+									<th>Permissions</th>
+									<th>Delete</th>
+					      		</tr>
+					      		<%
+					      		
+					      		String urlHibernate = session.getAttribute("charity_Con").toString();
+		            			Map<Integer,List<String>> datamap = UserClient.getForms(urlHibernate);//(TreeMap<Integer,ArrayList<String>>)DatabaseManager.readUsers();
+		        				Set<Entry<Integer,List<String>>> entryset = datamap.entrySet();
+		        				Iterator<Entry<Integer, List<String>>> iter =  entryset.iterator();
+		            
+								while (iter.hasNext()){
+									 Map.Entry<Integer, List<String>> pairs = (Map.Entry<Integer, List<String>>)iter.next();
+									 List<String> userDetails =  pairs.getValue();
+									 Integer userId = pairs.getKey();
+									 String rowId = "row" + userId;
+											 
+								%>
+					      		
+					      			<tr id=<%=rowId%>>
+						      			<td><%out.println(userDetails.get(0));%></td>
+						      			<td><%out.println(userDetails.get(1));%></td>
+						      			<td><%out.println(userDetails.get(2));%></td>
+						      			<td><%out.println(userDetails.get(3));%></td>
+						      			<td style="padding: 5px; text-align: left; vertical-align: top;">
+						      			<span class="tooltip" data-tooltip="Deactivate User Account">
+						      				<input id="btnDeactivate" type=image name=Action value='<%=userId%>' src="images/delete.png" alt="Deactivate" onclick="deactivateUser('<%=userId%>')"/>
+						      			</span>
+					      				</td>
+					      			</tr>
+					      		<%} %>
+					      		
+							  </table>
+					   		</form>
+                    	</div>
                         
-                      	<form id="viewUser" name="viewUser" method="post" action="">
-						<table id="tableView">
-						
-						<tr>
-							<th id="tr1"> <label for="uname">Username</label> </th>
-							<th id="tr1"> <label for="ucat">User Category</label> </th>
-							<th id="tr1"> <label for="uemail">Email</label> </th>
-							<th id="tr1"> <label for="uper">Permissions</label> </th>
-							
-			      		</tr>
-			      		<%-- <%     
-            			Map<Integer,List<String>> datamap = UserClient.getForms();//(TreeMap<Integer,ArrayList<String>>)DatabaseManager.readUsers();
-        				Set<Entry<Integer,List<String>>> entryset = datamap.entrySet();
-        				Iterator<Entry<Integer, List<String>>> iter =  entryset.iterator();
-            
-						while (iter.hasNext()){
-							List<String> userDetails =  iter.next().getValue();
-            			%>
-			      		
-			      			<tr>
-			      			<td id="th1"><%out.println(userDetails.get(0));%></td>
-			      			<td id="th1"><%out.println(userDetails.get(1));%></td>
-			      			<td id="th1"><%out.println(userDetails.get(2));%></td>
-			      			<td id="th1"><%out.println(userDetails.get(3));%></td>
-			      			
-			      			</tr>
-			      			<%} %> --%>
-			      		
-						
-					  </table>
-				    </form>
-                        
-<!-- <<<<<<< HEAD
-                        </div>
-                        <div id="addUser" class="subContent2" style="display:none;">
-
-                        <form id="addUser" name="addUser" method="post" action="">
-						<table style="border-spacing:5px;border-collapse: inherit;">
-						<tr/><tr/> <tr/><tr/>
-						<tr>
-							<td> <label for="uname">Username</label> </td>
-			      			<td> <input type="text" class="loginTextbox" name="uname" id="uname" required> </td>
-			      		</tr>
-			      			<tr></tr>
-			      		<tr>
-							<td> <label for="pwd">Password</label> </td>
-			      			<td> <input type="text" class="loginTextbox"  name="pwd" id="pwd" required> </td>
-			      		</tr>
-			      			<tr></tr>
-			      		<tr>
-							<td> <label for="uemail">Email</label> </td>
-			      			<td> <input type="text" class="loginTextbox" name="uemail" id="uemail" required> </td>
-			      		</tr>
-			      		<tr></tr>	
-			      		<tr>
-			      			
-							<td> <label for="ucat">User Category</label> </td>
-							<td>	
-								<select value="ucat" id="marg_top">
-									<option value="0"> --Select-- </option>
-									<%-- <% ArrayList<String> utype = (ArrayList<String>) DatabaseManager.UserType();									
-									
-									for(int i=0;i<utype.size();i++) {
-									
-									%>
-									<option value="i"> <%out.println(utype.get(i));%> </option>
-									<%} %> --%>
-								</select>
-								</td>										      			
-			      		</tr>
-			      		<tr></tr>
-			      		<tr>
-							<td> <label for="uper">Form Permissions</label> </td>
-			      			<tr> 
-			      			<td/> <td>	
-			      				
-									<%-- <% ArrayList<String> fm = (ArrayList<String>) DatabaseManager.FormNames();									
-									
-									for(int i=0;i<fm.size();i++) {
-									
-									%>
-									
-									<input type="checkbox" name="<%fm.get(i);%>" value="<%fm.get(i);%>"> <%out.println(fm.get(i));%>
-									
-									
-									<% }%> --%>
-									
-			      			 </td>
-			      		</tr>
-                       <tr></tr> <tr></tr>
-					
-						<tr>
-							<td> <input class="contactSubmit" name="button1" type="submit" id="button1" value="Add User"> </td>
-						</tr>
-						
-					  </table>
-				    </form>
-                        
-                        </div>
-                        <div id="deleteUser" class="subContent2" style="display:none;">
-                        
-                         <form id="deleteUser" name="deleteUser" method="post" action="">
-						<table id="tableDelete">
-						
-						<tr>
-							<th id="tr1">Username</th>
-							<th id="tr1">User Category</th>
-							<th id="tr1">Email</th>
-							<th id="tr1">Permissions</th>
-							<th id="tr1">Delete</th>
-			      		</tr>
-			      		<%-- <%     
-            			Map<Integer,List<String>> datamap2 =UserClient.getForms();//(TreeMap<Integer,ArrayList<String>>)DatabaseManager.readUsers();
-        				Set<Entry<Integer,List<String>>> entryset2 = datamap2.entrySet();
-        				Iterator<Entry<Integer, List<String>>> iter2 =  entryset2.iterator();
-            
-						while (iter.hasNext()){
-							List<String> userDetails =  iter2.next().getValue();
-            			%>
-			      		
-			      			<tr>
-			      			<td id="th1"><%out.println(userDetails.get(0));%></td>
-			      			<td id="th1"><%out.println(userDetails.get(1));%></td>
-			      			<td id="th1"><%out.println(userDetails.get(2));%></td>
-			      			<td id="th1"><%out.println(userDetails.get(3));%></td>
-			      			<td id="th1"><a href="">Delete</a></td>
-			      			</tr>
-			      			<%} %> --%>
-			      		
-						
-					  </table>
-				    </form>
-                        
-                        </div>
- 						<div id="mailingList" class="subContent2" style="display:none;">
-                        
-                        <form id="addlist" name="addlist" method="post" action="">
-						<table style="border-spacing:5px;border-collapse: inherit;">
-						<tr/><tr/> <tr/><tr/>
-						<tr>
-							<td> <label for="uname">Mailing List Name</label> </td>
-			      			<td> <input type="text" class="loginTextbox" name="mlname" id="mlname" required> </td>
-			      			<td><td/><td><td/>
-							<td> <input class="contactSubmit" name="button1" type="submit" id="button1" value="Add Mailing List"> </td>
-						
-			      		</tr>
-                    	</table>
-                    </form>
-                    
-                    <hr width=100% size="5" color=black> 
-                    
-                     <form id="maillist" name="maillist" method="post" action="">
-						<table style="border-spacing:5px;border-collapse: inherit;">
-						<tr/><tr/> <tr/><tr/>
-						<tr>
-							<td> <label for="uname">Mailing List Name</label> </td>
-			      			<td>  </td>
-			      			<td> 
-			      				<select value="mlist" id="marg_top" >
-			      				<option value="0"> --Select-- </option>
-									<%-- <% ArrayList<String> mlist = (ArrayList<String>) DatabaseManager.MailingList();									
-									
-									for(int i=0;i<mlist.size();i++) {
-									
-									%>
-									<option value=i> <%out.println(mlist.get(i));%> </option>
-									<%} %> --%>
-			      				</select>
-			      			</td>
-			      		</tr>
-			      		<tr/><tr/> <tr/><tr/><tr/><tr/> <tr/><tr/><tr/><tr/> <tr/><tr/>
-			      		<tr>
-			      		<td>
-			      			<select id="lists" size="10" >
-			      			
-			      			</select>
-			      		</td>
-			      		<td><td/>
-			      		<td>
-			      		<input class="contactSubmit" name="button1" type="submit" id="button1" value="Add User ->">
-			      		<td/>
-			      		<td><td/><td><td/><td><td/><td><td/><td><td/><td><td/><td><td/>
-			      		<td>
-			      			<select id="lists" size=10>
-			      				<%-- <% ArrayList<String> mlist1 = (ArrayList<String>) DatabaseManager.MailingListOldUsers();									
-									
-									for(int i=0;i<mlist1.size();i++) {
-									
-									%>
-									<option value=i> <%out.println(mlist1.get(i));%> </option>
-									<%} %> --%>
-			      			</select>
-			      		</td>
-			      		</tr>
-                    	</table>
-                    </form>
-                        
-                        </div>
-			     </div>  
-======= -->
  						<div id="addUser" class="subContent2" style="display:none;">
-	                        
+	                        <form id="addUser" name="addUser" method="post" action="">
 		 						<table style="border-spacing:5px;border-collapse: inherit;">
 								<tr>
 									<td>Username</td>
 					      			<td>								
-					      				<input type="text" class="registerTextbox" name="txtUsername" id="txtUsername" maxlength="20" tabindex="1" placeholder="Username" required/> 
-					      			</td>
+					      				<input type="text" class="registerTextbox" name="txtUsername" id="txtUsername" maxlength="20" tabindex="1" pattern="^[a-zA-Z0-9]+" placeholder="Username" required/>  
+														      			</td>
 					      		</tr>
 					      		<tr>
 									<td>Password</td>
@@ -723,10 +508,11 @@ if(session.getAttribute("userTypeId") == null)
 								<tr>
 									<td></td>
 									<td> 
-										<input class="contactSubmit" name="btnAddUser" type="button" onclick="addUser()" id="btnAddUser" value="ADD USER"/>
+										<input class="contactSubmit" name="btnAddUser" type="submit" id="btnAddUser" value="ADD USER"/>
 									</td>
 								</tr>
 							</table>
+					    </form>
                         </div>
 				 
 				 		<div id="userPermissions" class="subContent2" style="display:none;">
@@ -770,106 +556,74 @@ if(session.getAttribute("userTypeId") == null)
 		 						
 				 		</div>
 				 </div>  
-<!-- >>>>>>> 9e7e257476aaab6ffa4e500ae96e026f8b49045f -->
+
 			     
 			     <div id="content_3" class="tabContent">
-			     		  <div class="wrapper">
-        <div class="box2">
-          <div class="line1">
-            <div class="line2 wrapper">
-			     		 <%--  <% 
-            
-            Map<Integer,List<String>> datamap3 =EventClient.getEvents(); //(TreeMap<Integer,ArrayList<String>>)DatabaseManager.readEvents();
-        	Set<Entry<Integer,List<String>>> entryset3 = datamap3.entrySet();
-        	Iterator<Entry<Integer,List<String>>> iter3 =  entryset3.iterator();
-            
-			while (iter3.hasNext()){
-				List<String> eventsDetails =  iter3.next().getValue();
-            %> --%>
-            <section class="col1">
-           
-                <%-- <h4><span><%=eventsDetails.get(0)%></span></h4>
-               
-				<p class="pad_bot2"><strong>DESCRIPTION </strong><%=eventsDetails.get(1)%></p>
-				 <p class="pad_bot2"><strong>VENUE </strong><%=eventsDetails.get(2)%></p>
-				  <p class="pad_bot2"><strong>TIME </strong><%=eventsDetails.get(3)%></p>
-                
-				 
-                 </section>
-              <%
-              } %> --%>
-			      </div>
-          </div>
-        </div>
-      </div>		
-			     </div>  
-						<!-- /**
- *  By Kede Bei
- * 	Last Updated: 30/01/2012 2:22am
- * **/ -->
-					<!-- 	<script type="text/javascript">
-							function sendGetRequest() {
-								var xmlhttp;
-								xmlhttp = new XMLHttpRequest();
-								xmlhttp
-										.open(
-												"GET",
-												"http://localhost:8080/WEB-INF/RESTservices",
-												false);
-								xmlhttp.setRequestHeader("Content-Type",
-										"application/xml");
-								xmlhttp.send(null);
-								alert(xmlhttp.responseText);
-							}
+		     		  <div class="wrapper">
+				       
+								<%
+									String urlHibernate2 = session.getAttribute("charity_Con").toString();
+									Map<Integer,List<String>> datamap3 = EventClient.getEvents(urlHibernate2);
+						        	Set<Entry<Integer,List<String>>> entryset3 = datamap3.entrySet();
+						        	Iterator<Entry<Integer,List<String>>> iter3 =  entryset3.iterator();
+						            
+									while (iter3.hasNext()){
+										List<String> eventsDetails =  iter3.next().getValue();
+						            %>
+						            <div class = "events">
+						                <h4><span><%=eventsDetails.get(0)%></span></h4>
+											<p class="pad_bot2"><strong> <%=eventsDetails.get(1)%></strong></p>
+											<p class="pad_bot2"><strong>VENUE </strong><%=eventsDetails.get(2)%></p>
+											<p class="pad_bot2"><strong>TIME </strong><%=eventsDetails.get(3)%></p>
+						            </div>
+						              <%
+						              } %>
+							
+				      </div>		
+			     </div>
+			      
+				<div id="content_4" class="tabContent">
+					<form id="frmSearch" name="frmSearch" method="post" action="">
+						<table>
+							<tr>
+							<td>
+							<select name="category" id="category" name="category">
 
-							function sendPostRequest(a,b) {
-								window.location.href ="search.action?a"+a;
-								window.location.href ="search.action?b"+b;
-								var xmlhttp;
-								xmlhttp = new XMLHttpRequest();
-								xmlhttp
-										.open(
-												"POST",
-												"http://localhost:8080/WEB-INF/RESTservices",
-												false);
-								xmlhttp.setRequestHeader("Content-Type",
-										"application/xml");
-
-								xmlhttp.send("<"+a+">" + b
-										+ "</"+b+">");
-								alert(xmlhttp.responseText);
-							}
-						</script> -->
-						<div id="content_4" class="tabContent">
-							<Form id="charityAdmin.jsp" name="frmSearch" method="post"
-								action="search">
-								<p>
-									<label for=""></label> 
-									<select name="category" id="category" name="category">
-
-										<%-- <%
-											List<String> list = ConnectionManager.DatabaseManager.searchtitle();
-											for (int i = 0; i < list.size(); i++) {
-										%>
-										<option>
-											<%=list.get(i)%>
-										</option>
-										<%
-											}
-										%> --%>
-									</select> : <input type="text" name="keywords" />
-								</p>
-								<p>&nbsp;</p>
-								<p>
-									<%-- <%
-										String a = request.getParameter("category");
-										String b = request.getParameter("keywords");
-									%>
-									<input type="submit" name="Search" id="Search" value="Search"
-										onclick="sendGetRequest(<%=a%>,<%=b%>)" /> --%>
-								</p>
-							</form>
-						</div>
+								<%
+									String urlHibernate3 = session.getAttribute("charity_Con").toString();
+									Map<Integer,String> datamap4 = FormFieldsClient.getListFormFields(urlHibernate3);
+						        	Set<Entry<Integer,String>> entryset4 = datamap4.entrySet();
+						        	Iterator<Entry<Integer,String>> iter4 =  entryset4.iterator();
+						            
+									while (iter4.hasNext()){
+										
+										 Map.Entry<Integer, String> fields = (Map.Entry<Integer, String>)iter4.next();
+										 String field =  fields.getValue();
+										 Integer fieldId = fields.getKey();
+										 String optionValue = "row" + fieldId;
+											
+								%>
+								<option value=<%= optionValue%>>
+									<%=field%>
+								</option>
+								<%
+									}
+								%>
+							</select>
+							</td>
+							<td>
+								<input type="text" name="txtSearch" />
+							</td>
+							<td>
+								<input class="contactSubmit" name="btnSearch" type="submit" id="btnSearch" value="SEARCH"/>
+							</td>
+							</tr>
+						</table>
+						<br/>
+						<div id="searchResult" class="resultSet">
+						</div>	       
+					</form>
+				</div>
 			     
 			     <div id="content_5" class="tabContent">
 			     		<ul id="menubar2">

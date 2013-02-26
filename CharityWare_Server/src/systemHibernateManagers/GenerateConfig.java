@@ -53,20 +53,23 @@ public class GenerateConfig{
             writer.write("<property name=\"hibernate.connection.username\">"+ Username +"</property>\n");
             writer.write("<property name=\"hibernate.connection.password\">"+ Password +"</property>\n");
             
+            /** Bean problem fix **/
+            writer.write("<property name=\"javax.persistence.validation.mode\">none</property>");
+            
             /** Set Mapping Resources **/
-            writer.write("<mapping resource=\"User.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"AccessLog.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"FormFields.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"MailingGroup.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"MailingList.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"Event.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"FilledForm.hbm.xml\"/>\n");	
-            writer.write("<mapping resource=\"FormType.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"FieldType.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"FieldSelection.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"Form.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"FormPermissions.hbm.xml\"/>\n");
-            writer.write("<mapping resource=\"UserType.hbm.xml\"/>\n"); 
+            writer.write("<mapping resource=\"charityHibernateEntities/User.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/AccessLog.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/FormFields.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/MailingGroup.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/MailingList.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/Event.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/FilledForm.hbm.xml\"/>\n");	
+            writer.write("<mapping resource=\"charityHibernateEntities/FormType.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/FieldType.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/FieldSelection.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/Form.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/FormPermissions.hbm.xml\"/>\n");
+            writer.write("<mapping resource=\"charityHibernateEntities/UserType.hbm.xml\"/>\n"); 
             writer.write("</session-factory>\n");
             writer.write("</hibernate-configuration>\n");
             writer.flush();
