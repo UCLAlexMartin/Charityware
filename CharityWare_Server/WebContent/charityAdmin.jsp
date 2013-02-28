@@ -374,7 +374,10 @@ if(session.getAttribute("userTypeId") == null)
 			    </div> 
 			    <div class="tabbed_area">       
 			       <div id="content_1" class="tabContent">
-      				/*-----------------------------TEMP START---------------------*/
+      				<!-- /*-----------------------------TEMP START---------------------*/ -->
+      				
+      				
+      				<!-- Main form area including drop down selection of forms and buttons. -->
       				<fieldset id="myforms">
       					<legend>My forms</legend>
       					
@@ -389,6 +392,8 @@ if(session.getAttribute("userTypeId") == null)
 	      						userForms = frmMng.retrieve();
 	      						allTypes = fieMng.retrieve();
 	      						out.println(session.getAttribute("charity_Con").toString());
+	      						
+	      						session.setAttribute("selectedForm", "");
 	      						//session.setAttribute("userForms", userForms);
 	      						//session.setAttribute("allTypes",allTypes);
 	      				}catch(Exception e){e.printStackTrace();}
@@ -420,9 +425,69 @@ if(session.getAttribute("userTypeId") == null)
       					}
       				
 	      				%> 
-      				
+	      			<br/>
+      				<button type="button" onclick="showFormWizard()">Add new Form</button>
       				</fieldset>
-      				/*--------------------------------------------------------------*/
+      				
+      				<% 
+      					if(userForms!= null && userForms.size() > 0)
+      					{
+      						%><fieldset id="currentformstructure" class="nodisplay">
+          					<div id="currentformstructurefill"></div>
+          					<button type="button" onclick="hideCurrentFormStructure()">Hide</button>
+          					</fieldset>
+          					<fieldset id="currentformdata" class="nodisplay">
+          					<div id="currentformdatafill"></div>
+          					<button type="button" onclick="hideCurrentFormData()">Hide</button>
+          					</fieldset>
+          					<%
+      					}
+      				%>
+      					<fieldset id="formwizard" class="nodisplay">
+    					<legend>Form Wizard</legend>
+    					<label>Form name:</label>
+    					<input id="formname" type="text" />
+    									
+    					<fieldset id = "fieldselect">
+    					<legend>Field wizard</legend>
+    					<label for="fieldname">Field name</label>
+    					<input id="fieldname" type="text" validate="notEmpty:true, English:ture"/>
+    					<label for="typeoptions">Input type</label>
+      					
+      					<select id="typeoptions" onchange="onRowTypeChanged()">
+      					<% 
+	      					for(int i = 0; i < allTypes.size(); i++)
+	  						{
+	      						FieldType iType = allTypes.get(i);
+		      					%>
+		      					<option value="<%=iType.getField_type_id()%>"><%=iType.getField_Description()%></option>
+		      					<% 
+	  						}
+      					%>
+      					</select>
+						
+      					<input type="checkbox" id="rowrequired" name="rowrequired"/>
+      					<label for="rowrequired">Mandatory?</label>
+      					<button onclick="addRow()" type="button" >Add row</button>
+      					<div id="extra" class="nodisplay"></div>
+      					<div id="errmsg" class="nodisplay"></div>
+      					</fieldset>
+      					
+      					<form id="rowset" action="FormServlet" method="post">
+      					<fieldset>
+      					<input type="hidden" id="argc" name="argc" value="0"/>
+      					<input type="hidden" name="req" value="create"/>
+      					<legend>Current rows:</legend>
+      					<div id="rowsetrows"></div>
+
+      					 </fieldset>
+      					<button type="button" onclick="hideFormWizard()">Hide</button>
+      					<button type="button" id="btnSubmitForm" onclick="createForm()">Create this form!</button>
+      					<button type="button" id="clearbtn" onclick='removeChildren(document.getElementById("rowsetrows") ); document.getElementById("argc").value=0;'>Clear all rows</button>
+      					
+      					</form>
+      					
+      				<!--  /*--------------------------------------------------------------*/ -->
       			</div>
 			     
 			     <div id="content_2" class="tabContent">
