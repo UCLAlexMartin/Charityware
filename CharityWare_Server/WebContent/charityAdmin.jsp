@@ -324,7 +324,6 @@ if(session.getAttribute("userTypeId") == null)
 		    		var element = document.getElementById('cb'+forms[i]);	
 		 			if(element.checked && !element.disabled)
 		            {
-		 				
 		 				 var wsurl = url+'RESTCharity/formPermissionsService/formPermissions/addPermissions/'+urlHibernate+'/'+$('#ddUserType2').val()+'/'+forms[i];
 				    	$.post(wsurl,function(){
 				    		alert(i);
@@ -335,22 +334,67 @@ if(session.getAttribute("userTypeId") == null)
 		    }		    
 		   
          
-     
-    /*   function search(field_label,value){
-       
-       $.get(url+'RESTCharity/filledFormService/'+urlHibernate+'/filledforms/getSearchResults/'+field_label+'/'+value, function(data) {
-     $.each(data, function(i,d){ 
-      $('#searchResult').append(' <table> ');
-      for(row = 0; row < i ; row++){
-       
-      }
-      
-      $('#searchResult tr:last').after("<tr id=row"+d.charity_id+"><td>" + d.charity_name + "</td><td>" + d.registration_no + "</td><td>" + d.email+ "</td><td>" + d.charity_description + 
-        "</td></tr>"); 
-     });
-    });
-       
-      } */
+         function search(){
+     			
+     		$.get(url+'RESTCharity/filledFormService/'+urlHibernate+'/filledforms/getSearchResults/'+$('#category').val()+'/'+$('#txtSearch').val(), 
+     				function(data){
+				var tableHTML = "<table>";
+     			var cnt = 0;
+     			$.each(data, function(k,v){
+     				
+     				if (cnt == 0)
+     					{
+     					//Table Headers
+     					tableHTML += addAllColumnHeaders(v);
+     					
+     					cnt++;
+     					}
+     				
+     				//Table Content
+					tableHTML += addAllContent(v);
+     			});
+     			
+     			//Close Table
+				tableHTML += "</table>";
+				
+				$("#searchResult").html(tableHTML);
+     		});
+         }
+     				
+    		
+		function addAllContent(myList){
+    		
+    		var contentHTML="<tr>";
+
+    	    for (var i = 1 ; i < myList.length ; i=i+2) {
+    	    	
+    	    	contentHTML += "<td>"
+    	    		contentHTML += myList[i];
+    	    	contentHTML += "</td>"
+    	    	
+    	    }
+    	    contentHTML += "</tr>";
+
+    	    return contentHTML;
+    	}
+    		
+    	function addAllColumnHeaders(myList){
+    		
+    		var headerHTML="<tr>";
+
+    	    for (var i = 0 ; i < myList.length ; i=i+2) {
+    	    	
+    	    	headerHTML += "<th>"
+    	    	headerHTML += myList[i];
+    	    	headerHTML += "</th>"
+    	    	
+    	    }
+    	    headerHTML += "</tr>";
+
+    	    return headerHTML;
+    	}
+    	
+    	
     </script>
 
 	    <!-- Main Content -->
@@ -546,27 +590,29 @@ if(session.getAttribute("userTypeId") == null)
 								<tr>
 									<td>Username</td>
 					      			<td>								
-					      				<input type="text" class="registerTextbox" name="txtUsername" id="txtUsername" maxlength="20" tabindex="1" pattern="^[a-zA-Z0-9]+" placeholder="Username" required/>  
+					      				<input type="text" class="userTextbox" name="txtUsername" id="txtUsername" maxlength="20" tabindex="1" pattern="^[a-zA-Z0-9]+" placeholder="Username" required/>  
 														      			</td>
 					      		</tr>
 					      		<tr>
 									<td>Password</td>
 					      			<td> 
-					      				<input type="password"  class="registerTextbox" name="txtPassword" id="txtPassword" maxlength="25" tabindex="2" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" placeholder="One Uppercase, Lowercase and Number." required/>
+					      				<input type="password"  class="userTextbox" name="txtPassword" id="txtPassword" maxlength="25" tabindex="2" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" placeholder="One Uppercase, Lowercase and Number." required/>
 					      			</td>
 					      		</tr>
 					      		<tr>
 									<td>Email</td>
 					      			<td> 
-					      				<input type="email" class="registerTextbox" name="txtEmail" id="txtEmail" maxlength="250" tabindex="3" placeholder="User Email Address" required/>
+					      				<input type="email" class="userTextbox" name="txtEmail" id="txtEmail" maxlength="250" tabindex="3" placeholder="User Email Address" required/>
 					      			</td>
 					      		</tr>
 					      		<tr>
 									  <td>User Category</td>
-									<td>	
-										<select id="ddUserType" name="ddUserType">
-										<option>Select</option>
-										</select>
+									<td>
+										<div class="ddUserType">	
+											<select id="ddUserType" name="ddUserType">
+												<option>Select</option>
+											</select>
+										</div>
 									</td> 
 																			      			
 					      		</tr>
@@ -585,15 +631,18 @@ if(session.getAttribute("userTypeId") == null)
 		 						<table style="border-spacing:5px;border-collapse: inherit;">
 		 						<tr>
 									<td>User Category</td>
-									<td>	
-										<select id="ddUserType2" name="ddUserType2">
-										<option>Select</option>
-										</select>
-										<img id="userTypeLoader" src="images/ajax-loader.gif"/>
-										<div id="userTypeLoader2" style="width:5px; height:5px; background-color:red; display:none;"></div>
+									<td>
+										<div class="ddUserType">		
+											<select id="ddUserType2" name="ddUserType2">
+											<option>Select</option>
+											</select>
+										</div>
+										<!-- <div id="userTypeLoader2" style="width:5px; height:5px; display:none;">
+											<img id="userTypeLoader" src="images/ajax-loader.gif"/>
+										</div> -->
 										<div id="addUserType" style="display:none;">
 										
-										<input id="txtAddUserType" type="text" ></input>
+										<input id="txtAddUserType" type="text" class="userTextbox" maxlength="50" tabindex="5" placeholder="User Type" required></input>
 										<input class="contactSubmit" name="btnAddUserType" type="submit" id="btnAddPermission" onclick="addUType()"value="ADD USER TYPE"/>
 										
 										</div>
@@ -652,6 +701,7 @@ if(session.getAttribute("userTypeId") == null)
 						<table>
 							<tr>
 							<td>
+							<div class="ddUserType">
 							<select name="category" id="category" name="category">
 
 								<%
@@ -665,7 +715,7 @@ if(session.getAttribute("userTypeId") == null)
 										 Map.Entry<Integer, String> fields = (Map.Entry<Integer, String>)iter4.next();
 										 String field =  fields.getValue();
 										 Integer fieldId = fields.getKey();
-										 String optionValue = "row" + fieldId;
+										 String optionValue = fields.getValue();
 											
 								%>
 								<option value=<%= optionValue%>>
@@ -675,12 +725,13 @@ if(session.getAttribute("userTypeId") == null)
 									}
 								%>
 							</select>
+							</div>
 							</td>
 							<td>
-								<input type="text" name="txtSearch" />
+								<input type="text" id="txtSearch" name="txtSearch" class="userTextbox" maxlength="50" tabindex="9" placeholder="Search Criteria" required />
 							</td>
 							<td>
-								<input class="contactSubmit" name="btnSearch" type="submit" id="btnSearch" value="SEARCH"/>
+								<input class="contactSubmit" name="btnSearch" type="submit" id="btnSearch" onclick="search();return false;" value="SEARCH"/>
 							</td>
 							</tr>
 						</table>

@@ -12,7 +12,8 @@ if(session.getAttribute("userTypeId") == null)
 		//out.println("you may stay"+"<br/>");
 	}
 	else
-	{	
+	{
+	
 		response.sendRedirect("login.jsp");
 		return;
 	}
@@ -193,7 +194,7 @@ if(session.getAttribute("userTypeId") == null)
 		        <div class="contentBox">
 	
 		        
-					<h2> UCL Administration Panel </h2> 
+						<h2> UCL Administration Panel </h2> 
 					
 					<div id="tabs">
 				        <ul> 
