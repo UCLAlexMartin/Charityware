@@ -25,5 +25,12 @@
     <string name="confirmation">Confirmation</string>
     <string name="info"> Click on one of the tabs below to go see a form\'s fields</string>
     <string name="charsel">Please select a charity</string>
-
+    <string name="dialog_form_submission">Could not submit form. Please try again.</string>
+	<string name="dialog_form_title">Warning</string>
+	<string name="help_popup">Help</string>
+	<string name="help_message"> To see the contents of a form click on the list view below.</string>
+	<string name="connection_message"> No Internet Connection available</string>
+	<string name="no_forms_message"> There are no forms available.</string>
+	<string name="no_fields_message">There are no fields to show for this form</string>
+	<string name="succ">Success. Form content updated!</string>
 </resources>
