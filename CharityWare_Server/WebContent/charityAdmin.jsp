@@ -314,8 +314,9 @@ if(session.getAttribute("userTypeId") == null)
         		 {
               $.post(url+'RESTCharity/userTypeService/charityConfig/'+urlHibernate+'/'+$('#txtAddUserType').val(),
             		  function(){
-            	  alert('Type Added');	  
+            	   
           		});
+              alert('Type Added');	
          	};
          };
          
@@ -326,8 +327,9 @@ if(session.getAttribute("userTypeId") == null)
 		            {
 		 				 var wsurl = url+'RESTCharity/formPermissionsService/formPermissions/addPermissions/'+urlHibernate+'/'+$('#ddUserType2').val()+'/'+forms[i];
 				    	$.post(wsurl,function(){
-				    		alert(i);
-						});
+				    	});
+				    	alert("User Permission Added Successfully");
+
 		            }
 		    	}
 		    
@@ -585,7 +587,7 @@ if(session.getAttribute("userTypeId") == null)
                     	</div>
                         
  						<div id="addUser" class="subContent2" style="display:none;">
-	                        <form id="addUser" name="addUser" method="post" action="">
+	                      <!--   <form id="addUser" name="addUser" method="post" action=""> -->
 		 						<table style="border-spacing:5px;border-collapse: inherit;">
 								<tr>
 									<td>Username</td>
@@ -619,15 +621,15 @@ if(session.getAttribute("userTypeId") == null)
 								<tr>
 									<td></td>
 									<td> 
-										<input class="contactSubmit" name="btnAddUser" type="submit" id="btnAddUser" value="ADD USER"/>
+										<input class="contactSubmit" name="btnAddUser" type="submit" id="btnAddUser" value="ADD USER" onclick="addUser();"/>
 									</td>
 								</tr>
 							</table>
-					    </form>
+					  <!--   </form> -->
                         </div>
 				 
 				 		<div id="userPermissions" class="subContent2" style="display:none;">
-				 		 <form id="userPermissions" name="userPermissions" method="post" action="">
+				 		 <!-- <form id="userPermissions" name="userPermissions" method="post" action=""> -->
 		 						<table style="border-spacing:5px;border-collapse: inherit;">
 		 						<tr>
 									<td>User Category</td>
@@ -661,12 +663,12 @@ if(session.getAttribute("userTypeId") == null)
 					      		<tr>
 									<td></td>
 									<td> 
-										<input class="contactSubmit" name="btnAddPermission" type="submit" id="btnAddPermission"  onclick="addPermissions()" value="ADD PERMISSION"/>
+										<input class="contactSubmit" name="btnAddPermission" type="submit" id="btnAddPermission"  onclick="addPermissions();" value="ADD PERMISSION"/>
 									</td>
 								</tr>
 		 						
 		 						</table>
-		 				</form>		
+		 				<!-- </form>	 -->	
 		 						
 				 		</div>
 				 </div>  
