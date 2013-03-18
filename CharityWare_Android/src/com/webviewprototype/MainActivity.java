@@ -98,15 +98,25 @@ public class MainActivity extends Activity {
     	String name = edit.getText().toString();
     	String pass = edit2.getText().toString();
     	User user = restFacade.validateUser(name, pass);
-    	String final_pass = PasswordEncryption.encryptPassword(pass, user.getSalt());
-    	if (user.getUserPassword().equals(final_pass)) {
-    		intent.putExtra(EXTRA_MESSAGE, edit.getText().toString());
-        	startActivity(intent);
-        	bean = DataBean.getDataBean();
-        	bean.setUser(user);
+    	if (user!=null) {
+	    	if (user.getUser_id()!=null) {
+	    		String final_pass = PasswordEncryption.encryptPassword(pass, user.getSalt());
+	    		if (user.getUserPassword().equals(final_pass)) {
+	    			intent.putExtra(EXTRA_MESSAGE, edit.getText().toString());
+	    			startActivity(intent);
+	    			bean = DataBean.getDataBean();
+	    			bean.setUser(user);
+	    		}else{
+	    			text.setText("Wrong login details, please try again");
+	    			text.setVisibility(View.VISIBLE);
+	    		}
+	    	}else{
+	    		text.setText("Charity not approved. Select another charity.");
+				text.setVisibility(View.VISIBLE);
+	    	}
     	}else{
-    		text.setText("Wrong login details, please try again");
-    		text.setVisibility(View.VISIBLE);
+    		text.setText("User does not exist");
+			text.setVisibility(View.VISIBLE);
     	}
     	
     

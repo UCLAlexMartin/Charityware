@@ -16,6 +16,7 @@ import java.util.TimerTask;
 import android.annotation.SuppressLint; 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -110,42 +111,89 @@ public class CharityActivity extends ListActivity {
 				RestServiceFacade RestServiceFacade = new RestServiceFacadeImpl();
 				List<Form> form_list = RestServiceFacade.getFormEntities(name);
 				bean.setAllForms(form_list);
-				for (int i=0;i<form_list.size();i++) {
-					Set<FormFields> fs = form_list.get(i).getFields();
-					Iterator<FormFields> it = fs.iterator();
-					List<FormFields> list = new LinkedList<FormFields>();
-					while (it.hasNext()) {
-						list.add(it.next());
+				if (form_list!=null) {	
+					for (int i=0;i<form_list.size();i++) {
+						Set<FormFields> fs = form_list.get(i).getFields();
+						Iterator<FormFields> it = fs.iterator();
+						List<FormFields> list = new LinkedList<FormFields>();
+						while (it.hasNext()) {
+							list.add(it.next());
+						}
+						FORM_TITLES.add(form_list.get(i).getFormName());
 					}
-					FORM_TITLES.add(form_list.get(i).getFormName());
+					bean.setFormNames(FORM_TITLES);
+	
+					this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FORM_TITLES));
+	
+					listView.setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> parent, View view, int arg2,
+								long arg3) {
+							String title = ((TextView) view).getText().toString();
+							bean.setSelectedForm(title);
+							List<FormFields> flds = CharityActivity.this.findFormFieldsByFormName(title);
+							if (flds!=null) {
+								if (flds.size()>0){
+								bean.setFormFields(flds);
+								// Launching new Activity on selecting single List Item
+					              Intent i = new Intent(getApplicationContext(), FormActivity.class);
+					              // sending data to new activity
+					              Bundle bundle = new Bundle();
+					              bundle.putString("Username",bean.getUser().getUserName());
+					             // bundle allocation
+					              i.putExtras(bundle);
+					              startActivity(i);
+								}else{
+									showNoFieldsPopup();
+								}
+							}else{
+								showNoFieldsPopup();
+							}
+						}
+					});
+				}else{
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+					// 2. Chain together various setter methods to set the dialog characteristics
+					builder.setMessage(R.string.no_forms_message)
+					       .setTitle(R.string.dialog_form_title);
+					builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				               // User clicked OK button
+				        	   dialog.dismiss();
+				           }
+				       });
+					builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				               // User cancelled the dialog
+				        	   dialog.dismiss();
+				           }
+				       });
+					// 3. Get the AlertDialog from create()
+					AlertDialog dialog = builder.create();
+					dialog.show();
 				}
-				bean.setFormNames(FORM_TITLES);
-
-				this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FORM_TITLES));
-
-				listView.setOnItemClickListener(new OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int arg2,
-							long arg3) {
-						String title = ((TextView) view).getText().toString();
-						bean.setSelectedForm(title);
-						List<FormFields> flds = CharityActivity.this.findFormFieldsByFormName(title);
-						bean.setFormFields(flds);
-						// Launching new Activity on selecting single List Item
-			              Intent i = new Intent(getApplicationContext(), FormActivity.class);
-			              // sending data to new activity
-			              Bundle bundle = new Bundle();
-			              bundle.putString("Username",bean.getUser().getUserName());
-			             // bundle allocation
-			              i.putExtras(bundle);
-			              startActivity(i);
-					}
-				});
 			}else{
-				TextView view = (TextView) findViewById(R.id.textView1);
-				view.setTextSize(20);
-				view.setText("No Forms available");
-				layout.addView(view);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+				// 2. Chain together various setter methods to set the dialog characteristics
+				builder.setMessage(R.string.connection_message)
+				       .setTitle(R.string.dialog_form_title);
+				builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               // User clicked OK button
+			        	   dialog.dismiss();
+			           }
+			       });
+				builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               // User cancelled the dialog
+			        	   dialog.dismiss();
+			           }
+			       });
+				// 3. Get the AlertDialog from create()
+				AlertDialog dialog = builder.create();
+				dialog.show();
 			}
 			
 //			task = new NetworkPollTask(activeNetworkInfo,networkFacade);
@@ -153,7 +201,30 @@ public class CharityActivity extends ListActivity {
 			
 
 	}
+
+	private void showNoFieldsPopup() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		// 2. Chain together various setter methods to set the dialog characteristics
+		builder.setMessage(R.string.no_fields_message)
+		       .setTitle(R.string.dialog_form_title);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // User clicked OK button
+	        	   dialog.dismiss();
+	           }
+	       });
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // User cancelled the dialog
+	        	   dialog.dismiss();
+	           }
+	       });
+		// 3. Get the AlertDialog from create()
+		AlertDialog dialog = builder.create();
+		dialog.show();
 	
+	}
 	
 	private List<FormFields> findFormFieldsByFormName(String title) {
 		List<FormFields> result = new LinkedList<FormFields>();
@@ -226,6 +297,30 @@ public class CharityActivity extends ListActivity {
 		}
 		
 	}
+	
+	public void Popup(View view) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		// 2. Chain together various setter methods to set the dialog characteristics
+		builder.setMessage(R.string.help_message)
+		       .setTitle(R.string.help_popup);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // User clicked OK button
+	        	   dialog.dismiss();
+	           }
+	       });
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // User cancelled the dialog
+	        	   dialog.dismiss();
+	           }
+	       });
+		// 3. Get the AlertDialog from create()
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	
+	}
 		
 
 
@@ -273,6 +368,7 @@ public class CharityActivity extends ListActivity {
 
 	@Override
     public void onBackPressed() {
+		super.onBackPressed();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(R.string.warning)
 	       .setTitle(R.string.confirmation);
@@ -288,6 +384,8 @@ public class CharityActivity extends ListActivity {
 	        	   
 	           }
 	       });
+	AlertDialog dialog = builder.create();
+	dialog.show();
 
 //	 super.onBackPressed();   
 

@@ -48,11 +48,14 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 	public  List<Form> getFormEntities(String username){
 		bean= DataBean.getDataBean();
 		List<Form> forms = new LinkedList<Form>();
-		FormURLOpenTask task = new FormURLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username);
-//		FormURLOpenTask task = new FormURLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/users/formEntities/"+username);
+//		FormURLOpenTask task = new FormURLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username);
+//		FormURLOpenTask task = new FormURLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/users/formEntities/"+username);
+		FormURLOpenTask task = new FormURLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username);
+
+		//		FormURLOpenTask task = new FormURLOpenTask("http://128.16.80.47:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/users/formEntities/"+username);
 
 		try {
-			jsonResult=task.execute(new URL("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username)).get();
+			jsonResult=task.execute(new URL("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username)).get();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -85,16 +88,27 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 	public synchronized User validateUser(String username, String password) {
 		bean= DataBean.getDataBean();
 		try {
-				URLOpenTask task = new URLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username);
-//			URLOpenTask task = new URLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username);
-			jsonResult=task.execute(new URL("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username)).get();
+//				URLOpenTask task = new URLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username);
+//			URLOpenTask task = new URLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username);
+			URLOpenTask task = new URLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username);
+
+			//			URLOpenTask task = new URLOpenTask("http://128.16.80.47:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username);
+			jsonResult=task.execute(new URL("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username)).get();
 		} catch (Exception e1) {
 			e1.printStackTrace();
+			return new User();
 		}
 		System.out.println(jsonResult);
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-dd-MM").create();
-		User user = gson.fromJson(jsonResult, User.class);
+		Gson gson = new Gson();
+		User user;
+	    gson = new GsonBuilder().setDateFormat("yyyy-dd-MM").create();
+	    try{
+			 user = gson.fromJson(jsonResult, User.class);
+	    }catch(Exception e){
+	    	return null;
+	    }
 		return user;
+
 	}
 	
 	
@@ -104,18 +118,24 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 		bean= DataBean.getDataBean();
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-dd-MM").create();
 		String json = gson.toJson(forms);
+		Boolean done=false;
 		try {
 			String[] debug = new String[2];
-			debug[0]="http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms";
-//			debug[0]="http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms";
+//			debug[0]="http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms";
+//			debug[0]=" http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms";
+			debug[0]="http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms";
+
+			//			debug[0]="http://1285.16.80.47:8080/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms";
 			debug[1]=json;
 			PostFormTask task = new PostFormTask(debug);
-			task.execute("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms",json).get();
-//			task.execute("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms",json).get();
+//			task.execute("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms",json).get();
+			 done=task.execute("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms",json).get();
+//			task.execute("http://128.16.80.47:8080/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms",json).get();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return done;
 	}
 	
 	
@@ -216,11 +236,11 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 	
 	
 	
-	private class PostFormTask extends AsyncTask<String, Void, Void>{
+	private class PostFormTask extends AsyncTask<String, Boolean, Boolean>{
 		
 		private String[] data;
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Boolean doInBackground(String... params) {
 			String fin;
 			try {
 				if (data.length!=2) {
@@ -230,8 +250,9 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
+					return false;
 				}
-			return null;
+			return true;
 		}
 		
 		public PostFormTask(String[] data) {
@@ -245,9 +266,9 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 	@Override
 	public List<Charity> getCharities() {
 		List<Charity>  charities = new LinkedList<Charity>();
-		URLOpenTask task = new URLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTSystem/charityService/charities");
+		URLOpenTask task = new URLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTSystem/charityService/charities");
 		try {
-			jsonResult = task.execute(new URL("http://130.43.173.7:8080/CharityWare_Lite/RESTSystem/charityService/charities")).get();
+			jsonResult = task.execute(new URL("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTSystem/charityService/charities")).get();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
