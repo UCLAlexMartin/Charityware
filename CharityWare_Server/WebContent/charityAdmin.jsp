@@ -351,6 +351,13 @@ if(session.getAttribute("userTypeId") == null)
     });
        
       } */
+      function onCurrentFormChanged()
+      {
+    	  
+    	  alert($('#myformslist').val());
+    	  
+      }
+      
     </script>
 
 	    <!-- Main Content -->
@@ -375,8 +382,6 @@ if(session.getAttribute("userTypeId") == null)
 			    <div class="tabbed_area">       
 			       <div id="content_1" class="tabContent">
       				<!-- /*-----------------------------TEMP START---------------------*/ -->
-      				
-      				
       				<!-- Main form area including drop down selection of forms and buttons. -->
       				<fieldset id="myforms">
       					<legend>My forms</legend>
@@ -479,8 +484,8 @@ if(session.getAttribute("userTypeId") == null)
       					<input type="hidden" name="req" value="create"/>
       					<legend>Current rows:</legend>
       					<div id="rowsetrows"></div>
-
-      					 </fieldset>
+      					</fieldset>
+      					
       					<button type="button" onclick="hideFormWizard()">Hide</button>
       					<button type="button" id="btnSubmitForm" onclick="createForm()">Create this form!</button>
       					<button type="button" id="clearbtn" onclick='removeChildren(document.getElementById("rowsetrows") ); document.getElementById("argc").value=0;'>Clear all rows</button>
