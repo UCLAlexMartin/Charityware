@@ -14,6 +14,8 @@
 <%@ page import="RESTCharityClient.UserClient" %>
 <%@ page import="RESTCharityClient.EventClient" %>
 <%@ page import="RESTCharityClient.FormFieldsClient" %>
+<%@ page import="RESTCharityClient.FormClient" %>
+<%@ page import="RESTCharityClient.FieldTypeClient" %>
 
 
 
@@ -49,10 +51,12 @@ if(session.getAttribute("userTypeId") == null)
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="js/charityManager.js"></script>
-		<script type="text/javascript" src="js/xhr.js"></script>
 		<script type="text/javascript" src="js/panelSwitcher.js"></script>
 		<script type="text/javascript" src="js/validationAddUser.js"></script>
 		<link rel="stylesheet" href="css/register.css" type="text/css" media="all">   	
+		
+		<link rel="stylesheet" href="css/FormTabStyle.css" type="text/css" media="all">   	
+		
 		
     	<%-- <script type="text/javascript">
     	  //Number of Records inputted per User	 
@@ -429,13 +433,15 @@ if(session.getAttribute("userTypeId") == null)
       				<%
       				List<Form> userForms = null;
       				List<FieldType> allTypes = null;
-      				FormManager frmMng = null;
-      				FieldTypeManager fieMng = null;
+      				//FormManager frmMng = null;
+      				//FieldTypeManager fieMng = null;
       				try{
-	      						frmMng = new FormManager(session.getAttribute("charity_Con").toString());
-	      						fieMng = new FieldTypeManager(session.getAttribute("charity_Con").toString());
-	      						userForms = frmMng.retrieve();
-	      						allTypes = fieMng.retrieve();
+	      						//frmMng = new FormManager(session.getAttribute("charity_Con").toString());
+	      						//fieMng = new FieldTypeManager(session.getAttribute("charity_Con").toString());
+	      						
+	      						userForms = FormClient.getForms(session.getAttribute("charity_Con").toString());
+	      								
+	      						allTypes = FieldTypeClient.getFieldTypes(session.getAttribute("charity_Con").toString());//fieMng.retrieve();
 	      						out.println(session.getAttribute("charity_Con").toString());
 	      						
 	      						session.setAttribute("selectedForm", "");
@@ -459,9 +465,9 @@ if(session.getAttribute("userTypeId") == null)
       						}
 	      					%>
 	      						</select>
-	          				 	<button type="button" onclick="writeFormStructure(JSON.stringify($('#myformslist').val()))">View structure</button>
-	          				 	<button type="button" onclick="viewCurrentFormData()">View data</button>
-	          				 	<button type="button" onclick="deleteCurrentForm()">Remove this form</button>
+	          				 	<button type="button" onclick="writeFormStructure($('#myformslist').val())">View structure</button>
+	          				 	<button type="button" onclick="viewCurrentFormData($('#myformslist').val())">View data</button>
+	          				 	<button type="button" onclick="deleteCurrentForm($('#myformslist').val())">Remove this form</button>
       						<%
       						
       					}else
@@ -477,13 +483,21 @@ if(session.getAttribute("userTypeId") == null)
       				<% 
       					if(userForms!= null && userForms.size() > 0)
       					{
-      						%><fieldset id="currentformstructure" class="nodisplay">
-          					<div id="currentformstructurefill"></div>
-          					<button type="button" onclick="hideCurrentFormStructure()">Hide</button>
+      						%>
+      						
+      						<fieldset id="currentformstructure" class="nodisplay">
+	          					<div id="currentformstructurefill">
+	          					
+	          					</div>
+	          					<button type="button" onclick="hideCurrentFormStructure()">Hide</button>
           					</fieldset>
+          					
+          					
           					<fieldset id="currentformdata" class="nodisplay">
-          					<div id="currentformdatafill"></div>
-          					<button type="button" onclick="hideCurrentFormData()">Hide</button>
+	          					<div id="currentformdatafill">
+	          					
+	          					</div>
+	          					<button type="button" onclick="hideCurrentFormData()">Hide</button>
           					</fieldset>
           					<%
       					}

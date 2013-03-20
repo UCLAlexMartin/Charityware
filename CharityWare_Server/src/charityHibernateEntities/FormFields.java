@@ -14,7 +14,8 @@ import org.hibernate.envers.Audited;
 @Entity
 @Audited
 @XmlRootElement(name = "formFields")
-public class FormFields {
+public class FormFields 
+{
 	private Integer f_id;
 	private String field_label;
 	private FieldType field_type;
@@ -56,13 +57,15 @@ public class FormFields {
 		this.f_id = f_id;
 	}
 	
-	@XmlElement(name = "fieldType")
+	@XmlElement
 	public FieldType getField_type() {
 		return field_type;
 	}
 	public void setField_type(FieldType field_type) {
 		this.field_type = field_type;
 	}
+	
+	
 	@XmlElement
 	public Set<FieldSelection> getField_selections() {
 		return field_selections;

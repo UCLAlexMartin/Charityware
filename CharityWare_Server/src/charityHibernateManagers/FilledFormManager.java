@@ -2,6 +2,7 @@ package charityHibernateManagers;
 
 import charityHibernateEntities.Event;
 import charityHibernateEntities.FilledForm;
+import charityHibernateEntities.Form;
 import charityHibernateEntities.FormFields;
 import charityHibernateEntities.User;
 
@@ -27,10 +28,17 @@ public class FilledFormManager {
 	
 	public FilledFormManager(String DBConfname){
 		//this.DBConfname = DBConfname;
-		System.out.println("HELLLOOO!");
+		//System.out.println("HELLLOOO!");
 		conn = new ConnectionManager(DBConfname);
 		//conn.setDBConfname(DBConfname);
 	}
+	
+	
+	public List<FilledForm> getFilledForm(Integer id){
+		List<FilledForm> filledForms = (List<FilledForm>) conn.getTable("FilledForm where form_id="+id);
+		return filledForms;
+	}
+	
 	public  String getRecordsData(){
 		
 		Map<String,HashSet<Integer>> results = new TreeMap<String,HashSet<Integer>>();
