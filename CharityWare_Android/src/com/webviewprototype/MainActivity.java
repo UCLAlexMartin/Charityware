@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
 	    	if (user.getUser_id()!=null) {
 	    		String final_pass = PasswordEncryption.encryptPassword(pass, user.getSalt());
 	    		if (user.getUserPassword().equals(final_pass)) {
-	    			intent.putExtra(EXTRA_MESSAGE, edit.getText().toString());
+//	    			intent.putExtra(EXTRA_MESSAGE, edit.getText().toString());
 	    			startActivity(intent);
 	    			bean = DataBean.getDataBean();
 	    			bean.setUser(user);
