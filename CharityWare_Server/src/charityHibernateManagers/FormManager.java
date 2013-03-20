@@ -60,7 +60,12 @@ public class FormManager {
 		return false;	
 		//session.delete(killMe);
 	}
-	public void insertForm(HttpServletRequest req)
+	
+	public Integer addForm(Form form)
+	{
+		  return (Integer) conn.transaction("save",form);
+	}
+	/*public void insertForm(HttpServletRequest req)
 	{
 		int argc = Integer.parseInt(req.getParameter("argc"));
 		Form f = new Form();
@@ -116,5 +121,5 @@ public class FormManager {
 	   		 	}
 		    }
 	    }	   
-	}
+	}*/
 }

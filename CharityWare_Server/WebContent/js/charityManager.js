@@ -1,4 +1,4 @@
-/*
+
 function init()
 {
 	 tabSwitch(1,5,'tab_', 'content_');
@@ -9,74 +9,21 @@ function init()
 	 document.getElementById("fieldname").value = "";
 }
 
-function hideFormWizard()
-{
-	var wizard = document.getElementById("formwizard");
-	hide(wizard);
-}
 
-
-function viewCurrentFormStructure()
-{
-	var formId = getCurrentFormId();
-	xhr("/CharityWare/FormServlet?req=structure&q="+formId,"GET",true,writeFormStructure);
-}
-
-
-
-
-
-function getCurrentFormName()
-{
-	var myforms = document.getElementById("myformslist");
-	return myforms.options[myforms.selectedIndex].text;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function hide(element)
-{
-	element.className = "nodisplay";
-}
-
-
-
+/*----------------------------------------Form Jacascript beyond this point----------------------------------------------------------------*/
+/*---------Delete Form------*/
 function deleteCurrentForm()
 {
-	if(confirm("Are you sure you want to delete form "+getCurrentFormName()+"?"))
-	{
-		xhr("/CharityWare/FormServlet?req=delete&q="+getCurrentFormId(),"POST",false);
-		location.reload(true);
-	}
+	//###################Needs Link###########################//
+	$.post('ajax/test.html', {form_id : $('#myformslist').val()}, function(data) {
+	$('.result').html(data);
+	});
 }
-*/
 /*----------------------------Show form creation wizard----------------------------*/
 
 function FormObject(name)
 {
+	this.form_id;
 	this.formName = name;
 	this.fields = new Array();
 }
@@ -133,35 +80,29 @@ function createForm()
 		baseObject.fields.push(Field);	
 	});
 	
-	/*Setup fields*/
-	//var Field = new FieldObject("Field_lbl_1");
-	//Field.isRequired = true;
-		/*Setup field Types*/
-		//var FieldType = new FieldTypeObject();
-		//FieldType.field_type = "field type";
-		//FieldType.field_dataType = "field data type";
-		//FieldType.field_Description = "field desc";
-		/*Add field types to fields*/
-		//Field.field_type = FieldType;
-	
-	/*Add fields to form*/	
-	//baseObject.fields.push(Field);
+
 
 	var JsonText = JSON.stringify(baseObject);
 	alert(JsonText);
+	//###################### Needs Link#########################
+	$.ajax({
+	    type: "POST",
+	    url: "RESTCharity/formService/" + urlHibernate + "/forms/insertForm",
+	    // The key needs to match your method's input parameter (case-sensitive).
+	    data: JsonText,
+	    contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+	    success: function(data)
+	    {
+	    	alert("Form created: " + data);
+	    },
+	    failure: function(errMsg) 
+	    {
+	        alert("Form could not be created at this time:" + errMsg);
+	    }
+	});
 	
 	
-	/*var submitMe = document.getElementById("rowset");
-	var hiddenName = document.createElement("input");
-	hiddenName.type = "hidden";
-	formName = document.getElementById("formname");	
-	hiddenName.name = "formname";
-	hiddenName.value = formName.value;
-	submitMe.appendChild(hiddenName);
-	
-	enableCheckboxes(submitMe);
-	
-	submitMe.submit();*/
 }
 function enableCheckboxes(form)
 {
@@ -592,4 +533,9 @@ function onCurrentFormChanged()
 function hide(element)
 {
 	element.className = "nodisplay";
+}
+function hideFormWizard()
+{
+	var wizard = document.getElementById("formwizard");
+	hide(wizard);
 }

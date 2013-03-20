@@ -55,7 +55,7 @@ if(session.getAttribute("userTypeId") == null)
 		<script type="text/javascript" src="js/validationAddUser.js"></script>
 		<link rel="stylesheet" href="css/register.css" type="text/css" media="all">   	
 		
-		<link rel="stylesheet" href="css/FormTabStyle.css" type="text/css" media="all">   	
+		<link rel="stylesheet" href="css/FormTabStyle.css" type="text/css" media="all">	
 		
 		
     	<%-- <script type="text/javascript">
