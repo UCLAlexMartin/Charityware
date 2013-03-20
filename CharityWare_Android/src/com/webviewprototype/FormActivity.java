@@ -264,49 +264,9 @@ public class FormActivity extends ListActivity {
 	}
 	
 	
+
 	
-	@Override
-	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-	    if (keyCode == KeyEvent.KEYCODE_BACK) {
-	        // a long press of the call key.
-	        // do our work, returning true to consume it.  by
-	        // returning true, the framework knows an action has
-	        // been performed on the long press, so will set the
-	        // canceled flag for the following up event.
-	        return true;
-	    }
-	    return super.onKeyLongPress(keyCode, event);
-	}
-	
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.isTracking()
-	            && !event.isCanceled()) {
-			 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage(R.string.warning)
-			       .setTitle(R.string.confirmation);
-				builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			        	   Intent intent = new Intent(FormActivity.this, CharityActivity.class);
-			    			intent.putExtra(MainActivity.EXTRA_MESSAGE, bean.getUser().getUserName());
-			    			bean.flush();
-			       			FormActivity.this.startActivity(intent);
-			       			
-			           }
-			       });
-			builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			        	   dialog.dismiss();
-			           }
-			       });
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			
-		    }
-		return false;
-	}
+
 	
 	
 	@Override
