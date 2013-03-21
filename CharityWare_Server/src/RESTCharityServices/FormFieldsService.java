@@ -15,7 +15,7 @@ import javax.ws.rs.core.GenericEntity;
 @Path("/formFieldsService")
 public class FormFieldsService {
 	
-	@GET
+	/*@GET
 	@Path("/{DBConfigPath}/formFields/{formId}")
 	@Produces("application/json")
 	public GenericEntity<Map<Integer,List<String>>> JSONformFieldsretrieve(@PathParam("DBConfigPath")String DBConfigPath,@PathParam("formId")Integer formId){
@@ -24,7 +24,7 @@ public class FormFieldsService {
 		GenericEntity<Map<Integer, List<String>>> entity = new GenericEntity<Map<Integer, List<String>>>(map){};
 		return entity;
 		//return map;
-	}
+	}*/
 	
 	
 	@GET

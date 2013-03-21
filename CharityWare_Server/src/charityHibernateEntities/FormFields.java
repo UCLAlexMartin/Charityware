@@ -29,17 +29,17 @@ public class FormFields
 	private String creator_name;
 	private Boolean isActive;
 	private Date date_created;
-	private Form form;
+	//private Form form;
 	
 	private Set<FilledForm> filledForms = new HashSet<FilledForm>();
-	
+	/*
 	@JsonIgnore
 	public Form getForm() {
 		return form;
 	}
 	public void setForm(Form form) {
 		this.form = form;
-	}
+	}*/
 	
 	@XmlElement
 	public String getField_label() {

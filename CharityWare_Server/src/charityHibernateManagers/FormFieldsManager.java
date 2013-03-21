@@ -22,7 +22,7 @@ public class FormFieldsManager {
 		conn = new ConnectionManager(DBConfname);
 		//conn.setDBConfname(DBConfname);
 	}
-	public  Map<Integer,List<String>> retrieve(Integer form_id){
+	/*public  Map<Integer,List<String>> retrieve(Integer form_id){
 		List<FormFields> formFields = (List<FormFields>) conn.getTable("FormFields");
 		Iterator<FormFields> iter = formFields.iterator();
 		Map<Integer,List<String>> results = new TreeMap<Integer,List<String>>();
@@ -41,7 +41,7 @@ public class FormFieldsManager {
 			}
 		}
 		return results;
-	}
+	}*/
 	
 	public  Map<Integer,String> getListFormFields(){
 		
