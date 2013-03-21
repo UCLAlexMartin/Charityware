@@ -94,7 +94,8 @@ public class CharityActivity extends ListActivity {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		Intent intent = getIntent();
-		name = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+//		name = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+		name = bean.getUser().getUserName();
 		TextView txt = (TextView) findViewById(R.id.textView1);
 		txt.setText(bean.getSelectedCharity().getCharity_name());
 		configureListTitles();

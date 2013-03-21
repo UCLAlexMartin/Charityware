@@ -39,6 +39,7 @@ import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -262,10 +263,40 @@ public class FormActivity extends ListActivity {
 		
 	}
 	
+	
+
+	
+
+	
+	
+	@Override
+    public void finish()
+    {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.warning)
+	       .setTitle(R.string.confirmation);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   Intent intent = new Intent(FormActivity.this, CharityActivity.class);
+	    			intent.putExtra(MainActivity.EXTRA_MESSAGE, bean.getUser().getUserName());
+	    			bean.flush();
+	       			FormActivity.this.startActivity(intent);
+	           }
+	       });
+	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	           }
+	       });
+	AlertDialog dialog = builder.create();
+	dialog.show();
+    }
+	
+	
+	
 
 	@Override
     public void onBackPressed() {
-		super.onBackPressed();
+//		super.onBackPressed();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(R.string.warning)
 	       .setTitle(R.string.confirmation);
