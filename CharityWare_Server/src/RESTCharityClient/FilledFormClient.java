@@ -18,11 +18,11 @@ public class FilledFormClient {
 	static {
 		RestServiceURLPath = Configuration.getSiteUrl()+"RESTCharity/filledFormService";
 	}
-	public static String getRecordsData(){
+	public static String getRecordsData(String DBConfig){
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client client = Client.create(clientConfig);
-		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/json/filledforms/records").
+		ClientResponse clientresponse = client.resource(RestServiceURLPath).path("/"+DBConfig+"/filledforms/records").
 				accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).
 				get(ClientResponse.class);
 		return clientresponse.getEntity(new GenericType<String>(){});

@@ -17,6 +17,7 @@
 <%@ page import="RESTCharityClient.FormClient" %>
 <%@ page import="RESTCharityClient.FieldTypeClient" %>
 
+<%@ page import="RESTCharityClient.FilledFormClient" %>
 
 
 <%
@@ -58,7 +59,7 @@ if(session.getAttribute("userTypeId") == null)
 		<link rel="stylesheet" href="css/FormTabStyle.css" type="text/css" media="all">	
 		
 		
-    	<%-- <script type="text/javascript">
+    	 <script type="text/javascript">
     	  //Number of Records inputted per User	 
 	      
     	  // Load the Visualization API and the piechart package.
@@ -73,14 +74,15 @@ if(session.getAttribute("userTypeId") == null)
 	      // Callback that creates and populates a data table,
 	      // instantiates the pie chart, passes in the data and
 	      // draws it.
-	      
 	      function populateData(data)
 	      {
 	    	  
-	    	  
-	    	  data.addRows(<%=FilledFormClient.getRecordsData() %>);
+	    	  //Pretty Ugly way of doing things, move to ajax.
+	    	  data.addRows(<%=FilledFormClient.getRecordsData(session.getAttribute("charity_Con").toString()) %>);
 	    	  
 	      }
+	      <%--
+	      
 	      jQuery(document).ready(function($){
 	    	  
 		      $('#chart0').click(function(){
@@ -104,7 +106,7 @@ if(session.getAttribute("userTypeId") == null)
 		      
 		      $('#chart1').click(function(){
 		    	  $('.content_5_charts').hide();
-		    	  
+		    	  //Pretty Ugly way of doing things, move to ajax data rather than page load.
 		    	  var data = new google.visualization.DataTable();
 
 		    	  data.addColumn('string', 'Account');
@@ -125,7 +127,7 @@ if(session.getAttribute("userTypeId") == null)
 		      $('#chart2').click(function(){
 		    	  $('.content_5_charts').hide();
 		    	  var data = new google.visualization.DataTable();
-
+				//Pretty Ugly way of doing things, move to ajax data rather than page load.
 		    	  data.addColumn('string', 'Date');
 					data.addColumn('number', 'Records');
 					data.addRows([
@@ -143,7 +145,7 @@ if(session.getAttribute("userTypeId") == null)
 		      $('#chart3').click(function(){
 		    	  $('.content_5_charts').hide();
 			    	  var data = new google.visualization.DataTable();
-
+					//Pretty Ugly way of doing things, move to ajax data rather than page load.
 		    	  	data.addColumn('string', 'Date');
 					data.addColumn('number', 'Records');
 					data.addRows([
@@ -159,7 +161,7 @@ if(session.getAttribute("userTypeId") == null)
 				    $('#chart3_div').fadeIn();
 			        return false;  
 		      });
-		      
+		      //Pretty Ugly way of doing things, move to ajax data rather than page load.
 		      $('#chart4').click(function(){
 		    	  $('.content_5_charts').hide();
 		    	  var data = new google.visualization.DataTable();
@@ -178,7 +180,7 @@ if(session.getAttribute("userTypeId") == null)
 			        $('#chart4_div').fadeIn();
 		        return false;  
 	      		});
-	      });
+	      });--%>
 	      
 	
 		  //Tabs Scripts
@@ -187,7 +189,7 @@ if(session.getAttribute("userTypeId") == null)
 	    	  init();
 		  }
 	      
-    	</script> --%>
+    	</script> 
 </head>
 <body>
 	<div class="body">

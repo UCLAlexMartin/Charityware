@@ -24,12 +24,9 @@ import sharedHibernateResources.ConnectionManager;
 
 public class FormManager {
 	private ConnectionManager conn;
-	private String DBConfname;
+
 	public FormManager(String DBConfname){
-		//this.DBConfname = DBConfname;
-		this.DBConfname = DBConfname;
 		conn = new ConnectionManager(DBConfname);
-		//conn.setDBConfname(DBConfname);
 	}
 	
 	public List<Form> retrieve(){
@@ -64,6 +61,7 @@ public class FormManager {
 	public Integer addForm(Form form)
 	{
 		  return (Integer) conn.transaction("save",form);
+		  
 	}
 	/*public void insertForm(HttpServletRequest req)
 	{

@@ -12,18 +12,35 @@ function init()
 
 /*----------------------------------------Form Jacascript beyond this point----------------------------------------------------------------*/
 /*---------Delete Form------*/
-function deleteCurrentForm()
+function deleteCurrentForm(id)
 {
 	//###################Needs Link###########################//
-	$.post('ajax/test.html', {form_id : $('#myformslist').val()}, function(data) {
-	$('.result').html(data);
+	var frm = new FormObject("");
+	frm.formId=id;
+	$.ajax({
+	    type: "POST",
+	    url: "RESTCharity/formService/" + urlHibernate + "/form/delete/",
+	    // The key needs to match your method's input parameter (case-sensitive).
+	    data: JSON.stringify(frm),
+	    contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+	    success: function(data)
+	    {
+	    	alert("Form Deleted");
+	    	location.reload(); 
+	    },
+	    failure: function(errMsg) 
+	    {
+	        alert("Form could not be deleted at this time");
+	        location.reload(); 
+	    }
 	});
 }
 /*----------------------------Show form creation wizard----------------------------*/
 
 function FormObject(name)
 {
-	this.form_id;
+	this.formId;
 	this.formName = name;
 	this.fields = new Array();
 }
@@ -31,7 +48,7 @@ function FieldObject(lbl)
 {
 	this.field_label = lbl;	
 	this.isRequired = false;
-	this.fieldType = new FieldTypeObject();
+	this.field_Type = new FieldTypeObject();
 }
 function FieldTypeObject()
 {
@@ -53,28 +70,28 @@ function createForm()
 		var Field = new FieldObject($(this).find('#name_'+ e).val());
 		Field.isRequired = $(this).find('#isReq_'+ e).val();
 			/*Setup field Types*/
-			var FieldType = new FieldTypeObject();
-			FieldType.field_type_id = $(this).find('#type_'+ e).val();
+			var field_Type = new FieldTypeObject();
+			field_Type.field_type_id = $(this).find('#type_'+ e).val();
 			
 				/*Drop Down Menu checks*/
-				if(!new RegExp("^[0-9]*$").test(FieldType.field_type_id))
+				if(!new RegExp("^[0-9]*$").test(field_Type.field_type_id))
 				{
 					/*Get Drop down values*/
-					var DDOptions =  new RegExp("[^0-9*].*").exec(FieldType.field_type_id);
+					var DDOptions =  new RegExp("[^0-9*].*").exec(field_Type.field_type_id);
 					DDOptions = DDOptions[0].substring(1, DDOptions[0].length-1);
 					DDOptions = DDOptions.split(",");
 					/*get field type id*/
-					FieldType.field_type_id = new RegExp("^[0-9*]").exec(FieldType.field_type_id);	
+					field_Type.field_type_id = new RegExp("^[0-9*]").exec(field_Type.field_type_id);	
 					/*add drop down items to field type*/
 					$.each(DDOptions, function(e){
 						var FieldTypeSelection = new FieldTypeSelectionObject();
 						FieldTypeSelection.field_selection_value = DDOptions[e].substring(1, DDOptions[e].length-1);
-						FieldType.field_selections.push(FieldTypeSelection);
+						field_Type.field_selections.push(FieldTypeSelection);
 					});
 				}
 			
 			/*Add field types to fields*/	
-			Field.field_type = FieldType;
+			Field.field_type = field_Type;
 		
 		/*Add fields to form*/	
 		baseObject.fields.push(Field);	
@@ -95,10 +112,12 @@ function createForm()
 	    success: function(data)
 	    {
 	    	alert("Form created: " + data);
+	    	location.reload(); 
 	    },
 	    failure: function(errMsg) 
 	    {
 	        alert("Form could not be created at this time:" + errMsg);
+	        location.reload(); 
 	    }
 	});
 	

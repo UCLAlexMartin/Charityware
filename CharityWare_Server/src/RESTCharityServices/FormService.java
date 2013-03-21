@@ -10,9 +10,11 @@ import javax.ws.rs.Consumes;
 import java.lang.reflect.Type;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,7 +25,7 @@ import charityHibernateManagers.FormManager;
 
 @Path("/formService")
 public class FormService {
-
+	
 	@GET
     @Path("/forms/{DBConfigPath}/")
     @Produces("application/json")
@@ -39,6 +41,25 @@ public class FormService {
     	FormManager formManager = new FormManager(DBConfigPath);
     	return formManager.getForm(Integer.parseInt(formID));
 	  }
+	
+	@POST
+    @Path("/{DBConfigPath}/form/delete/")
+    @Produces("text/plain")
+	@Consumes(MediaType.APPLICATION_JSON)
+    public String deleteForm(Form data, @PathParam("DBConfigPath")String DBConfigPath){//, 
+
+		
+		FormManager formManager = new FormManager(DBConfigPath);
+    	if(formManager.deleteForm(data.getFormId().toString()))
+    	{
+    		return "{\"success\":\"true\"}";
+    	}
+    	else
+    	{
+    		return "{\"failure\":\"true\"}";
+    	}
+	  }
+	
 	
 	@Path("/{DBConfigPath}/forms/insertForm")
 	 @POST
