@@ -41,19 +41,24 @@ function deleteCurrentForm(id)
 function FormObject(name)
 {
 	this.formId;
+	this.dateCreated = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDay();
+	this.isActive = true;
 	this.formName = name;
 	this.fields = new Array();
 }
 function FieldObject(lbl)
 {
-	this.field_label = lbl;	
+	this.field_label = lbl;
+	this.date_created = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDay();
 	this.isRequired = false;
-	this.field_Type = new FieldTypeObject();
+	this.isActive = true;
+	this.field_selections = new Array();
+	this.field_type = new FieldTypeObject();
 }
 function FieldTypeObject()
 {
 	this.field_type_id;
-	this.field_selections = new Array();
+	this.isActive = true;
 }
 function FieldTypeSelectionObject()
 {
@@ -68,39 +73,48 @@ function createForm()
 	$('#rowsetrows').children().each(function(e){
 		/*Setup fields*/
 		var Field = new FieldObject($(this).find('#name_'+ e).val());
-		Field.isRequired = $(this).find('#isReq_'+ e).val();
+		Field.isRequired = $(this).find('#isReq_'+ e).is(':checked');
 			/*Setup field Types*/
-			var field_Type = new FieldTypeObject();
-			field_Type.field_type_id = $(this).find('#type_'+ e).val();
+			var field_type = new FieldTypeObject();
+			field_type.field_type_id = $(this).find('#type_'+ e).val();
 			
 				/*Drop Down Menu checks*/
-				if(!new RegExp("^[0-9]*$").test(field_Type.field_type_id))
+				if(!new RegExp("^[0-9]*$").test(field_type.field_type_id))
 				{
 					/*Get Drop down values*/
-					var DDOptions =  new RegExp("[^0-9*].*").exec(field_Type.field_type_id);
+					var DDOptions =  new RegExp("[^0-9*].*").exec(field_type.field_type_id);
 					DDOptions = DDOptions[0].substring(1, DDOptions[0].length-1);
 					DDOptions = DDOptions.split(",");
 					/*get field type id*/
-					field_Type.field_type_id = new RegExp("^[0-9*]").exec(field_Type.field_type_id);	
+					field_type.field_type_id = new RegExp("^[0-9*]").exec(field_type.field_type_id);	
 					/*add drop down items to field type*/
 					$.each(DDOptions, function(e){
 						var FieldTypeSelection = new FieldTypeSelectionObject();
 						FieldTypeSelection.field_selection_value = DDOptions[e].substring(1, DDOptions[e].length-1);
-						field_Type.field_selections.push(FieldTypeSelection);
+						Field.field_selections.push(FieldTypeSelection);
 					});
 				}
+				/*
+				if(Field.field_selections.length = 0)
+				{
+					field_type.field_selections = null;	
+				}*/
 			
 			/*Add field types to fields*/	
-			Field.field_type = field_Type;
+			Field.field_type = field_type;
 		
 		/*Add fields to form*/	
 		baseObject.fields.push(Field);	
 	});
 	
+	/*if(baseObject.fields.length == 0)
+	{
+		baseObject.fields=null;
+	}*/
 
 
 	var JsonText = JSON.stringify(baseObject);
-	alert(JsonText);
+	//alert(JsonText);
 	//###################### Needs Link#########################
 	$.ajax({
 	    type: "POST",

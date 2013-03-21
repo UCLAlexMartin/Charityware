@@ -29,8 +29,7 @@ public class Form {
 		this.formType = ft;
 		this.dateCreated = new Date(Calendar.DATE);
 		this.setIsActive(true);
-	}
-	
+	}	
 	
 	@XmlElement
 	public Integer getFormId() {

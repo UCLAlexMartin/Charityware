@@ -50,13 +50,14 @@ public class FormService {
 
 		
 		FormManager formManager = new FormManager(DBConfigPath);
+		System.out.println("####"+data.getFormId().toString()+"####");
     	if(formManager.deleteForm(data.getFormId().toString()))
     	{
     		return "{\"success\":\"true\"}";
     	}
     	else
     	{
-    		return "{\"failure\":\"true\"}";
+    		return "{\"failure\":\"false\"}";
     	}
 	  }
 	
@@ -65,18 +66,13 @@ public class FormService {
 	 @POST
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/plain")
-	 public String addForm(@PathParam("DBConfigPath")String DBConfigPath,String data)  {      
+	 public String addForm(Form data, @PathParam("DBConfigPath")String DBConfigPath)  {      
 	  try{  
-	   data =data.split("=")[1];
-	   data=URLDecoder.decode(data);
-	   Gson gson = new GsonBuilder().setDateFormat("yyyy-dd-MM").create();
-	   Type formtype = new TypeToken<Form>() {}.getType();
-	   Form form = gson.fromJson(data, formtype);
 	   FormManager formManager = new FormManager(DBConfigPath);
-	   return formManager.addForm(form).toString();
+	   return formManager.addForm(data).toString();
 	     }
-	     catch(Exception e){
-	      return "0";
+	     	catch(Exception e){
+	     	return "{\"failed\":\"false\"}";
 	     }   
 	 }
 	

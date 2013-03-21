@@ -22,6 +22,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import sharedHibernateResources.ConnectionManager;
 
+import java.sql.Date;
+
 public class FormManager {
 	private ConnectionManager conn;
 
@@ -47,20 +49,25 @@ public class FormManager {
 	public boolean deleteForm(String formId){
 		
 		Form  killme= (Form)conn.searchCriteria(Form.class,new Integer(formId));
+		System.out.println(killme.getFormName());
 		/*Form killMe = (Form ) session.createCriteria(Form.class)
                 .add(Restrictions.idEq( new Integer(formId))).uniqueResult();*/
+		
+		killme.setIsActive(false);
 		if(killme!=null){
-			Serializable serial = conn.transaction("delete", killme);
+			Serializable serial = conn.transaction("update", killme);
 			if(serial!=null)
 				return true;
 		}
 		return false;	
-		//session.delete(killMe);
 	}
 	
 	public Integer addForm(Form form)
 	{
-		  return (Integer) conn.transaction("save",form);
+		/*BODGE-to make ajax form creation work*/
+		//.setDateCreated(new Date(Calendar.DATE));
+				
+		return (Integer) conn.transaction("save",form);
 		  
 	}
 	/*public void insertForm(HttpServletRequest req)

@@ -14,7 +14,8 @@
         <property name="dateCreated" type="java.sql.Date" column="Date_Created"/>
         <property name="isActive" type="boolean" column="isActive"/>
         <property name="url" type="string" column="url"/>       
-        <set name="fields" table="form_fields" inverse="true" lazy="false" cascade="all-delete-orphan">
+
+        <set name="fields" table="form_fields" inverse="false" lazy="false" cascade="save-update">
         	<key column="form_id" not-null="true"/>
         	<one-to-many class="charityHibernateEntities.FormFields" />
         </set>

@@ -17,9 +17,13 @@
         	<one-to-many  class="charityHibernateEntities.FieldSelection"/>
         </set>
        -->
+       
+       <!--  
         <many-to-one  lazy="false" name="form" class="charityHibernateEntities.Form">
         	<column name="form_id" not-null="true"/>
         </many-to-one>
+        -->
+        
         <!--  
         <many-to-one lazy="false" unique="true" name="user" entity-name="systemUser">
         	<column  name="user_id" not-null="true"/>
@@ -41,7 +45,7 @@
         </set>  
            
         <set name="field_selections" table="field_selection" inverse="true" lazy="false" cascade="all-delete-orphan">
-        	<key column="field_id" not-null="true" />
+        	<key column="field_id" not-null="false" />
         	<one-to-many class="charityHibernateEntities.FieldSelection" />
         </set>
         
