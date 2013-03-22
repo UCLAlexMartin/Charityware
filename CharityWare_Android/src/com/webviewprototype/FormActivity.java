@@ -210,7 +210,7 @@ public class FormActivity extends ListActivity {
 		List<AndroidField> fin_fields = new LinkedList<AndroidField>();
 		for ( int i=0;i<fields.size();i++) {
 			FormFields field = fields.get(i);
-			Integer type = field.getFieldType().getField_type_id();
+			Integer type = field.getField_type().getField_type_id();
 			switch(type) {
 								
 				case 3 :

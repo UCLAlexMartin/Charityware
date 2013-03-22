@@ -49,13 +49,13 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 		bean= DataBean.getDataBean();
 		List<Form> forms = new LinkedList<Form>();
 //		FormURLOpenTask task = new FormURLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username);
-//		FormURLOpenTask task = new FormURLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/users/formEntities/"+username);
-		FormURLOpenTask task = new FormURLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username);
+		FormURLOpenTask task = new FormURLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/users/formEntities/"+username);
+//		FormURLOpenTask task = new FormURLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username);
 
 		//		FormURLOpenTask task = new FormURLOpenTask("http://128.16.80.47:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/users/formEntities/"+username);
 
 		try {
-			jsonResult=task.execute(new URL("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/users/formEntities/"+username)).get();
+			jsonResult=task.execute(new URL("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity()+"/users/formEntities/"+username)).get();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -89,8 +89,8 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 		bean= DataBean.getDataBean();
 		try {
 //				URLOpenTask task = new URLOpenTask("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username);
-//			URLOpenTask task = new URLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username);
-			URLOpenTask task = new URLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username);
+			URLOpenTask task = new URLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username);
+//			URLOpenTask task = new URLOpenTask("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/hibernate.cfg.xml/userName/"+username);
 
 			//			URLOpenTask task = new URLOpenTask("http://128.16.80.47:8080/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username);
 			jsonResult=task.execute(new URL("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/userService/charityConfig/"+bean.getSelectedCharity().getConnection_string()+"/userName/"+username)).get();
@@ -121,19 +121,22 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 		Boolean done=false;
 		try {
 			String[] debug = new String[2];
-//			debug[0]="http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms";
-//			debug[0]=" http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms";
-			debug[0]="http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms";
+//			debug[0]="http://10.111.25.213:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms";
+			debug[0]="http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms";
+//			debug[0]="http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms";
 
 			//			debug[0]="http://1285.16.80.47:8080/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms";
 			debug[1]=json;
 			PostFormTask task = new PostFormTask(debug);
-//			task.execute("http://130.43.173.7:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms",json).get();
-			 done=task.execute("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms",json).get();
+//			done=task.execute("http://10.111.25.213:8080/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms",json).get();
+//			done=task.execute("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/hibernate.cfg.xml/filledforms/insertFilledForms",json).get();
+
+			done=task.execute("http://charityware.cs.ucl.ac.uk/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms",json).get();
 //			task.execute("http://128.16.80.47:8080/CharityWare_Lite/RESTCharity/filledFormService/"+bean.getSelectedCharity().getConnection_string()+"/filledforms/insertFilledForms",json).get();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 		return done;
 	}
@@ -244,10 +247,11 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 			String fin;
 			try {
 				if (data.length!=2) {
-					 env.Entities.JSONParser.makeRequest(params[0], params[1]);
+					 fin=env.Entities.JSONParser.makeRequest(params[0], params[1]);
 				}else{
 					  fin=env.Entities.JSONParser.makeRequest(data[0], data[1]);
 				}
+				System.out.println("Response :"+fin);
 				} catch (Exception e) {
 					e.printStackTrace();
 					return false;

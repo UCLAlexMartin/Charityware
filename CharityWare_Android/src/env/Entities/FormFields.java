@@ -7,7 +7,7 @@ import java.util.Set;
 public class FormFields {
 	private Integer f_id;
 	private String field_label;
-	private FieldType fieldType;
+	private FieldType field_type;
 	private Set<FieldSelection> field_selections;
 	private Float X_coordinate;
 	private Float Y_coordinate;
@@ -17,10 +17,16 @@ public class FormFields {
 	private Float maxValue;
 	private Boolean isActive;
 	private Date date_created;
-	private Form form_id;
+	private Form form;
 	private String creatorName;
 	
 
+	public Form getForm() {
+		return form;
+	}
+	public void setForm(Form form) {
+		this.form = form;
+	}
 	public String getCreatorName() {
 		return creatorName;
 	}
@@ -31,12 +37,7 @@ public class FormFields {
 		this.field_selections = field_selections;
 	}
 
-	public Form getForm_id() {
-		return form_id;
-	}
-	public void setForm_id(Form form_id) {
-		this.form_id = form_id;
-	}
+
 
 	public String getField_label() {
 		return field_label;
@@ -53,11 +54,12 @@ public class FormFields {
 	}
 
 
-	public FieldType getFieldType() {
-		return fieldType;
+
+	public FieldType getField_type() {
+		return field_type;
 	}
-	public void setFieldType(FieldType fieldType) {
-		this.fieldType = fieldType;
+	public void setField_type(FieldType field_type) {
+		this.field_type = field_type;
 	}
 	public Set<FieldSelection> getField_selections() {
 		return field_selections;

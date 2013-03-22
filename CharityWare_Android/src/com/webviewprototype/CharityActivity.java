@@ -388,9 +388,19 @@ public class CharityActivity extends ListActivity {
 	AlertDialog dialog = builder.create();
 	dialog.show();
 
-//	 super.onBackPressed();   
 
     }
+	
+	
+	
+	public void refresh(View view) {
+		bean.setAllForms(new LinkedList<Form>());
+		bean.setFormNames(new LinkedList<String>());
+		bean.setSelectedForm("");
+		bean.setFormFields(new LinkedList<FormFields>());
+		Intent intent = new Intent(this,CharityActivity.class);
+		startActivity(intent);
+	}
 	
 	
 	
