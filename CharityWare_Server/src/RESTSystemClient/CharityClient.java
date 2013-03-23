@@ -67,5 +67,14 @@ public class CharityClient {
 				.path("/addCharities").type(MediaType.APPLICATION_JSON)
 				.post(charities);
 	}
-	
+	public static String getSystemVerifiedCharities(){
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getClasses().add(JacksonJsonProvider.class);
+		Client client = Client.create(clientConfig);
+		ClientResponse clientresponse = client.resource(RestServiceURLPath)
+		.path("/stats/VerifiedCharities").type(MediaType.APPLICATION_JSON)
+		.get(ClientResponse.class);
+		return clientresponse.getEntity(new GenericType<String>(){});
+		
+	}
 }

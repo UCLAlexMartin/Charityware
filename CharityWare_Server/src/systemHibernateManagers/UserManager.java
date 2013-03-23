@@ -25,4 +25,19 @@ public class UserManager {
 		User user = (User)conn.get(User.class,id);
 		return user;
 	}
+	
+	public String getSystemActiveUsers(){
+		//String result = "";
+		ArrayList<User> activeUser = (ArrayList<User>)conn.getTable("User where isActive=1");
+		ArrayList<User> inactiveUser = (ArrayList<User>)conn.getTable("User where isActive=0");
+		
+		StringBuilder finalresult = new StringBuilder();
+		
+		finalresult.append('[');
+		finalresult.append(String.format("[\"%s\",%d],", "Active Accounts", activeUser.size()));
+		finalresult.append(String.format("[\"%s\",%d]", "Inactive Accounts", inactiveUser.size()));
+		finalresult.append(']');
+		
+		return finalresult.toString();
+	}
 }

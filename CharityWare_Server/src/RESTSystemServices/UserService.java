@@ -32,4 +32,24 @@ public class UserService {
 			return holder.get(0);
 		}
 	} 
+
+	
+	@GET
+	@Path("/stats/ActiveUsers")
+	@Produces("application/json")
+	public String getSystemActiveUsers(){
+		System.out.println("Get Active users Statistics");
+		UserManager userManager = new UserManager();
+		String stats = userManager.getSystemActiveUsers();
+		System.out.println("Statistics Retrieved");
+		if(stats.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return stats;
+		}
+	} 
+
 }

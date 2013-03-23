@@ -1,5 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%-- <%@ page import="ConnectionManager.*" %>   
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %> --%>
 <%@ page import="staticResources.websiteLogin"%>
 <%@ page import="staticResources.Configuration"%>
+<%@ page import="RESTSystemClient.UserClient"%>
+<%@ page import="RESTSystemClient.CharityClient"%>
 <%
 if(session.getAttribute("userTypeId") == null)
 {
@@ -18,11 +24,7 @@ if(session.getAttribute("userTypeId") == null)
 	}
 }
 %> 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%-- <%@ page import="ConnectionManager.*" %>   
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %> --%>
-<%@ page import="staticResources.*" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -32,92 +34,63 @@ if(session.getAttribute("userTypeId") == null)
 			<!--Load the AJAX API-->
 	    	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	    	<script type="text/javascript" src="js/tabsScript.js"></script>
+	    	<script type="text/javascript" src="js/uclStatistics.js"></script>
 	    	<!--TO BE TRANSFERED TO A JS FILE-->
-	    	<%--<script type="text/javascript">
-	
-		       // Load the Visualization API and the piechart package.
-		      google.load('visualization', '1.0', {'packages':['corechart']});
-	
-		      // Set a callback to run when the Google Visualization API is loaded.
-		      google.setOnLoadCallback(drawChart);
-		      function drawChart(point) {
-		    	  var data = new google.visualization.DataTable();
-	
-		      }
-		      // Callback that creates and populates a data table,
-		      // instantiates the pie chart, passes in the data and
-		      // draws it.
-	
-	
-		      jQuery(document).ready(function($){
-			      $('#chart0').click(function(){
-			    	  $('.content_5_charts').hide();
-	
-			    	  var data = new google.visualization.DataTable();
-	
-			    	  	data.addColumn('string', 'Account');
-						data.addColumn('number', 'Records');
-						data.addRows([
-						<%=DatabaseManager.readSystemVerificationCharity()%>
-						]);
-				       	var options = {'title':'Verified Account VS Unverified Account',
-				                       'width':500,
-				                       'height':400};
-	
-				        // Instantiate and draw our chart, passing in some options.
-				        var chart0 = new google.visualization.PieChart(document.getElementById('chart0_div'));
-				        chart0.draw(data, options);
-				        $('#chart0_div').fadeIn();
-				        return false;
-	
-			      });
-	
-			      $('#chart1').click(function(){
-			    	  $('.content_5_charts').hide();
-	
-			    	  var data = new google.visualization.DataTable();
-	
-			    	  data.addColumn('string', 'Date');
-						data.addColumn('number', 'Records');
-						data.addRows([
-			<%=DatabaseManager.readSystemAccountDuration()%>
-				]);
-						var options = { 'title':'Date of Creating Account',
-			                       		'width':500,
-			                        	'height':400};
-	
-			        // Instantiate and draw our chart, passing in some options.
-			        var chart1 = new google.visualization.PieChart(document.getElementById('chart1_div'));
-			        chart1.draw(data, options);
-			        $('#chart1_div').fadeIn();
-				        return false;  
-			      });
-	
-			      $('#chart2').click(function(){
-			    	  $('.content_5_charts').hide();
-			    	  var data = new google.visualization.DataTable();
-	
-			    	  data.addColumn('string', 'Date');
-						data.addColumn('number', 'Records');
-						data.addRows([
-			<%=DatabaseManager.readSystemActiveAccount()%>
-				]);
-						var options = { 'title':'Active Account VS Disable Account',
-			                       		'width':500,
-			                        	'height':400};
-			        // Instantiate and draw our chart, passing in some options.
-			        var chart2 = new google.visualization.PieChart(document.getElementById('chart2_div'));
-			        chart2.draw(data, options);
-			        $('#chart2_div').fadeIn();
-				        return false;  
-			      });
-	
-		      });
-	
-	    	</script>
-	    	 --%>
-	    	<!-- Google Charts Stuff -->
 	    	
+	    	<script type="text/javascript">
+    	  //Number of Records inputted per User	 
+	      
+    	  // Load the Visualization API and the piechart package.
+	      google.load('visualization', '1.0', {'packages':['corechart']});
+	
+	      // Set a callback to run when the Google Visualization API is loaded.
+	      google.setOnLoadCallback(drawChart);
+	      function drawChart(point) {
+	    	  var data = new google.visualization.DataTable();
+	    	  
+	      }
+	   	      
+	     jQuery(document).ready(function($){
+		      $('#chart0').click(function(){
+		    	  $('.content_5_charts').hide();
+
+		    	  var data = new google.visualization.DataTable();
+		    	  data.addColumn('string', 'Active');
+			       data.addColumn('number', 'Count');
+			       data.addRows(<%=RESTSystemClient.UserClient.getSystemActiveUsers() %>);
+			       var options = {'title':'User Accounts Activation',
+			                       'width':500,
+			                       'height':400};
+			       
+			        // Instantiate and draw our chart, passing in some options.
+			        var chart0 = new google.visualization.PieChart(document.getElementById('chart0_div'));
+			        chart0.draw(data, options);
+			        $('#chart0_div').fadeIn();
+			        return false;
+			        
+		      });
+	 
+	     
+	     	$('#chart1').click(function(){
+	    	  $('.content_5_charts').hide();
+
+	    	  var data = new google.visualization.DataTable();
+	    	  data.addColumn('string', 'Date');
+			  data.addColumn('number', 'Records');
+			  data.addRows(<%=RESTSystemClient.CharityClient.getSystemVerifiedCharities()%>);
+			  var options = { 'title':'Charities Verification',
+	                       		'width':500,
+	                        	'height':400};
+
+	        // Instantiate and draw our chart, passing in some options.
+	        var chart1 = new google.visualization.PieChart(document.getElementById('chart1_div'));
+	        chart1.draw(data, options);
+	        $('#chart1_div').fadeIn();
+		        return false;  
+	      });
+	     });   
+	    	
+	    </script>
 	    	
 	</head>
 	<body>

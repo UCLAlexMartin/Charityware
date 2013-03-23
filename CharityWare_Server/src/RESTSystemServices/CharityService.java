@@ -3,6 +3,7 @@ package RESTSystemServices;
 import systemHibernateEntities.Charity;
 import systemHibernateManagers.CharityManager;
 import systemHibernateManagers.GenerateSchemaManager;
+import systemHibernateManagers.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,5 +151,23 @@ public class CharityService {
 		 }
 	    	
 	 }
+	 
+		@GET
+		@Path("/stats/VerifiedCharities")
+		@Produces("application/json")
+		public String getSystemVerifiedCharities(){
+			System.out.println("Get Verified Charities Statistics");
+			CharityManager charityManager = new CharityManager();
+			String stats = charityManager.getSystemVerifiedCharities();
+			System.out.println("Statistics Retrieved");
+			if(stats.isEmpty())
+			{
+				return null;
+			}
+			else
+			{
+				return stats;
+			}
+		} 
 
 }

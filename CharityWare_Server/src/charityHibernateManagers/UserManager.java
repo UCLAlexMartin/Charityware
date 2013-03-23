@@ -5,7 +5,9 @@ import charityHibernateEntities.FormPermissions;
 import charityHibernateEntities.User;
 import charityHibernateEntities.UserType;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,7 @@ public class UserManager {
 		UserTypeManager ut =new UserTypeManager(this.DBConfname);
 		UserType usertype = (UserType)ut.getUserType(new Integer (userTypeId));
 		User user = new User(name,pass);
+		user.setDateCreated(new Date(Calendar.DATE));
 		user.setUserEmail(email);
 		user.setUserType(usertype);
 		user.setIsActive(true);
@@ -127,7 +130,20 @@ public class UserManager {
 		conn.transaction("update",user);
 	}
 	
-	
+	public String getCharityActiveUsers(){
+		//String result = "";
+		ArrayList<User> activeUser = (ArrayList<User>)conn.getTable("User where isActive=1");
+		ArrayList<User> inactiveUser = (ArrayList<User>)conn.getTable("User where isActive=0");
+		
+		StringBuilder finalresult = new StringBuilder();
+		
+		finalresult.append('[');
+		finalresult.append(String.format("[\"%s\",%d],", "Active Accounts", activeUser.size()));
+		finalresult.append(String.format("[\"%s\",%d]", "Inactive Accounts", inactiveUser.size()));
+		finalresult.append(']');
+		
+		return finalresult.toString();
+	}
 	
 	
 	

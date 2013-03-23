@@ -123,6 +123,24 @@ public class UserService {
 	    	
 	 }
     
+    @GET
+	@Path("/stats/ActiveUsers/{DBConfigPath}")
+	@Produces("application/json")
+	public String getSystemActiveUsers(@PathParam("DBConfigPath")String DBConfigPath){
+    	System.out.println("Get Active users Statistics");
+		UserManager userManager = new UserManager(DBConfigPath);
+		String stats = userManager.getCharityActiveUsers();
+		System.out.println("Statistics Retrieved");
+		if(stats.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return stats;
+		}
+	} 
+    
     
  	/*@GET
  	@Path("/charityConfig/{DBConfigPath}/userName/{username}")

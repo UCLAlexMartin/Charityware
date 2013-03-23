@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.envers.Audited;
 
+import staticResources.PasswordEncryption;
+
 @Entity
 @Audited
 @XmlRootElement(name = "user")
@@ -30,16 +32,12 @@ public class User {
 	
 	public User(){}
 	public User(String name, String pass) {
-		this.userName=name;
-		this.userPassword=pass;
-		this.isActive=true;
-		this.salt="456";
-		//this.dateCreated = new Date();
-		this.userType = new UserType();
-		this.userType.setUserType("Charity_Administrator");
-		this.userType.setUserTypeId(2);
-		this.userType.setIsActive(true);
-	}
+		  this.userName=name;
+		  
+		  this.isActive=true;
+		  this.salt="456";
+		  this.userPassword=PasswordEncryption.encryptPassword(pass, salt);
+		 }
 		
 	@XmlElement
 	public String getSalt() {

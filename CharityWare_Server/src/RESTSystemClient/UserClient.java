@@ -9,6 +9,7 @@ import staticResources.Configuration;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
@@ -33,6 +34,16 @@ public class UserClient {
 				get(ClientResponse.class);
 		System.out.println("Client End");
 		return clientresponse.getEntity(User.class);
-	}
+	}	
 	
+	public static String getSystemActiveUsers(){
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getClasses().add(JacksonJsonProvider.class);
+		Client client = Client.create(clientConfig);
+		ClientResponse clientresponse = client.resource(RestServiceURLPath)
+		.path("/stats/ActiveUsers").type(MediaType.APPLICATION_JSON)
+		.get(ClientResponse.class);
+		return clientresponse.getEntity(new GenericType<String>(){});
+		
+	}
 }

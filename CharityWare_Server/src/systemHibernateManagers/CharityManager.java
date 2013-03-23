@@ -107,5 +107,18 @@ public class CharityManager {
 		charity.setIsActive(false);
 		return (Integer) conn.transaction("update",charity);
 	}
-	
+	public String getSystemVerifiedCharities(){
+		//String result = "";
+		ArrayList<Charity> verifiedCharity = (ArrayList<Charity>)conn.getTable("Charity where isVerified=1");
+		ArrayList<Charity> unverifiedCharity = (ArrayList<Charity>)conn.getTable("Charity where isVerified=0");
+		
+		StringBuilder finalresult = new StringBuilder();
+		
+		finalresult.append('[');
+		finalresult.append(String.format("[\"%s\",%d],", "Verified Charity Accounts", verifiedCharity.size()));
+		finalresult.append(String.format("[\"%s\",%d]", "Unverified Charity Accounts", unverifiedCharity.size()));
+		finalresult.append(']');
+		
+		return finalresult.toString();
+	}
 }

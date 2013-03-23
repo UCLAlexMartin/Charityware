@@ -71,18 +71,7 @@ if(session.getAttribute("userTypeId") == null)
 	    	  var data = new google.visualization.DataTable();
 	    	  
 	      }
-	      // Callback that creates and populates a data table,
-	      // instantiates the pie chart, passes in the data and
-	      // draws it.
-	      function populateData(data)
-	      {
-	    	  
-	    	  //Pretty Ugly way of doing things, move to ajax.
-	    	  data.addRows(<%=FilledFormClient.getRecordsData(session.getAttribute("charity_Con").toString()) %>);
-	    	  
-	      }
-	      <%--
-	      
+	          
 	      jQuery(document).ready(function($){
 	    	  
 		      $('#chart0').click(function(){
@@ -91,7 +80,7 @@ if(session.getAttribute("userTypeId") == null)
 		    	  var data = new google.visualization.DataTable();
 		    	  data.addColumn('string', 'User');
 			       data.addColumn('number', 'Records');
-			       populateData(data);
+			       data.addRows(<%=FilledFormClient.getRecordsData(session.getAttribute("charity_Con").toString()) %>); 
 			       var options = {'title':'Records inputted by each User',
 			                       'width':500,
 			                       'height':400};
@@ -103,17 +92,16 @@ if(session.getAttribute("userTypeId") == null)
 			        return false;
 			        
 		      });
-		      
+		    
 		      $('#chart1').click(function(){
 		    	  $('.content_5_charts').hide();
 		    	  //Pretty Ugly way of doing things, move to ajax data rather than page load.
 		    	  var data = new google.visualization.DataTable();
 
-		    	  data.addColumn('string', 'Account');
+		    	  data.addColumn('string', 'User Account');
 					data.addColumn('number', 'Records');
-					data.addRows([
-					<%=DatabaseManager.readCharityActiveAccount()%>]);
-					var options = { 'title':'Active Account VS Disable Account',
+					data.addRows(<%=UserClient.getCharityActiveUsers(session.getAttribute("charity_Con").toString()) %>); 
+					var options = { 'title':'Active Users',
 		                       		'width':500,
 		                        	'height':400};
 		
@@ -123,64 +111,7 @@ if(session.getAttribute("userTypeId") == null)
 		        $('#chart1_div').fadeIn();
 			        return false;  
 		      });
-		      
-		      $('#chart2').click(function(){
-		    	  $('.content_5_charts').hide();
-		    	  var data = new google.visualization.DataTable();
-				//Pretty Ugly way of doing things, move to ajax data rather than page load.
-		    	  data.addColumn('string', 'Date');
-					data.addColumn('number', 'Records');
-					data.addRows([
-					<%=DatabaseManager.readCharityFormDuration()%>]);
-					var options = { 'title':'Date of Creating Forms',
-		                       		'width':500,
-		                        	'height':400};
-		        // Instantiate and draw our chart, passing in some options.
-		        var chart2 = new google.visualization.PieChart(document.getElementById('chart2_div'));
-		        chart2.draw(data, options);
-		        $('#chart2_div').fadeIn();
-			        return false;  
-		      });
-		      
-		      $('#chart3').click(function(){
-		    	  $('.content_5_charts').hide();
-			    	  var data = new google.visualization.DataTable();
-					//Pretty Ugly way of doing things, move to ajax data rather than page load.
-		    	  	data.addColumn('string', 'Date');
-					data.addColumn('number', 'Records');
-					data.addRows([
-					<%=DatabaseManager.readCharityAccountDuration()%>]);
-						
-					var options = { 'title':'Date of Creating Accounts',
-		                  		'width':500,
-		                    	'height':400};
-						
-					// Instantiate and draw our chart, passing in some options.
-				    var chart3 = new google.visualization.PieChart(document.getElementById('chart3_div'));
-				    chart3.draw(data, options);
-				    $('#chart3_div').fadeIn();
-			        return false;  
-		      });
-		      //Pretty Ugly way of doing things, move to ajax data rather than page load.
-		      $('#chart4').click(function(){
-		    	  $('.content_5_charts').hide();
-		    	  var data = new google.visualization.DataTable();
-
-		    	  data.addColumn('string', 'Account');
-					data.addColumn('number', 'Records');
-					data.addRows([
-					<%=DatabaseManager.readCharityActiveAccount()%>]); 		
-					var options = { 'title':'Active Account VS Disable Account',
-	                   		'width':500,
-	                    	'height':400};
-					
-					// Instantiate and draw our chart, passing in some options.
-			        var chart4 = new google.visualization.PieChart(document.getElementById('chart4_div'));
-			        chart4.draw(data, options);
-			        $('#chart4_div').fadeIn();
-		        return false;  
-	      		});
-	      });--%>
+	      });
 	      
 	
 		  //Tabs Scripts
