@@ -89,17 +89,24 @@ public class FilledFormManager {
 	}
 	
 	public Integer addFilledForms(List<FilledForm> filledforms){
-		  ArrayList<FilledForm> existedFilledforms = getFilledForms();
-		  Integer record_id = existedFilledforms.get(existedFilledforms.size()-1).getRecord_id()+1;
-		  Iterator<FilledForm> filledform_iter = filledforms.iterator();
-		  while(filledform_iter.hasNext()){
-		   FilledForm filledform = filledform_iter.next();
-		   filledform.setRecord_id(record_id);
-		   if(conn.transaction("save",filledform)==null)
-		    return null;
-		  }
-		  return 1;
-		 }	
+	    ArrayList<FilledForm> existedFilledforms = getFilledForms();
+	    Iterator<FilledForm> filled_forms_iterator = existedFilledforms.iterator();
+	    Integer record_id =-1;
+	    while(filled_forms_iterator.hasNext()){
+	     FilledForm filledForm = filled_forms_iterator.next();
+	     if(record_id <filledForm.getRecord_id())
+	      record_id = filledForm.getRecord_id();
+	    }
+	    record_id++;
+	    Iterator<FilledForm> filledform_iter = filledforms.iterator();
+	    while(filledform_iter.hasNext()){
+	     FilledForm filledform = filledform_iter.next();
+	     filledform.setRecord_id(record_id);
+	     if(conn.transaction("save",filledform)==null)
+	      return null;
+	    }
+	    return 1;
+	}
 	public ArrayList<FilledForm> getFilledForms(){
 		ArrayList<FilledForm> filledForms = (ArrayList<FilledForm>)conn.getTable("FilledForm");
 		return filledForms;
