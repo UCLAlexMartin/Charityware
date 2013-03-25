@@ -169,5 +169,23 @@ public class CharityService {
 				return stats;
 			}
 		} 
+		
+		@GET
+		@Path("/stats/CharityRegistrationActivity")
+		@Produces("application/json")
+		public String getCharityRegistrationActivity(){
+			System.out.println("Get Charity Registration Activity Statistics");
+			CharityManager charityManager = new CharityManager();
+			String stats = charityManager.getCharityRegistrationActivity();
+			System.out.println("Statistics Retrieved");
+			if(stats.isEmpty())
+			{
+				return null;
+			}
+			else
+			{
+				return stats;
+			}
+		} 
 
 }

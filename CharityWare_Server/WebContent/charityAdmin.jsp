@@ -111,6 +111,27 @@ if(session.getAttribute("userTypeId") == null)
 		        $('#chart1_div').fadeIn();
 			        return false;  
 		      });
+	      	
+		      $('#chart2').click(function(){
+		    	  $('.content_5_charts').hide();
+		    	  //Pretty Ugly way of doing things, move to ajax data rather than page load.
+		    	  var data = new google.visualization.DataTable();
+
+		    	  data.addColumn('string', 'User Account');
+					data.addColumn('number', 'Records');
+					data.addRows(<%=UserClient.getCharityUsersRegistrationActivity(session.getAttribute("charity_Con").toString()) %>); 
+					var options = { 'title':'Active Users',
+		                       		'width':500,
+		                        	'height':400};
+		
+		        // Instantiate and draw our chart, passing in some options.
+		        var chart2 = new google.visualization.PieChart(document.getElementById('chart2_div'));
+		        chart2.draw(data, options);
+		        $('#chart2_div').fadeIn();
+			        return false;  
+		      });
+		      
+	      
 	      });
 	      
 	
@@ -692,12 +713,9 @@ if(session.getAttribute("userTypeId") == null)
 			     <div id="content_5" class="tabContent">
 			     		<ul id="menubar2">
 			     			<li><a id="chart0" href ="#"> Records inputted per User </a> <b>|</b> </li>
-	             	       	<li><a id="chart1" href ="#"> Account Status </a> <b>|</b> </li>
-	             	       	<li><a id="chart2" href ="#"> Access Form Duration </a> <b>|</b> </li>
-	             	  		<li><a id="chart3" href ="#"> Account Duration </a> <b>|</b> </li>
-	             	  		<li><a id="chart4" href ="#"> Active Account VS Disable Account</a></li>
-	             	 
-                        </ul>
+	             	       	<li><a id="chart1" href ="#"> Charity Active Users VS Inactive Account</a> <b>|</b> </li>
+	             	       	<li><a id="chart2" href ="#"> Charity Users Registration Activity </a> <b></b> </li>
+	             	    </ul>
                         
                         <br/>
                         <br/>
@@ -706,9 +724,7 @@ if(session.getAttribute("userTypeId") == null)
     					<div id="chart0_div" class="content_5_charts"></div>
     					<div id="chart1_div" class="content_5_charts"></div>
     					<div id="chart2_div" class="content_5_charts"></div>
-    					<div id="chart3_div" class="content_5_charts"></div>
-    					<div id="chart4_div" class="content_5_charts"></div>
-			     </div>  
+    				</div>  
 			    </div>  
 				
 	        </div>

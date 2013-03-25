@@ -77,4 +77,14 @@ public class CharityClient {
 		return clientresponse.getEntity(new GenericType<String>(){});
 		
 	}
+	public static String getCharityRegistrationActivity(){
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getClasses().add(JacksonJsonProvider.class);
+		Client client = Client.create(clientConfig);
+		ClientResponse clientresponse = client.resource(RestServiceURLPath)
+		.path("/stats/CharityRegistrationActivity").type(MediaType.APPLICATION_JSON)
+		.get(ClientResponse.class);
+		return clientresponse.getEntity(new GenericType<String>(){});
+		
+	}
 }

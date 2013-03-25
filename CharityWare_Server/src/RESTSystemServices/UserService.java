@@ -51,5 +51,23 @@ public class UserService {
 			return stats;
 		}
 	} 
+	
+	@GET
+	@Path("/stats/UsersRegistrationActivity")
+	@Produces("application/json")
+	public String getUsersRegistrationActivity(){
+		System.out.println("Get Users Registration Activity Statistics");
+		UserManager userManager = new UserManager();
+		String stats = userManager.getUsersRegistrationActivity();
+		System.out.println("Statistics Retrieved");
+		if(stats.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return stats;
+		}
+	} 
 
 }

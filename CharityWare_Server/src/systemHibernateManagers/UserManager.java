@@ -4,6 +4,8 @@ import systemHibernateEntities.User;
 
 import java.util.ArrayList;
 
+import charityHibernateEntities.FilledForm;
+
 import sharedHibernateResources.ConnectionManager;
 
 public class UserManager {
@@ -40,4 +42,40 @@ public class UserManager {
 		
 		return finalresult.toString();
 	}
+	
+	public String getUsersRegistrationActivity(){
+		ArrayList<User> Users = (ArrayList<User>)conn.getTable("User");
+		StringBuilder finalresult = new StringBuilder();
+		Integer justCreated = 0, oneDay = 0, oneWeek = 0, oneMonth = 0, others = 0;
+		
+		for (User u : Users) {
+			
+			long lDuration = (System.currentTimeMillis() - u.getDateCreated().getTime()) / 100000;
+			if (lDuration > 36 && lDuration <= 864) {
+ 				oneDay++;
+ 			} else if (lDuration <= 36) {
+ 				justCreated++;
+ 			} else if (lDuration > 864 && lDuration <= 6048) {
+ 				oneWeek++;
+ 			} else if (lDuration > 6048 && lDuration <= 25920) {
+ 				oneMonth++;
+ 			} else {
+ 				others++;
+ 			}
+			
+		}
+		
+		finalresult.append('[');
+		finalresult.append(String.format("[\"%s\",%d],","Added an Hour ago", justCreated));
+		finalresult.append(String.format("[\"%s\",%d],","Added one Day ago", oneDay));
+		finalresult.append(String.format("[\"%s\",%d],","Added one Week ago", oneWeek));
+		finalresult.append(String.format("[\"%s\",%d],","Added one Month ago", oneMonth));
+		finalresult.append(String.format("[\"%s\",%d]", "Added Before", others));
+		finalresult.append(']');
+		
+		return finalresult.toString();
+	}	
+
+	
+	
 }

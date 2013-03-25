@@ -32,8 +32,10 @@ if(session.getAttribute("userTypeId") == null)
 	<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
 	<title>CharityWare framework Administration</title>		
 			<!--Load the AJAX API-->
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	    	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	    	<script type="text/javascript" src="js/tabsScript.js"></script>
+	    	<script type="text/javascript" src="js/panelSwitcher.js"></script>
 	    	<script type="text/javascript" src="js/uclStatistics.js"></script>
 	    	<!--TO BE TRANSFERED TO A JS FILE-->
 	    	
@@ -88,7 +90,34 @@ if(session.getAttribute("userTypeId") == null)
 	        $('#chart1_div').fadeIn();
 		        return false;  
 	      });
-	     });   
+	    	
+	   
+	     	$('#chart3').click(function(){
+		    	  $('.content_5_charts').hide();
+
+		    	  var data = new google.visualization.DataTable();
+		    	  data.addColumn('string', 'Date');
+				  data.addColumn('number', 'Records');
+				  data.addRows(<%=RESTSystemClient.UserClient.getUsersRegistrationActivity()%>);
+				  var options = { 'title':'Charities Verification',
+		                       		'width':500,
+		                        	'height':400};
+
+		        // Instantiate and draw our chart, passing in some options.
+		        var chart3 = new google.visualization.PieChart(document.getElementById('chart3_div'));
+		        chart3.draw(data, options);
+		        $('#chart3_div').fadeIn();
+			        return false;  
+		      });
+	     
+	     });
+	     
+	     //Tabs Scripts
+	      function onBodyLoad()
+	      {
+	    	  init();
+		  }
+	      
 	    	
 	    </script>
 	    	
@@ -96,7 +125,6 @@ if(session.getAttribute("userTypeId") == null)
 	<body>
 		<div class="body">
 			<div class="main">
-	
 		     <jsp:include page="headerLoggedIn.jsp"></jsp:include>	   	    
 	
 			<script type="text/javascript">
@@ -204,7 +232,7 @@ if(session.getAttribute("userTypeId") == null)
 							<tr id="header">
 								<td> Charity Name </td>
 								<td> Charity Registration No. </td>
-								<td> Charity Email  </td>
+								<td> Charity Email </td>
 								<td> Description </td>
 								<td> Delete Account</td>
 							</tr>
@@ -214,9 +242,11 @@ if(session.getAttribute("userTypeId") == null)
 	
 				     <div id="content_3" class="tabContent">
 				     		<ul id="menubar2">
-				     			<li><a id="chart0" href ="#"> Verified Account VS Unverified Account </a> <b>|</b> </li>
-		             	       	<li><a id="chart1" href ="#"> Date of Creating Account </a> <b>|</b> </li>
-		             	       	<li><a id="chart2" href ="#"> Active Account VS Disable Account </a> <b>|</b> </li>
+				     			
+				     			<li><a id="chart0" href ="#"> Active Account VS Disable Account </a> <b>|</b> </li>
+		             	       	<li><a id="chart1" href ="#"> Verified Account VS Unverified Account </a> <b>|</b> </li>
+		             	       <!-- 	<li><a id="chart2" href ="#"> Charity Registrations Activity</a> <b>|</b> </li> -->
+		             	       	<li><a id="chart3" href ="#"> User Registrations Activity</a> <b></b> </li>
 	                        </ul>
 	                        
 	                        <br/>
@@ -225,7 +255,8 @@ if(session.getAttribute("userTypeId") == null)
 				     		<!--Div that will hold the chart-->
 	    					<div id="chart0_div" class="content_5_charts"></div>
 	    					<div id="chart1_div" class="content_5_charts"></div>
-	    					<div id="chart2_div" class="content_5_charts"></div>
+	    				<!-- 	<div id="chart2_div" class="content_5_charts"></div> -->
+	    					<div id="chart3_div" class="content_5_charts"></div>
 	    					
 				     </div>  
 				    </div>  

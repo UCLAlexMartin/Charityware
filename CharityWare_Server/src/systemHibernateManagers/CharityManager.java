@@ -107,6 +107,7 @@ public class CharityManager {
 		charity.setIsActive(false);
 		return (Integer) conn.transaction("update",charity);
 	}
+	
 	public String getSystemVerifiedCharities(){
 		//String result = "";
 		ArrayList<Charity> verifiedCharity = (ArrayList<Charity>)conn.getTable("Charity where isVerified=1");
@@ -121,4 +122,38 @@ public class CharityManager {
 		
 		return finalresult.toString();
 	}
+	
+//	public String getCharityRegistrationActivity(){
+//		ArrayList<Charity> charities = (ArrayList<Charity>)conn.getTable("Charity");
+//		StringBuilder finalresult = new StringBuilder();
+//		Integer justCreated = 0, oneDay = 0, oneWeek = 0, oneMonth = 0, others = 0;
+//		
+//		for (Charity c : charities) {
+//			
+//			long lDuration = (System.currentTimeMillis() - c.getDateCreated().getTime()) / 100000;
+//			if (lDuration > 36 && lDuration <= 864) {
+// 				oneDay++;
+// 			} else if (lDuration <= 36) {
+// 				justCreated++;
+// 			} else if (lDuration > 864 && lDuration <= 6048) {
+// 				oneWeek++;
+// 			} else if (lDuration > 6048 && lDuration <= 25920) {
+// 				oneMonth++;
+// 			} else {
+// 				others++;
+// 			}
+//			
+//		}
+//		
+//		finalresult.append('[');
+//		finalresult.append(String.format("[\"%s\",%d],","Added an Hour ago", justCreated));
+//		finalresult.append(String.format("[\"%s\",%d],","Added one Day ago", oneDay));
+//		finalresult.append(String.format("[\"%s\",%d],","Added one Week ago", oneWeek));
+//		finalresult.append(String.format("[\"%s\",%d],","Added one Month ago", oneMonth));
+//		finalresult.append(String.format("[\"%s\",%d]", "Added Before", others));
+//		finalresult.append(']');
+//		
+//		return finalresult.toString();
+//	}	
+	
 }
