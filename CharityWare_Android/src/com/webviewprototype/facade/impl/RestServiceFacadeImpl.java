@@ -174,10 +174,10 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 			try {
 				System.out.println("Working");
 					if (urlString.length()!=0) {
-						result= env.Entities.JSONParser.getJSONFromUrl(urlString);
+						result= com.webviewprototype.facade.impl.JSONParser.getJSONFromUrl(urlString);
 					
 					}else{
-						result= env.Entities.JSONParser.getJSONFromUrl(params[0].toString());
+						result= com.webviewprototype.facade.impl.JSONParser.getJSONFromUrl(params[0].toString());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -197,7 +197,7 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 	
 	
 	private class URLOpenTask extends AsyncTask<URL, Void, String> implements Runnable {
-
+		
 		private String urlString;
 		
 		@Override
@@ -206,10 +206,10 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 			try {
 				System.out.println("Working");
 					if (urlString.length()!=0) {
-						result= env.Entities.JSONParser.getJSONFromUrl(urlString);
+						result= com.webviewprototype.facade.impl.JSONParser.getJSONFromUrl(urlString);
 					
 					}else{
-						result= env.Entities.JSONParser.getJSONFromUrl(params[0].toString());
+						result= com.webviewprototype.facade.impl.JSONParser.getJSONFromUrl(params[0].toString());
 
 					}
 				} catch (Exception e) {
@@ -247,9 +247,9 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 			String fin;
 			try {
 				if (data.length!=2) {
-					 fin=env.Entities.JSONParser.makeRequest(params[0], params[1]);
+					 fin=com.webviewprototype.facade.impl.JSONParser.makeRequest(params[0], params[1]);
 				}else{
-					  fin=env.Entities.JSONParser.makeRequest(data[0], data[1]);
+					  fin=com.webviewprototype.facade.impl.JSONParser.makeRequest(data[0], data[1]);
 				}
 				System.out.println("Response :"+fin);
 				} catch (Exception e) {
@@ -291,5 +291,8 @@ public class RestServiceFacadeImpl implements RestServiceFacade,Runnable {
 		return charities;
 		
 	}
+	
+	
+	
 
 }
